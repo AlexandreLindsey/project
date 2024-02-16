@@ -8,12 +8,12 @@ Credits
 Created on Mon Feb 12 21:51:24 2024
 
 @author: Lindsey Alexandre S2302371
+@credits: Luca Odding S2303933, Raffaele Moreci S2304531
 """
 
 # %% [0] Imports
 # Third-party imports
 import numpy as np
-from matplotlib import pyplot as plt
 
 
 # %% [1] Main Code
@@ -178,32 +178,3 @@ def bissection(f, x0, x1, tol=0.5e-03):
         if i > k:
             return [xi, 0]
         i += 1
-
-
-# %% [2] Testing Code
-if __name__ == '__main__':
-    def f(x):
-        """
-        A test function that outputs x**2 - 4.
-        """
-        return np.log(x) / x
-
-    A = np.linspace(-2, 2)
-
-    plt.plot(A, f(A), label='f(x)', linewidth=1)
-    plt.plot([-2, 2], [0, 0], 'g--', linewidth=1)
-
-    print('Secant methode:')
-    secant_root = secante(f, 15, 20, 0.5e-8)
-    print(secant_root)
-    print()
-    print('Bissection methode:')
-    bisection_root = bissection(f, -1, 1, 0.5e-8)
-    print(bisection_root)
-
-    if secant_root[1] == 0:
-        plt.plot(secant_root[0], f(secant_root[0]), '+r', label='secant')
-    if bisection_root[1] == 0:
-        plt.plot(bisection_root[0], f(bisection_root[0]), 'xy',
-                 label='bissection')
-    plt.legend(loc='best')
