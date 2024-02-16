@@ -17,7 +17,7 @@ from matplotlib import pyplot as plt
 
 
 # %% [1] Main Code
-def secant(f, x0, x1, tol=0.5e-03, **kwargs):
+def secante(f, x0, x1, tol=0.5e-03, **kwargs):
     """The root of a function.
 
     Implementation of the secant methode for approximating the root
@@ -85,7 +85,7 @@ def secant(f, x0, x1, tol=0.5e-03, **kwargs):
         num = y1*(x1 - x0)
         if num == 0:
             print('La fonction ne converge pas.')
-            return [x0, 1]
+            return [x0, -1]
         den = y1 - y0
         if den == 0:
             xi = (x0 + x1)/2
@@ -98,16 +98,17 @@ def secant(f, x0, x1, tol=0.5e-03, **kwargs):
             y1 = f(xi)
         except ZeroDivisionError:
             print('f(' + str(x1) + ') n\'existe pas')
-            return [0, 1]
+            return [0, -1]
         i += 1
         if i > max_i:
-            print('La fonction ne converge pas.')
-            return [x0, 1]
+            print('La fonction n\'a pas convergé après ' + str(i) +
+                  ' itérations.')
+            return [x0, -1]
 
     return [x1, 0]
 
 
-def bisection(f, x0, x1, tol=0.5e-03):
+def bissection(f, x0, x1, tol=0.5e-03):
     """The root of a function.
 
     Implementation of the bisection methode for approximating the root of
@@ -167,7 +168,7 @@ def bisection(f, x0, x1, tol=0.5e-03):
             yi = f(xi)
         except ZeroDivisionError:
             print('f(' + str(xi) + ') n\'existe pas')
-            return [0, 1]
+            return [0, -1]
 
         if yi > 0:
             x1 = xi
@@ -185,7 +186,7 @@ if __name__ == '__main__':
         """
         A test function that outputs x**2 - 4.
         """
-        return x**2 - 4
+        return np.log(x) / x
 
     A = np.linspace(-2, 2)
 
@@ -193,11 +194,11 @@ if __name__ == '__main__':
     plt.plot([-2, 2], [0, 0], 'g--', linewidth=1)
 
     print('Secant methode:')
-    secant_root = secant(f, -3, 3, 0.5e-8)
+    secant_root = secante(f, 15, 20, 0.5e-8)
     print(secant_root)
     print()
     print('Bissection methode:')
-    bisection_root = bisection(f, -1, 1, 0.5e-8)
+    bisection_root = bissection(f, -1, 1, 0.5e-8)
     print(bisection_root)
 
     if secant_root[1] == 0:
