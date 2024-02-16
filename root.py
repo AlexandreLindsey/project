@@ -52,7 +52,7 @@ def secant(f, x0, x1, tol=0.5e-03, **kwargs):
     array
         First value is the root approximation.
         Second value is the exit state of the function: 0 for successfull,
-        -1 for exit because `max_i` was reached.
+        1 if there is an error.
 
     Exemple
     -------
@@ -63,29 +63,46 @@ def secant(f, x0, x1, tol=0.5e-03, **kwargs):
     """
 
     i = 0
-    y0 = f(x0)
-    y1 = f(x1)
+    if x0 == x1:
+        print('x1 et x2 ont la même valeur.')
+        return [0, 1]
+    try:
+        y0 = f(x0)
+    except ZeroDivisionError:
+        print('f(' + str(x0) + ') n\'existe pas')
+        return [0, 1]
+    try:
+        y1 = f(x1)
+    except ZeroDivisionError:
+        print('f(' + str(x1) + ') n\'existe pas')
+        return [0, 1]
     if 'max_i' in kwargs:
         max_i = kwargs.max_i
     else:
         max_i = 1/tol
 
-    while abs(x0 - x1) >= tol and abs(y1) >= tol:
+    while abs(y1) >= tol:
         num = y1*(x1 - x0)
         if num == 0:
-            return [x1, 0]
+            print('La fonction ne converge pas.')
+            return [x0, 1]
         den = y1 - y0
         if den == 0:
-            pti = (x0 + x1)/2
+            xi = (x0 + x1)/2
         else:
-            pti = x1 - num/den
+            xi = x1 - num/den
         x0 = x1
-        x1 = pti
+        x1 = xi
         y0 = y1
-        y1 = f(pti)
+        try:
+            y1 = f(xi)
+        except ZeroDivisionError:
+            print('f(' + str(x1) + ') n\'existe pas')
+            return [0, 1]
         i += 1
         if i > max_i:
-            return [x0, -1]
+            print('La fonction ne converge pas.')
+            return [x0, 1]
 
     return [x1, 0]
 
@@ -111,7 +128,7 @@ def bisection(f, x0, x1, tol=0.5e-03):
     array
         First value is the root approximation.
         Second value is the exit state of the function: 0 for successfull,
-        -1 for exit because `max_i` was reached.
+        1 if there is an error.
 
     Exemple
     -------
@@ -121,31 +138,44 @@ def bisection(f, x0, x1, tol=0.5e-03):
         [2.00048828125, 0]
 
     """
-    y0 = f(x0)
-    y1 = f(x1)
-    if y0 == 0:
+    try:
+        y0 = f(x0)
+    except ZeroDivisionError:
+        print('f(' + str(x0) + ') n\'existe pas')
+        return [0, 1]
+    try:
+        y1 = f(x1)
+    except ZeroDivisionError:
+        print('f(' + str(x1) + ') n\'existe pas')
+        return [0, 1]
+    if y0 == 0 or abs(y0) < tol:
         return [x0, 0]
-    if y1 == 0:
+    if y1 == 0 or abs(y1) < tol:
         return [x1, 0]
     if y0 * y1 > 0:
-        return [0, -1]
+        print('f(x0) et f(x1) sont du même sign.')
+        return [0, 1]
     if y0 > y1:
         x0, x1 = x1, x0
-        y0, y1 = y1, y0
 
     k = np.log2((x1 - x0)/(2*tol))
     i = 0
 
     while True:
-        pti = (x0 + x1)/2
+        xi = (x0 + x1)/2
+        try:
+            yi = f(xi)
+        except ZeroDivisionError:
+            print('f(' + str(xi) + ') n\'existe pas')
+            return [0, 1]
 
-        if f(pti) > 0:
-            x1 = pti
+        if yi > 0:
+            x1 = xi
         else:
-            x0 = pti
+            x0 = xi
 
         if i > k:
-            return [pti, 0]
+            return [xi, 0]
         i += 1
 
 
@@ -157,15 +187,17 @@ if __name__ == '__main__':
         """
         return x**2 - 4
 
-    A = np.linspace(-2.5, 2.5)
+    A = np.linspace(-2, 2)
 
     plt.plot(A, f(A), label='f(x)', linewidth=1)
-    plt.plot([-2.5, 2.5], [0, 0], 'g--', linewidth=1)
+    plt.plot([-2, 2], [0, 0], 'g--', linewidth=1)
 
-    secant_root = secant(f, -3, 3)
-    bisection_root = bisection(f, 0, 3)
-
+    print('Secant methode:')
+    secant_root = secant(f, -3, 3, 0.5e-8)
     print(secant_root)
+    print()
+    print('Bissection methode:')
+    bisection_root = bisection(f, -1, 1, 0.5e-8)
     print(bisection_root)
 
     if secant_root[1] == 0:
