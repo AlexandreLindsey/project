@@ -22,10 +22,36 @@ from matplotlib import pyplot as plt
 
 
 class constant():
+    """Contains all of the values of the constants.
+
+    This class contains all values that are given in the project's
+    documentation. They are all accessible through the different functions of
+    the class:
+
+    +----------+------------+------------------------------------------------+
+    | function | parameters | description                                    |
+    +==========+============+================================================+
+    | `R()`    | *none*     | Returns the value of the perfect gasse's       |
+    |          |            | universall constant, in 8.314 J/mol/K.         |
+    +----------+------------+------------------------------------------------+
+    | `dp()`   | *none*     | Returns the diameter of the pellets of CaO,    |
+    |          |            | 3e-3 in m.                                     |
+    +----------+------------+------------------------------------------------+
+    """
+
     def R(self):
+        """Value of R.
+
+        Returns the value of the perfect gasse's universall constant,
+        8.314 in J/mol/K.
+        """
         return 8.314
 
     def dp(self):
+        """Value of dp.
+
+        Returns the diameter of the pellets of CaO, in 3e-3 m. 
+        """
         return 3e-3
 
     def TW(self):
