@@ -36,15 +36,15 @@ def secante(f, x0, x1, tol=0.5e-03, **kwargs):
     ----------------
     **kwargs : dict, *optional*
         Extra properties such as the maximum number of iterations
-        (`max_i`), etc.
+        (``max_i``), etc.
 
         Properties:
 
     +-----------+------------------------------------------------------------+
     | Name      | Description                                                |
     +===========+============================================================+
-    | `max_i`   | Maximum number of itirations before exiting. The default   |
-    |           | is 1 / `tol`.                                              |
+    | ``max_i`` | Maximum number of itirations before exiting. The default   |
+    |           | is 1 / ``tol``.                                            |
     +-----------+------------------------------------------------------------+
 
     Returns
@@ -56,7 +56,7 @@ def secante(f, x0, x1, tol=0.5e-03, **kwargs):
 
     Exemple
     -------
-    If the function `f(x)` is defined as x**2 - 4::
+    If the function ``f(x)`` is defined as x**2 - 4::
 
         >>> secant(f, 1, 3)
         [1.9999525931544515, 0]
@@ -119,7 +119,7 @@ def bissection(f, x0, x1, tol=0.5e-03):
     f : function
         Function to find the root from.
     x0, x1 : numeric
-        Values close to the root. `f(x0)` and `f(x1)` must have
+        Values close to the root. ``f(x0)`` and ``f(x1)`` must have
         different signs.
     tol : numeric, *default* 0.5e-3
         Tolerance for the value of the root.
@@ -133,7 +133,7 @@ def bissection(f, x0, x1, tol=0.5e-03):
 
     Exemple
     -------
-    If the function `f(x)` is defined as x**2 - 4::
+    If the function ``f(x)`` is defined as x**2 - 4::
 
         >>> bisection(f, 1, 3)
         [2.00048828125, 0]
