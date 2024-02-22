@@ -1,9 +1,8 @@
-"""Contains all of the values of the constants.
+"""Module containing all of the values of the constants.
 
-This class contains all values that are given in the project's
+This module contains all values that are given in the project's
 documentation. They are all accessible through the different functions of
-the class (see table below). If an incorrect parameter is sent through one
-of these functions, it prints an error and outputs ``None``.
+the module (see table below).
 
 +-----------+------------+-----------------------------------------------+
 | function  | parameters | description                                   |
@@ -77,7 +76,7 @@ of these functions, it prints an error and outputs ``None``.
 +-----------+------------+-----------------------------------------------+
 
 Credits
-=======
+-------
 Created on Thu Feb 22 15:04:20 2024
 
 @author: Lindsey Alexandre S2302371

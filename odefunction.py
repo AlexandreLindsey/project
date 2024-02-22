@@ -1,7 +1,7 @@
 """FILE_DESCRIPTION
 
 Credits
-=======
+-------
 Created on Fri Feb 16 15:55:14 2024
 
 @author: Lindsey Alexandre S2302371
