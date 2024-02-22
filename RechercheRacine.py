@@ -4,7 +4,7 @@ Module containing different methods for finding an approximation to a
 fucntions root.
 
 Credits
-=======
+-------
 Created on Mon Feb 12 21:51:24 2024
 
 @author: Lindsey Alexandre S2302371
