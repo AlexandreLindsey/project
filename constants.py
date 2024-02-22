@@ -74,6 +74,9 @@ the module (see table below).
 |           | ``T``      | absorption constant based on the temperature  |
 |           |            | ``T``.                                        |
 +-----------+------------+-----------------------------------------------+
+| ``P()``   | *none*     | Returns the value of the total pressure, 3 in |
+|           |            | bars.                                         |
++-----------+------------+-----------------------------------------------+
 
 Credits
 -------
@@ -500,6 +503,17 @@ def ab(name, T):
     else:
         print("Error: value for '" + name + "' not found.")
         return None
+
+
+def P():
+    """Value of the total pressure.
+
+    Returns
+    -------
+    numeric
+        Returns the value of the total pressure, 3 in bars.
+    """
+    return 3
 
 
 # %% [2] Testing Code

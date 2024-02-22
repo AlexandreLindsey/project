@@ -32,7 +32,7 @@ def odefunction(C, z):
     dC[2]
     dC[3]
     dC[4]
-    dC[5]
+    dC[5] =  * c.u('s') * (1 - C[5]/)**2   #unfinished
     dC[6]
     dC[7]
 
