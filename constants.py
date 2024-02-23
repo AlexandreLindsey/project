@@ -74,8 +74,14 @@ the module (see table below).
 |           | ``T``      | absorption constant based on the temperature  |
 |           |            | ``T``.                                        |
 +-----------+------------+-----------------------------------------------+
-| ``P()``   | *none*     | Returns the value of the total pressure, 3 in |
-|           |            | bars.                                         |
+| ``n()``   | ``name``   | Returns the number of moles of ``name`` in    |
+|           | ``C``      | the reactor, in mol.                          |
++-----------+------------+-----------------------------------------------+
+| ``P()``   | ``name``   | Returns the pressure of ``name`` in the       |
+|           | ``C``      | reactor, in Pa.                               |
++-----------+------------+-----------------------------------------------+
+| ``V()``   | *none*     | Returns the value of the reactor's total      |
+|           |            | volume.                                       |ss
 +-----------+------------+-----------------------------------------------+
 
 Credits
@@ -87,7 +93,6 @@ Created on Thu Feb 22 15:04:20 2024
 """
 
 # %% [0] Imports
-
 # Third-party librairy imports.
 import numpy as np
 
@@ -167,7 +172,7 @@ def rho(name):
     Parameters
     ----------
     name : string
-        ``CaO`` or ``catalyst`` (can be shortened).
+        ``CaO``, ``catalyst`` (can be shortened) or ``s``.
 
     Returns
     -------
@@ -505,15 +510,75 @@ def ab(name, T):
         return None
 
 
-def P():
-    """Value of the total pressure.
+def n(name, C):
+    """Values of the number of moles.
+
+    Parameters
+    ----------
+    name : string
+        ``total`` (can be shortened), ``CH4``, ``H2O``, ``H2`` or ``CO``.
+    C : array
 
     Returns
     -------
     numeric
-        Returns the value of the total pressure, 3 in bars.
+        Returns the number of moles of ``name`` in the reactor, in mol.
     """
-    return 3
+    if 'total'.startswith(name.lower()):
+        return (n('CH4', C) + n('H2O', C) + n('H2', C) + n('CO', C)
+                + n('CO2', C))
+    elif name == 'CH4':
+        return C[0] * V()
+    elif name == 'H2O':
+        return C[1] * V()
+    elif name == 'H2':
+        return C[2] * V()
+    elif name == 'CO':
+        return C[3] * V()
+    elif name == 'CO2':
+        return C[4] * V()
+    else:
+        print("Error: value for '" + name + "' not found.")
+        return None
 
 
-# %% [2] Testing Code
+def P(name, C):
+    """Values of the pressure.
+
+    Parameters
+    ----------
+    name : string
+        ``total`` (can be shortened), ``CH4``, ``H2O``, ``H2`` or ``CO``.
+    C : array
+
+    Returns
+    -------
+    numeric
+        Returns the pressure of ``name`` in the reactor, in bar.
+    """
+    if 'total'.startswith(name.lower()):
+        return 3
+    elif name == 'CH4':
+        return P('tot', C) * n('CH4', C) / n('tot', C)
+    elif name == 'H2O':
+        return P('tot', C) * n('H2O', C) / n('tot', C)
+    elif name == 'H2':
+        return P('tot', C) * n('H2', C) / n('tot', C)
+    elif name == 'CO':
+        return P('tot', C) * n('CO', C) / n('tot', C)
+    elif name == 'CO2':
+        return P('tot', C) * n('CO2', C) / n('tot', C)
+    else:
+        print("Error: value for '" + name + "' not found.")
+        return None
+
+
+def V():
+    """Value of the reactors volume
+
+    Returns
+    -------
+    numeric
+        Returns the value of the reactor's total volume.
+    """
+    return (np.pi * dim('r')**2 * dim('l'))
