@@ -63,7 +63,7 @@ def secante(f, x0, x1, tol=0.5e-03, **kwargs):
     """
 
     i = 0
-    if x0 == x1:
+    if abs(x0 - x1) <= tol:
         print('x1 et x2 ont la même valeur.')
         return [0, 1]
     try:
@@ -75,6 +75,9 @@ def secante(f, x0, x1, tol=0.5e-03, **kwargs):
         y1 = f(x1)
     except ZeroDivisionError:
         print('f(' + str(x1) + ') n\'existe pas')
+        return [0, 1]
+    if abs(y0 - y1) <= tol:
+        print('f(x1) et f(x2) ont la même valeur.')
         return [0, 1]
     if 'max_i' in kwargs:
         max_i = kwargs.max_i
@@ -88,7 +91,8 @@ def secante(f, x0, x1, tol=0.5e-03, **kwargs):
             return [x0, -1]
         den = y1 - y0
         if den == 0:
-            xi = (x0 + x1)/2
+            print('La fonction ne converge pas.')
+            return [x0, -1]
         else:
             xi = x1 - num/den
         x0 = x1
@@ -154,12 +158,13 @@ def bissection(f, x0, x1, tol=0.5e-03):
     if y1 == 0 or abs(y1) < tol:
         return [x1, 0]
     if y0 * y1 > 0:
-        print('f(x0) et f(x1) sont du même sign.')
+        print('f(x0) et f(x1) sont du même signe.')
         return [0, 1]
     if y0 > y1:
         x0, x1 = x1, x0
 
-    k = np.log2((x1 - x0)/(2*tol))
+    print(abs(x1 - x0)/(2*tol))
+    k = np.log2(abs(x1 - x0)/(2*tol))
     i = 0
 
     while True:

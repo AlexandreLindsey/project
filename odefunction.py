@@ -25,7 +25,6 @@ import constants as c
 
 # %% [1] Main Code
 def odefunction(z, C):
-    global MM
     dC = np.zeros(8)
     R_ = np.array([R(1, C), R(2, C), R(3, C)])
     H = np.array([c.H(1), c.H(2), c.H(3)])
@@ -63,13 +62,13 @@ def R(name, C):
         # (5)
         return (c.vit(2, C[6]) / c.P('H2', C)**3.5 * (c.P('CH4', C) *
                 c.P('H2O', C)**2 - c.P('H2', C)**4 * c.P('CO2', C)
-                / c.vit(2, C[6])) / DEN(C)**2)
+                / c.eq(2, C[6])) / DEN(C)**2)
     elif name == 3:
         # (6)
         return (c.vit(3, C[6]) / c.P('H2', C) * (c.P('CO', C) * c.P('H2O', C)
                 - c.P('H2', C)*c.P('CO2', C)/c.eq(3, C[6])) / DEN(C)**2)
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -98,7 +97,7 @@ def r(name, C):
         # (12)
         return R(2, C) + R(3, C)
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -128,7 +127,7 @@ def rhog(C):
                    c.MM('CO'), c.MM('CO2')])
     P = np.array([c.P('CH4', C), c.P('H2O', C), c.P('H2', C),
                   c.P('CO', C), c.P('CO2', C), ])
-    return 1 / (c.R() * C[6]) * np.sum(MM * P)
+    return 1 / (c.R() * C[6]) * np.sum(MM * P * 100000)
 
 
 def hW(C):
@@ -152,8 +151,11 @@ def Rep(C):
 # %% [2] Testing Code
 
 # ERROR: NOT WORKING...
-sol = solve_ivp(odefunction, [0, c.dim('l')], [9.27, 27.8, 0.1, 0.1, 0.1, 0.1,
-                                               c.TW(), c.P('tot', 0)])
+sol = solve_ivp(odefunction, [0, c.dim('l')], [0.0927, 0.0278, 1e-1, 1e-1,
+                                               1e-1, 1e-1, c.TW(),
+                                               c.P('tot', 0)])
+
+plt.figure()
 plt.plot(sol.t, sol.y[0], label='CH4', linewidth=1)
 plt.plot(sol.t, sol.y[1], label='H2O', linewidth=1)
 plt.plot(sol.t, sol.y[2], label='H2', linewidth=1)
@@ -161,4 +163,22 @@ plt.plot(sol.t, sol.y[3], label='CO', linewidth=1)
 plt.plot(sol.t, sol.y[4], label='CO2', linewidth=1)
 plt.legend(loc='best')
 plt.ylabel('Concentration')
+plt.xlabel('z')
+
+plt.figure()
+plt.plot(sol.t, sol.y[5], label='X', linewidth=1)
+plt.legend(loc='best')
+plt.ylabel('Conversion fractionnaire')
+plt.xlabel('z')
+
+plt.figure()
+plt.plot(sol.t, sol.y[6], label='T', linewidth=1)
+plt.legend(loc='best')
+plt.ylabel('Temperature')
+plt.xlabel('z')
+
+plt.figure()
+plt.plot(sol.t, sol.y[7], label='P', linewidth=1)
+plt.legend(loc='best')
+plt.ylabel('Pression')
 plt.xlabel('z')

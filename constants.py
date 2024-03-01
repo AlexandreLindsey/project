@@ -81,7 +81,7 @@ the module (see table below).
 |           | ``C``      | reactor, in Pa.                               |
 +-----------+------------+-----------------------------------------------+
 | ``V()``   | *none*     | Returns the value of the reactor's total      |
-|           |            | volume.                                       |ss
+|           |            | volume, in m**3.                              |
 +-----------+------------+-----------------------------------------------+
 
 Credits
@@ -190,7 +190,7 @@ def rho(name):
         den = W('cat')/rho('cat') + W('CaO')/rho('CaO')
         return num / den
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -223,7 +223,7 @@ def MM(name):
     elif name == 'CO2':
         return 44
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -252,7 +252,7 @@ def H(name):
     elif name == 'cbn':
         return -178.8e3
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -276,7 +276,7 @@ def dim(name):
     elif 'length'.startswith(name.lower()):
         return 0.29
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -292,7 +292,7 @@ def Cp(name):
     -------
     numeric
         Returns the value of thermal capacity of ``name``, 8.45 for ``g``
-        and 0.98 for ``s`` in kJ/kg/K.
+        and 0.98 for ``s`` in kJ/kmol/K.
         Returns ``None`` if an incorrect parameter is passed through.
     """
     if name == 'g':
@@ -300,7 +300,7 @@ def Cp(name):
     elif name == 's':
         return 0.98
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -324,7 +324,7 @@ def k(name):
     elif name == 's':
         return 1e-3
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -348,7 +348,7 @@ def u(name):
     elif name == 's':
         return 1e-3
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -372,7 +372,7 @@ def W(name):
     elif 'catalyst'.startswith(name.lower()):
         return 16.4e-3
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -396,7 +396,7 @@ def M(name):
     elif name == 'b':
         return 1.6
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -420,7 +420,7 @@ def N(name):
     elif name == 'b':
         return 5649
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -444,11 +444,11 @@ def eq(name, T):
     if name == 1:
         return 4.707e12 * np.exp(-224000 / (R() * T))
     elif name == 2:
-        return k(1) * k(3)
+        return eq(1, T) * eq(3, T)
     elif name == 3:
         return 1.142e-2 * np.exp(37300 / (R() * T))
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -476,7 +476,7 @@ def vit(name, T):
     elif name == 3:
         return 7.558 / 3600 * np.exp((-67130 / R()) * (1/T - 1/648))
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -506,7 +506,7 @@ def ab(name, T):
     elif name == 'CO':
         return 40.91 * np.exp((70650 / R()) * (1/T - 1/648))
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -538,7 +538,7 @@ def n(name, C):
     elif name == 'CO2':
         return C[4] * V()
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -569,7 +569,7 @@ def P(name, C):
     elif name == 'CO2':
         return P('tot', C) * n('CO2', C) / n('tot', C)
     else:
-        print("Error: value for '" + name + "' not found.")
+        print("Error: value for '" + str(name) + "' not found.")
         return None
 
 
@@ -579,6 +579,6 @@ def V():
     Returns
     -------
     numeric
-        Returns the value of the reactor's total volume.
+        Returns the value of the reactor's total volume, in m**3.
     """
     return (np.pi * dim('r')**2 * dim('l'))
