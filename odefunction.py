@@ -9,14 +9,10 @@ Created on Fri Feb 16 15:55:14 2024
 """
 
 # %% [0] Imports
-# Standard library imports.
-import math
 
 # Third-party librairy imports.
 import numpy as np
-import scipy as sp
 from scipy.integrate import solve_ivp
-import matplotlib as mpl
 from matplotlib import pyplot as plt
 
 # Local module imports
