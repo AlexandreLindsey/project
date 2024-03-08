@@ -151,7 +151,7 @@ def Rep(C):
 # %% [2] Testing Code
 
 # ERROR: NOT WORKING...
-sol = solve_ivp(odefunction, [0, c.dim('l')], [0.0927, 0.0278, 1e-1, 1e-1,
+sol = solve_ivp(odefunction, [0, c.dim('l')], [0.037, 0.111, 1e-1, 1e-1,
                                                1e-1, 1e-1, c.TW(),
                                                c.P('tot', 0)])
 
