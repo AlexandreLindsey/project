@@ -213,15 +213,15 @@ def MM(name):
     if name == 'CaO':
         return 56
     elif name == 'CH4':
-        return 16
+        return 16e-3
     elif name == 'H2O':
-        return 18
+        return 18e-3
     elif name == 'H2':
-        return 2
+        return 2e-3
     elif name == 'CO':
-        return 28
+        return 28e-3
     elif name == 'CO2':
-        return 44
+        return 44e-3
     else:
         print("Error: value for '" + str(name) + "' not found.")
         return None
@@ -510,38 +510,6 @@ def ab(name, T):
         return None
 
 
-def n(name, C):
-    """Values of the number of moles.
-
-    Parameters
-    ----------
-    name : string
-        ``total`` (can be shortened), ``CH4``, ``H2O``, ``H2`` or ``CO``.
-    C : array
-
-    Returns
-    -------
-    numeric
-        Returns the number of moles of ``name`` in the reactor, in mol.
-    """
-    if 'total'.startswith(name.lower()):
-        return (n('CH4', C) + n('H2O', C) + n('H2', C) + n('CO', C)
-                + n('CO2', C))
-    elif name == 'CH4':
-        return C[0] * V()
-    elif name == 'H2O':
-        return C[1] * V()
-    elif name == 'H2':
-        return C[2] * V()
-    elif name == 'CO':
-        return C[3] * V()
-    elif name == 'CO2':
-        return C[4] * V()
-    else:
-        print("Error: value for '" + str(name) + "' not found.")
-        return None
-
-
 def P(name, C):
     """Values of the pressure.
 
@@ -559,26 +527,15 @@ def P(name, C):
     if 'total'.startswith(name.lower()):
         return 3
     elif name == 'CH4':
-        return P('tot', C) * n('CH4', C) / n('tot', C)
+        return P('tot', C) * C[0] / sum(C[0:4])
     elif name == 'H2O':
-        return P('tot', C) * n('H2O', C) / n('tot', C)
+        return P('tot', C) * C[1] / sum(C[0:4])
     elif name == 'H2':
-        return P('tot', C) * n('H2', C) / n('tot', C)
+        return P('tot', C) * C[2] / sum(C[0:4])
     elif name == 'CO':
-        return P('tot', C) * n('CO', C) / n('tot', C)
+        return P('tot', C) * C[3] / sum(C[0:4])
     elif name == 'CO2':
-        return P('tot', C) * n('CO2', C) / n('tot', C)
+        return P('tot', C) * C[4] / sum(C[0:4])
     else:
         print("Error: value for '" + str(name) + "' not found.")
         return None
-
-
-def V():
-    """Value of the reactors volume
-
-    Returns
-    -------
-    numeric
-        Returns the value of the reactor's total volume, in m**3.
-    """
-    return (np.pi * dim('r')**2 * dim('l'))

@@ -40,13 +40,13 @@ def odefunction(z, C):
     dC[4] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r('CO2', C)
              - (1 - c.ep()) * c.rho('CaO') * rcbn(C)) / c.u('g'))
     dC[5] = c.MM('CaO') / c.u('s') * rcbn(C)
-    dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * np.sum(R_ * H)
+    dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * sum(R_ * H)
              - (1 - c.ep()) * c.rho('CaO') * rcbn(C) * c.H('cbn') + hW(C)
              * (c.TW() - C[6]) * 4 / c.dim('r')) / ((1 - c.ep()) * c.rho('s')
              * c.u('s') * c.Cp('s') + rhog(C) * c.u('g') * c.Cp('g')))
     dC[7] = (-(rhog(C) * c.u('g')**2 * (1 - c.ep())) / (c.dp() * c.ep())
              * ((150 * (1 - c.ep()) * c.mu()) / (c.dp() * rhog(C) * c.u('g'))
-             + 1.75) * 10**-5)
+             + 1.75) * 1e-5)
 
     return dC
 
@@ -127,15 +127,15 @@ def rhog(C):
                    c.MM('CO'), c.MM('CO2')])
     P = np.array([c.P('CH4', C), c.P('H2O', C), c.P('H2', C),
                   c.P('CO', C), c.P('CO2', C), ])
-    return 1 / (c.R() * C[6]) * np.sum(MM * P * 100000)
+    return 1 / (c.R() * C[6]) * sum(MM * P * 100000)
 
 
 def hW(C):
     Rep_ = Rep(C)
-    if Rep_ > 20 and c.dp()/c.dim('r') < 0.3 and c.dp()/c.dim('r') > 0.05:
+    if Rep_ > 20 and 0.05 < c.dp()/c.dim('r') < 0.3:
         return (2.03 * c.k('g') / c.dim('r') * Rep_**0.8 * np.exp(-6 * c.dp()
                 / c.dim('r')))
-    elif Rep_ < 20:
+    elif Rep_ <= 20:
         kz0 = (c.k('g') * (c.ep() + (1 - c.ep())/(0.139*c.ep() - 0.0339
                + 2/3*(c.k('g') / c.k('s')))))
         return 6.15 * (kz0 / c.dim('r'))
@@ -151,9 +151,10 @@ def Rep(C):
 # %% [2] Testing Code
 
 # ERROR: NOT WORKING...
-sol = solve_ivp(odefunction, [0, c.dim('l')], [0.037, 0.111, 1e-1, 1e-1,
-                                               1e-1, 1e-1, c.TW(),
-                                               c.P('tot', 0)])
+sol = solve_ivp(odefunction, [0, c.dim('l')], [1.11607143e-2, 3.34821429e-2,
+                                               1e-5, 0, 0, 0, c.TW(),
+                                               c.P('tot', 0)],
+                dense_output=True, rtol=1e-6)
 
 plt.figure()
 plt.plot(sol.t, sol.y[0], label='CH4', linewidth=1)
