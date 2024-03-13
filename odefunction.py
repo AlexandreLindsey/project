@@ -22,21 +22,15 @@ import constants as c
 # %% [1] Main Code
 def odefunction(z, C):
     dC = np.zeros(8)
+    r_ = np.array([r('CH4', C), r('H2O', C), r('H2', C),
+                   r('CO', C), r('CO2', C)])
     R_ = np.array([R(1, C), R(2, C), R(3, C)])
-    H = np.array([c.H(1), c.H(2), c.H(3)])
+    H_ = np.array([c.H(1), c.H(2), c.H(3)])
 
-    dC[0] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r('CH4', C)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C)) / c.u('g'))
-    dC[1] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r('H2O', C)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C)) / c.u('g'))
-    dC[2] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r('H2', C)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C)) / c.u('g'))
-    dC[3] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r('CO', C)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C)) / c.u('g'))
-    dC[4] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r('CO2', C)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C)) / c.u('g'))
+    dC[:5] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r_ - (1 - c.ep())
+               * c.rho('CaO') * rcbn(C)) / c.u('g'))
     dC[5] = c.MM('CaO') / c.u('s') * rcbn(C)
-    dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * sum(R_ * H)
+    dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * sum(R_ * H_)
              - (1 - c.ep()) * c.rho('CaO') * rcbn(C) * c.H('cbn') + hW(C)
              * (c.TW() - C[6]) * 4 / c.dim('r')) / ((1 - c.ep()) * c.rho('s')
              * c.u('s') * c.Cp('s') + rhog(C) * c.u('g') * c.Cp('g')))

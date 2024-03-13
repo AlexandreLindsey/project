@@ -190,7 +190,7 @@ def rho(name):
         den = W('cat')/rho('cat') + W('CaO')/rho('CaO')
         return num / den
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in rho().")
         return None
 
 
@@ -223,7 +223,7 @@ def MM(name):
     elif name == 'CO2':
         return 44e-3
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in MM().")
         return None
 
 
@@ -252,7 +252,7 @@ def H(name):
     elif name == 'cbn':
         return -178.8e3
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in H().")
         return None
 
 
@@ -276,7 +276,7 @@ def dim(name):
     elif 'length'.startswith(name.lower()):
         return 0.29
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in dim().")
         return None
 
 
@@ -300,7 +300,7 @@ def Cp(name):
     elif name == 's':
         return 0.98
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in Cp().")
         return None
 
 
@@ -324,7 +324,7 @@ def k(name):
     elif name == 's':
         return 1e-3
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in k().")
         return None
 
 
@@ -348,7 +348,7 @@ def u(name):
     elif name == 's':
         return 1e-3
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in u().")
         return None
 
 
@@ -372,7 +372,7 @@ def W(name):
     elif 'catalyst'.startswith(name.lower()):
         return 16.4e-3
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in W().")
         return None
 
 
@@ -396,7 +396,7 @@ def M(name):
     elif name == 'b':
         return 1.6
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in M().")
         return None
 
 
@@ -420,7 +420,7 @@ def N(name):
     elif name == 'b':
         return 5649
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in N().")
         return None
 
 
@@ -448,7 +448,8 @@ def eq(name, T):
     elif name == 3:
         return 1.142e-2 * np.exp(37300 / (R() * T))
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in eq().")
+        print("The value for the temperature (T) was '" + str(T) + "'.")
         return None
 
 
@@ -476,7 +477,8 @@ def vit(name, T):
     elif name == 3:
         return 7.558 / 3600 * np.exp((-67130 / R()) * (1/T - 1/648))
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in vit().")
+        print("The value for the temperature (T) was '" + str(T) + "'.")
         return None
 
 
@@ -506,7 +508,8 @@ def ab(name, T):
     elif name == 'CO':
         return 40.91 * np.exp((70650 / R()) * (1/T - 1/648))
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in ab().")
+        print("The value for the temperature (T) was '" + str(T) + "'.")
         return None
 
 
@@ -527,15 +530,16 @@ def P(name, C):
     if 'total'.startswith(name.lower()):
         return 3
     elif name == 'CH4':
-        return P('tot', C) * C[0] / sum(C[0:4])
+        return P('tot', C) * C[0] / sum(C[:5])
     elif name == 'H2O':
-        return P('tot', C) * C[1] / sum(C[0:4])
+        return P('tot', C) * C[1] / sum(C[:5])
     elif name == 'H2':
-        return P('tot', C) * C[2] / sum(C[0:4])
+        return P('tot', C) * C[2] / sum(C[:5])
     elif name == 'CO':
-        return P('tot', C) * C[3] / sum(C[0:4])
+        return P('tot', C) * C[3] / sum(C[:5])
     elif name == 'CO2':
-        return P('tot', C) * C[4] / sum(C[0:4])
+        return P('tot', C) * C[4] / sum(C[:5])
     else:
-        print("Error: value for '" + str(name) + "' not found.")
+        print("Error: value for '" + str(name) + "' not found in P().")
+        print("The values for the concentrations (C) was '" + str(C) + "'.")
         return None
