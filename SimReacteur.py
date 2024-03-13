@@ -1,10 +1,12 @@
-"""
-Created on Fri Mar  8 10:53:03 2024
+"""FILE_DESCRIPTION
+
+Credits
+-------
+Created on Fri Mar 8 10:53:03 2024
 
 @author: Odding Luca s2303933, Raffaele Moreci S2304531
 @credits: Lindsey Alexandre S2302371
 """
-
 
 # %% [0] Imports
 # Standard library imports.
@@ -20,6 +22,7 @@ import constants as c
 from odefunction import odefunction
 
 
+# %% [1] Main Code
 def calculConcentrationsIVP(Z, C0):
     sol = solve_ivp(odefunction, Z, C0)
     return [sol.t, sol.y]
@@ -44,11 +47,10 @@ def calculConcentrationsEuler(Z, C0):
     return [abscisse, C]
 
 
+# %% [2] Testing Code
 if __name__ == '__main__':
-    t, x = calculConcentrationsEuler([0, c.dim('l')], [0.927, 0.278, 1e-1,
-                                                       1e-1,
-                                                       1e-1, 1e-1, c.TW(),
-                                                       c.P('tot', 0)])
+    C0 = [0.927, 0.278, 1e-5, 1e-1, 1e-1, 1e-1, c.TW(), c.P('tot', 0)]
+    t, x = calculConcentrationsEuler([0, c.dim('l')], C0)
 
     plt.figure()
     plt.plot(t, x[0], label='CH4', linewidth=1)
@@ -78,9 +80,7 @@ if __name__ == '__main__':
     plt.ylabel('Pression')
     plt.xlabel('z')
 
-    sol = calculConcentrationsIVP([0, c.dim('l')], [0.927, 0.278, 1e-1, 1e-1,
-                                                    1e-1, 1e-1, c.TW(),
-                                                    c.P('tot', 0)])
+    sol = calculConcentrationsIVP([0, c.dim('l')], C0)
 
     plt.figure()
     plt.plot(sol[0], sol[1][0], label='CH4', linewidth=1)
