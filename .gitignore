@@ -162,6 +162,8 @@ cython_debug/
 # Spyder
 #  Spyder project folder
 .spyproject
+#  Spyder profiler results
+*.Result
 
 # Documents
 Enonce_2024.pdf
