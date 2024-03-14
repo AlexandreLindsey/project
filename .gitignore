@@ -162,6 +162,7 @@ cython_debug/
 # Spyder
 #  Spyder project folder
 .spyproject
+*.Result
 
 # Documents
 Enonce_2024.pdf
