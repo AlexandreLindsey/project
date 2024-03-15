@@ -4,7 +4,7 @@ Credits
 -------
 Created on Fri Mar 8 10:53:03 2024
 
-@author: Odding Luca s2303933, Raffaele Moreci S2304531
+@author: Odding Luca S2303933, Raffaele Moreci S2304531
 @credits: Lindsey Alexandre S2302371
 """
 
