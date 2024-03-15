@@ -14,11 +14,8 @@ Created on Fri Feb 16 15:55:14 2024
 """
 
 # %% [0] Imports
-
 # Third-party librairy imports.
 import numpy as np
-from scipy.integrate import solve_ivp
-from matplotlib import pyplot as plt
 
 # Local module imports
 import constants as c
