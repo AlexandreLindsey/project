@@ -162,6 +162,7 @@ cython_debug/
 # Spyder
 #  Spyder project folder
 .spyproject
+#  Spyder profiler results
 *.Result
 
 # Documents
