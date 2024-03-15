@@ -19,21 +19,19 @@ from odefunction import odefunction
 
 # %% [1] Main Code
 def calculConcentrationsIVP(x_int, y0):
-    sol = solve_ivp(odefunction, x_int, y0, rtol=0.5e-6, max_step=10e-7)
+    sol = solve_ivp(odefunction, x_int, y0, dense_output=True, rtol=0.5e-6)
     return [sol.t, sol.y]
 
 
-def calculConcentrationsEuler(x_int, y0, step=10e-8):
+def calculConcentrationsEuler(x_int, y0, step=5e-8):
     if type(y0) is int:
         y0 = np.array([y0])
     else:
         y0 = np.array(y0)
     x = np.arange(x_int[0], x_int[1], step)
     n = x.size
-    y = np.zeros((y0.shape[0], n))
-    yappr = y0
-    for i in range(n):
-        f = odefunction(x[i], yappr)
-        y.T[i] = yappr
-        yappr = yappr + step*f
-    return [x, y]
+    y = np.zeros((n, y0.shape[0]))
+    y[0] = y0
+    for i in range(n - 1):
+        y[i + 1] = y[i] + step*odefunction(x[i], y[i])
+    return [x, y.T]
