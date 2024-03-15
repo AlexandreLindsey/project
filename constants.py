@@ -469,7 +469,7 @@ def TW():
     return 973.15
 
 
-def u(name):
+def u(name, mode=0, param=0):
     """Values of the speeds.
 
     Parameters
@@ -487,7 +487,10 @@ def u(name):
     if str(name) == 'g':
         return 1
     elif str(name) == 's':
-        return 1e-3
+        if mode == 2:
+            return param
+        else:
+            return 1e-3
     else:
         print("Error: value for '" + str(name) + "' not found in u().")
         return None

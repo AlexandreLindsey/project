@@ -18,8 +18,9 @@ from odefunction import odefunction
 
 
 # %% [1] Main Code
-def calculConcentrationsIVP(x_int, y0):
-    sol = solve_ivp(odefunction, x_int, y0, rtol=0.5e-6, max_step=10e-7)
+def calculConcentrationsIVP(fun, x_int, y0, mode=0):
+    sol = solve_ivp(lambda x, y: fun(x, y, mode), x_int, y0, rtol=0.5e-6,
+                    max_step=10e-7)
     return [sol.t, sol.y]
 
 

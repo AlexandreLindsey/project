@@ -25,7 +25,7 @@ import constants as c
 
 
 # %% [1] Main Code
-def odefunction(z, C):
+def odefunction(z, C, mode=0, param=0):
     """Values of the differential equation.
 
     Parameters
@@ -51,14 +51,15 @@ def odefunction(z, C):
 
     # Equation (16): dC/dz of the different elements (CH4, H2O, H2, CO and CO2)
     dC[:5] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r_ - (1 - c.ep())
-               * c.rho('CaO') * rcbn(C)) / c.u('g'))
+               * c.rho('CaO') * rcbn(C, mode)) / c.u('g'))
     # Equation (17): dX/dz
-    dC[5] = c.MM('CaO') / c.u('s') * rcbn(C)
+    dC[5] = c.MM('CaO') / c.u('s', mode, param) * rcbn(C, mode)
     # Equation (19): dT/dz
     dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * sum(R_ * H_)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C) * c.H('cbn') + hW(C)
+             - (1 - c.ep()) * c.rho('CaO') * rcbn(C, mode) * c.H('cbn') + hW(C)
              * (c.TW() - C[6]) * 4 / c.dim('r')) / ((1 - c.ep()) * c.rho('s')
-             * c.u('s') * c.Cp('s') + rhog(C) * c.u('g') * c.Cp('g')))
+             * c.u('s', mode, param) * c.Cp('s') + rhog(C) * c.u('g')
+             * c.Cp('g')))
     # Equation (20): dP/dz
     dC[7] = (-(rhog(C) * c.u('g')**2 * (1 - c.ep())) / (c.dp() * c.ep())
              * ((150 * (1 - c.ep()) * c.mu()) / (c.dp() * rhog(C) * c.u('g'))
@@ -201,7 +202,7 @@ def b(C):
 
 
 # Equation (18)
-def rcbn(C):
+def rcbn(C, mode):
     """Value of the rate of consomation of CO2 by carbonation.
 
     Parameters
@@ -215,7 +216,10 @@ def rcbn(C):
     numeric
         Returns the value of the rate of consomation of CO2 by carbonation.
     """
-    return (kc(C) / c.MM('CaO')) * (1 - C[5]/Xu(C))**2
+    if mode == 1:
+        return 0
+    else:
+        return (kc(C) / c.MM('CaO')) * (1 - C[5]/Xu(C))**2
 
 
 # Equation (18) bis
@@ -285,42 +289,3 @@ def hW(C):
         print("Error in hW().")
         print("The input values were '" + str(C) + "'.")
         return None
-
-
-# %% [2] Testing Code
-if __name__ == '__main__':
-    C0 = [1.11607143e-2, 3.34821429e-2, 1e-5, 0, 0, 0, c.TW(), c.P('tot', 0)]
-    sol = solve_ivp(odefunction, [0, c.dim('l')], C0, dense_output=True,
-                    rtol=1e-6)
-
-    # Plot for the concentration
-    plt.figure()
-    plt.plot(sol.t, sol.y[0], label='CH4', linewidth=1)
-    plt.plot(sol.t, sol.y[1], label='H2O', linewidth=1)
-    plt.plot(sol.t, sol.y[2], label='H2', linewidth=1)
-    plt.plot(sol.t, sol.y[3], label='CO', linewidth=1)
-    plt.plot(sol.t, sol.y[4], label='CO2', linewidth=1)
-    plt.legend(loc='best')
-    plt.ylabel('Concentration')
-    plt.xlabel('z')
-
-    # Plot for the conversion fraction
-    plt.figure()
-    plt.plot(sol.t, sol.y[5], label='X', linewidth=1)
-    plt.legend(loc='best')
-    plt.ylabel('Conversion fractionnaire')
-    plt.xlabel('z')
-
-    # Plot for the temperature
-    plt.figure()
-    plt.plot(sol.t, sol.y[6], label='T', linewidth=1)
-    plt.legend(loc='best')
-    plt.ylabel('Temperature')
-    plt.xlabel('z')
-
-    # Plot for the pressure
-    plt.figure()
-    plt.plot(sol.t, sol.y[7], label='P', linewidth=1)
-    plt.legend(loc='best')
-    plt.ylabel('Pression')
-    plt.xlabel('z')
