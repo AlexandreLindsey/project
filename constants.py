@@ -389,7 +389,7 @@ def P(name, C):
     Parameters
     ----------
     name : string
-        ``total`` (can be shortened), ``CH4``, ``H2O``, ``H2`` or ``CO``.
+        ``CH4``, ``H2O``, ``H2`` or ``CO``.
     C : array
 
     Returns
@@ -397,18 +397,16 @@ def P(name, C):
     numeric
         Returns the pressure of ``name`` in the reactor, in bar.
     """
-    if 'total'.startswith(str(name).lower()):
-        return 3
-    elif str(name) == 'CH4':
-        return P('tot', C) * C[0] / sum(C[:5])
+    if str(name) == 'CH4':
+        return 3 * C[0] / sum(C[:5])
     elif str(name) == 'H2O':
-        return P('tot', C) * C[1] / sum(C[:5])
+        return 3 * C[1] / sum(C[:5])
     elif str(name) == 'H2':
-        return P('tot', C) * C[2] / sum(C[:5])
+        return 3 * C[2] / sum(C[:5])
     elif str(name) == 'CO':
-        return P('tot', C) * C[3] / sum(C[:5])
+        return 3 * C[3] / sum(C[:5])
     elif str(name) == 'CO2':
-        return P('tot', C) * C[4] / sum(C[:5])
+        return 3 * C[4] / sum(C[:5])
     else:
         print("Error: value for '" + str(name) + "' not found in P().")
         print("The input values were '" + str(C) + "'.")
@@ -485,9 +483,14 @@ def u(name, mode=0, param=0):
         Returns ``None`` if an incorrect parameter is passed through.
     """
     if str(name) == 'g':
-        return 1
+        if mode == 3:
+            return param
+        else:
+            return 1
     elif str(name) == 's':
-        if mode == 2:
+        if mode == 1:
+            return 0
+        elif mode == 2:
             return param
         else:
             return 1e-3

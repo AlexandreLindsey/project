@@ -17,8 +17,6 @@ Created on Fri Feb 16 15:55:14 2024
 
 # Third-party librairy imports.
 import numpy as np
-from scipy.integrate import solve_ivp
-from matplotlib import pyplot as plt
 
 # Local module imports
 import constants as c
@@ -51,19 +49,22 @@ def odefunction(z, C, mode=0, param=0):
 
     # Equation (16): dC/dz of the different elements (CH4, H2O, H2, CO and CO2)
     dC[:5] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r_ - (1 - c.ep())
-               * c.rho('CaO') * rcbn(C, mode)) / c.u('g'))
+               * c.rho('CaO') * rcbn(C, mode)) / c.u('g', mode, param))
     # Equation (17): dX/dz
-    dC[5] = c.MM('CaO') / c.u('s', mode, param) * rcbn(C, mode)
+    if mode == 1:
+        dC[5] = 0
+    else:
+        dC[5] = c.MM('CaO') / c.u('s', mode, param) * rcbn(C, mode)
     # Equation (19): dT/dz
     dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * sum(R_ * H_)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C, mode) * c.H('cbn') + hW(C)
-             * (c.TW() - C[6]) * 4 / c.dim('r')) / ((1 - c.ep()) * c.rho('s')
-             * c.u('s', mode, param) * c.Cp('s') + rhog(C) * c.u('g')
-             * c.Cp('g')))
+             - (1 - c.ep()) * c.rho('CaO') * rcbn(C, mode) * c.H('cbn')
+             + hW(C, mode, param) * (c.TW() - C[6]) * 4 / c.dim('r'))
+             / ((1 - c.ep()) * c.rho('s') * c.u('s', mode, param) * c.Cp('s')
+             + rhog(C) * c.u('g', mode, param) * c.Cp('g')))
     # Equation (20): dP/dz
-    dC[7] = (-(rhog(C) * c.u('g')**2 * (1 - c.ep())) / (c.dp() * c.ep())
-             * ((150 * (1 - c.ep()) * c.mu()) / (c.dp() * rhog(C) * c.u('g'))
-             + 1.75) * 1e-5)
+    dC[7] = (-(rhog(C) * c.u('g', mode, param)**2 * (1 - c.ep())) / (c.dp()
+             * c.ep()) * ((150 * (1 - c.ep()) * c.mu()) / (c.dp() * rhog(C)
+             * c.u('g', mode, param)) + 1.75) * 1e-5)
     return dC
 
 
@@ -263,7 +264,7 @@ def rhog(C):
 
 
 # Equation of the reactor's energy balance
-def hW(C):
+def hW(C, mode, param):
     """Value of the reactor's wall heat transfer coefficient.
 
     Parameters
@@ -277,7 +278,7 @@ def hW(C):
     numeric
         Returns the value of the reactor's wall heat transfer coefficient.
     """
-    Rep = c.u('g') * c.ep() * rhog(C) * c.dp() / c.mu()
+    Rep = c.u('g', mode, param) * c.ep() * rhog(C) * c.dp() / c.mu()
     if Rep > 20 and 0.05 < c.dp()/c.dim('r') < 0.3:
         return (2.03 * c.k('g') / c.dim('r') * Rep**0.8 * np.exp(-6 * c.dp()
                 / c.dim('r')))
