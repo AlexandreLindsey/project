@@ -12,15 +12,18 @@ Created on Mon Feb 12 21:51:24 2024
 """
 
 # %% [0] Imports
+# First-party imports
+import math
+
 # Third-party imports
 import numpy as np
 
 
 # %% [1] Main Code
-def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
+def secant(fun, x0, x1, tol=0.5e-03, **kwargs):
     """The root of a function.
 
-    Implementation of the secant methode for approximating the root
+    Implementation of the secant method for approximating the root
     of a function.
 
     Parameters
@@ -46,8 +49,8 @@ def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
     |            | is 1 / ``tol``.                                           |
     +------------+-----------------------------------------------------------+
     | ``hybrid`` | ``True`` or ``False``. Whether to strictly use the        |
-    |            | secante methode or use a hybrid of the secante and        |
-    |            | bissection methode.                                       |
+    |            | secant method or use a hybrid of the secante and          |
+    |            | bisection method.                                         |
     +------------+-----------------------------------------------------------+
 
     Returns
@@ -61,7 +64,7 @@ def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
     -------
     If the function ``fun(x)`` is defined as x**2 - 4::
 
-        >>> secant(f, 1, 3)
+        >>> secant(fun, 1, 3)
         [1.9999525931544515, 0]
     """
     i = 0
@@ -70,13 +73,13 @@ def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
     if abs(x0 - x1) <= tol:
         print('x1 et x2 ont la même valeur.')
         return [1]
-    # Checks that f(x0) exists.
+    # Checks that fun(x0) exists.
     try:
         y0 = fun(x0)
     except ZeroDivisionError:
         print('fun(' + str(x0) + ') n\'existe pas')
         return [1]
-    # Checks that f(x1) exists.
+    # Checks that fun(x1) exists.
     try:
         y1 = fun(x1)
     except ZeroDivisionError:
@@ -97,7 +100,7 @@ def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
     # (Within a certain tolerance.)
     while abs(y1) >= tol:
         # To find the next approximation, we use the function:
-        #   x1 - (y1 * (x1 - x0)) / (y1 - y0)
+        # x1 - (y1 * (x1 - x0)) / (y1 - y0)
         # Firstly, we compute the numerator (num).
         num = y1 * (x1 - x0)
         # We check that num is different than zero. If it is not, then x0 and
@@ -113,10 +116,10 @@ def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
         # y1 must have the same value. Thus, we can not find an intersection
         # with the x-axis.
         if den == 0:
-            # If hybrid is True, then we 'use' the bissection methode.
-            # Otherwise, the function does not converge.
+            # If hybrid is True, then we use the "bisection" method.
             if hybrid:
                 xi = (x0 + x1)/2
+            # Otherwise, the function does not converge.
             else:
                 print('La fonction ne converge pas.')
                 return [-1]
@@ -133,8 +136,8 @@ def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
             print('fun(' + str(x1) + ') n\'existe pas')
             return [-1]
         i += 1
-        # We stop the program if it reaches the macimum number of itirations,
-        # max_i
+        # We stop the program if it reaches the maximum number of itirations,
+        # max_i.
         if i > max_i:
             print('La fonction n\'a pas convergé après ' + str(i) +
                   ' itérations.')
@@ -143,10 +146,10 @@ def secante(fun, x0, x1, tol=0.5e-03, **kwargs):
     return [0, x1]
 
 
-def bissection(fun, x0, x1, tol=0.5e-03):
+def bisection(fun, x0, x1, tol=0.5e-03):
     """The root of a function.
 
-    Implementation of the bisection methode for approximating the root of
+    Implementation of the bisection method for approximating the root of
     a function.
 
     Parameters
@@ -170,47 +173,57 @@ def bissection(fun, x0, x1, tol=0.5e-03):
     -------
     If the function ``fun(x)`` is defined as x**2 - 4::
 
-        >>> bisection(f, 1, 3)
+        >>> bisection(fun, 1, 3)
         [2.00048828125, 0]
 
     """
+    # Checks that fun(x0) exists.
     try:
         y0 = fun(x0)
     except ZeroDivisionError:
         print('fun(' + str(x0) + ') n\'existe pas')
         return [1]
+    # Checks that fun(x1) exists.
     try:
         y1 = fun(x1)
     except ZeroDivisionError:
         print('fun(' + str(x1) + ') n\'existe pas')
         return [1]
+    # Checks if y0 is the solution within a certain tolerance.
     if y0 == 0 or abs(y0) < tol:
-        return [0]
+        return [0, x0]
+    # Checks if y1 is the solution within a certain tolerance.
     if y1 == 0 or abs(y1) < tol:
-        return [0]
+        return [0, x1]
+    # Checks that y0 and y1 have a different sign (to satisfy the requirements
+    # of the method).
     if y0 * y1 > 0:
         print('fun(x0) et fun(x1) sont du même signe.')
         return [1]
+    # Checks that y0 is the negative value. If not, swaps the values of x0
+    # and x1.
     if y0 > y1:
         x0, x1 = x1, x0
 
-    print(abs(x1 - x0)/(2*tol))
+    # Calculates the number of itirations needed to find an approximation good
+    # enough (to a tolerance). Formula from the cours.
     k = np.log2(abs(x1 - x0)/(2*tol))
-    i = 0
 
-    while True:
+    # Loop ends at k + 1 because we need to do k itirations (it stops when
+    # i = k+1).
+    for i in range(math.ceil(k) + 1):
+        # Calculates the next approximation of the root.
         xi = (x0 + x1)/2
+        # Checks that fun(xi) exists.
         try:
             yi = fun(xi)
         except ZeroDivisionError:
             print('f(' + str(xi) + ') n\'existe pas')
             return [-1]
-
+        # If yi is positif, then replace the previous positive value (x1).
         if yi > 0:
             x1 = xi
+        # Else, replace the previous negative value (x0).
         else:
             x0 = xi
-
-        if i > k:
-            return [0, xi]
-        i += 1
+    return [0, xi]
