@@ -52,6 +52,12 @@ if __name__ == '__main__':
     plt.ylabel('Temperature (K)')
     plt.legend(loc='best')
 
+    plt.figure(0)
+    plt.plot(sol.t, sol.y[5], label='X', linewidth=1)
+    plt.xlabel('z (m)')
+    plt.ylabel('Taux fractionnaire (X)')
+    plt.legend(loc='best')
+
     print('Ode mode 1:', end=' ')
     sol = solve_ivp(lambda x, y: ode(x, y, 1), x_int, C0, rtol=0.5e-6)
     print('completed.')
