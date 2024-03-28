@@ -30,8 +30,27 @@ def odefunction(z, C, mode=0, param=0):
     z : numeric
         Value of the axial distance.
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
+    mode : numeric, *default* 0
+        Different modes for odefuncion (see table below).
+    param : numeric, *default* 0
+        Parameter value used in certain modes (see table below).
+
+    +-------+----------------------------------------------------------------+
+    | mode  |  Description                                                   |
+    +=======+================================================================+
+    | ``0`` | Default mode of odefuncion. ``param`` is not used.             |
+    +-------+----------------------------------------------------------------+
+    | ``1`` | Odefunction with no carbonation: ``rcbn`` = 0, ``dC[5`` = 0    |
+    |       | and ``c.u('s')`` = 0. ``param`` is not used.                   |
+    +-------+----------------------------------------------------------------+
+    | ``2`` | Changes the value of ``c.u('s')`` to ``param``.                |
+    +-------+----------------------------------------------------------------+
+    | ``3`` | Changes the value of ``c.u('g')`` to ``param``.                |
+    +-------+----------------------------------------------------------------+
 
     Returns
     -------
@@ -76,8 +95,10 @@ def R(name, C):
     name : string
         ``1``, ``2`` or ``3``.
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -112,8 +133,10 @@ def DEN(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -134,8 +157,10 @@ def r(name, C):
     name : string
         ``CH4``, ``H2O``, ``H2``, ``CO`` or ``CO2``
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -171,8 +196,10 @@ def kc(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -189,8 +216,10 @@ def b(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -208,8 +237,10 @@ def rcbn(C, mode):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -229,8 +260,10 @@ def Xu(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -247,8 +280,10 @@ def rhog(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -269,8 +304,10 @@ def hW(C, mode, param):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
