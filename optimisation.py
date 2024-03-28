@@ -28,16 +28,16 @@ def optimise_us(Y, us, C0):
 
 
 # %% [2] Testing Code
-C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
-x = [1e-5, 1e-3]
-A = np.arange(x[0], x[1], 0.00001)
-B = np.zeros(A.size)
-C = np.zeros(A.size)
-for i in range(A.size):
-    B[i] = optimise_us(0.05, A[i], C0)
-plt.plot(A, B, label='us', linewidth=1)
-plt.plot(A, C, color='black', linewidth=1)
-x0 = secant(lambda us: optimise_us(0.05, us, C0), x, hybrid=True)
-y0 = optimise_us(0.05, x0[1], C0)
-plt.plot(x0[1], y0, 'xr')
-print(y0 + 0.05)
+if __name__ == '__main__':
+    C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
+    x = [1e-5, 1e-3]
+    A = np.arange(x[0], x[1], 0.00001)
+    B = np.zeros(A.size)
+    C = np.zeros(A.size)
+    for i in range(A.size):
+        B[i] = optimise_us(0.05, A[i], C0)
+    plt.plot(A, B, label='us', linewidth=1)
+    plt.plot(A, C, color='black', linewidth=1)
+    x0 = secant(lambda us: optimise_us(0.05, us, C0), x, hybrid=True)
+    y0 = optimise_us(0.05, x0[1], C0)
+    plt.plot(x0[1], y0, 'xr')
