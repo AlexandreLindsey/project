@@ -1,0 +1,65 @@
+\documentclass[12pt, a4paper]{report}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[french]{babel}
+\usepackage{titlesec}
+\graphicspath{{"/image"}}
+\titleformat{\chapter}{\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+
+\title{\textbf{Introduction aux méthodes numériques et projet}}
+\author{
+    Alexandre Lindsey
+    \and Luca Odding
+}
+\date{\today}
+
+\begin{document}
+    \begin{titlepage}
+        \begin{center}
+            \Large{\textbf{Introduction aux methodes numeriques\\
+            et projet}}\\
+            \vspace{0.5cm}
+            \large{Production d'hydrogene par reformage catalytique de methane\\
+            et captage de $CO_{2}$ dans un reacteur.}
+
+            \vspace{5cm}
+            \begin{multicols}{3}
+                \normalsize{
+                    Moreci Raffaele\\
+                    S2304531\\
+                    Luca Odding\\
+                    S2303933\\
+                    Alexandre Lindsey\\
+                    S2302371
+                }
+            \end{multicols}
+
+            \vfill{}
+            \normalsize{\today}\\
+            \vspace{1.5cm}
+            \normalsize{
+                Département des Sciences Appliquées\\
+                Université de Liège\\
+                Année academique 2023-2024\\
+            }
+        \end{center}
+    \end{titlepage}
+
+    
+    \tableofcontents
+
+    \chapter{Question 1}
+        \section{Méthode de la bissection}
+
+        \section{Méthode de la secante}
+
+    \chapter{Question 2}
+        \section{Création d'odefunction}
+
+        \section{Résolution d'équation différentielle}
+
+    \chapter{Question 3}
+
+    \chapter{Question 4}
+
+\end{document}
