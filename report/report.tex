@@ -1,65 +1,99 @@
-\documentclass[12pt, a4paper]{report}
-\usepackage{graphicx}
+\documentclass{report}
 \usepackage{multicol}
+\usepackage{svg}
 \usepackage[french]{babel}
-\usepackage{titlesec}
-\graphicspath{{"/image"}}
-\titleformat{\chapter}{\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper, margin=1cm, top=-1cm, bottom=-1cm]{geometry}
 
-\title{\textbf{Introduction aux méthodes numériques et projet}}
-\author{
-    Alexandre Lindsey
-    \and Luca Odding
+\newcommand{\mychapter}[2]{
+    \setcounter{chapter}{#1}
+    \setcounter{section}{0}
+    \chapter*{#2}
+    \addcontentsline{toc}{chapter}{#2}
 }
-\date{\today}
+
+\title{
+    {
+        \parbox{\textwidth}{
+            \textbf{\textsc{\Large Introduction aux méthodes numériques et projet}}
+            \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
+            \hfill \textbf{\textsc{\normalsize Année académique 2023-2024}}\\
+            \vspace{0.1\textheight} \leavevmode
+            \begin{center}
+                \textbf{\Huge Production d'$H_2$ par reformage catalytique\\ de $CH_4$ et captage de $CO_2$\\ dans un réacteur.}
+            \end{center}
+        }
+        \vfill \leavevmode
+        \includesvg[width=0.75\textwidth]{"image/3d_CO"}
+        \parbox{\textwidth}{
+            \includesvg[height=0.025\textheight]{"image/fsa_text"}
+            \hspace{-0.4em}
+            \textbf{\normalsize \hfill \today}
+            \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
+            \textbf{
+                \normalsize
+                \begin{tabular}{p{0.295\textwidth}p{0.295\textwidth}p{0.295\textwidth}}
+                    \hfil \textsc{Moreci} Raffaele & \hfil \textsc{Odding} Luca & \hfil \textsc{Lindsey} Alexandre\\
+                    \hfil S2304531                 & \hfil S2303933             & \hfil S2302371
+                \end{tabular}
+            }
+        }
+    }
+}
+\author{}
+\date{}
 
 \begin{document}
-    \begin{titlepage}
-        \begin{center}
-            \Large{\textbf{Introduction aux methodes numeriques\\
-            et projet}}\\
-            \vspace{0.5cm}
-            \large{Production d'hydrogene par reformage catalytique de methane\\
-            et captage de $CO_{2}$ dans un reacteur.}
+    % \begin{titlepage}
+    %     \begin{center}
+    %         \vspace{5cm}
+    %         \Large{\textbf{Introduction aux methodes numeriques\\
+    %         et projet}}\\
+    %         \vspace{0.5cm}
+    %         \large{Production d'hydrogene par reformage catalytique de methane\\
+    %         et captage de $CO_{2}$ dans un reacteur.}
 
-            \vspace{5cm}
-            \begin{multicols}{3}
-                \normalsize{
-                    Moreci Raffaele\\
-                    S2304531\\
-                    Luca Odding\\
-                    S2303933\\
-                    Alexandre Lindsey\\
-                    S2302371
-                }
-            \end{multicols}
+    %         \vfill
+    %         \begin{multicols}{3}
+    %             \normalsize{
+    %                 Moreci Raffaele\\
+    %                 S2304531\\
+    %                 Luca Odding\\
+    %                 S2303933\\
+    %                 Alexandre Lindsey\\
+    %                 S2302371
+    %             }
+    %         \end{multicols}
 
-            \vfill{}
-            \normalsize{\today}\\
-            \vspace{1.5cm}
-            \normalsize{
-                Département des Sciences Appliquées\\
-                Université de Liège\\
-                Année academique 2023-2024\\
-            }
-        \end{center}
-    \end{titlepage}
+    %         \vfill
+    %         \normalsize{\today}\\
+    %         \vspace{1.5cm}
+    %         \normalsize{
+    %             Département des Sciences Appliquées\\
+    %             Université de Liège\\
+    %             Année academique 2023-2024\\
+    %         }
+    %     \end{center}
+    % \end{titlepage}
+    
+    \maketitle
 
+    \newgeometry{margin=1in}
     
     \tableofcontents
 
-    \chapter{Question 1}
+    \mychapter{1}{Question 1}
         \section{Méthode de la bissection}
 
         \section{Méthode de la secante}
 
-    \chapter{Question 2}
+    \mychapter{2}{Question 2}
         \section{Création d'odefunction}
 
         \section{Résolution d'équation différentielle}
 
-    \chapter{Question 3}
+    \mychapter{3}{Question 3}
 
-    \chapter{Question 4}
+    \mychapter{4}{Question 4}
 
 \end{document}

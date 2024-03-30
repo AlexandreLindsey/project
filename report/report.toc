@@ -1,9 +1,9 @@
 \babel@toc {french}{}\relax 
-\contentsline {chapter}{\numberline {1}Question 1}{2}{}%
+\contentsline {chapter}{Question 1}{2}{}%
 \contentsline {section}{\numberline {1.1}Méthode de la bissection}{2}{}%
 \contentsline {section}{\numberline {1.2}Méthode de la secante}{2}{}%
-\contentsline {chapter}{\numberline {2}Question 2}{3}{}%
+\contentsline {chapter}{Question 2}{3}{}%
 \contentsline {section}{\numberline {2.1}Création d'odefunction}{3}{}%
 \contentsline {section}{\numberline {2.2}Résolution d'équation différentielle}{3}{}%
-\contentsline {chapter}{\numberline {3}Question 3}{4}{}%
-\contentsline {chapter}{\numberline {4}Question 4}{5}{}%
+\contentsline {chapter}{Question 3}{4}{}%
+\contentsline {chapter}{Question 4}{5}{}%
