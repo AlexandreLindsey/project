@@ -32,15 +32,16 @@ def optimise_us(Y, us, C0):
 if __name__ == '__main__':
     C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
     x = [0.01, 0.2]
+    Y = 0.075
     A = np.arange(x[0], x[1], 0.005)
     B = np.zeros(A.size)
     C = np.zeros(A.size)
     for i in range(A.size):
-        B[i] = optimise_us(0.075, A[i], C0)
+        B[i] = optimise_us(Y, A[i], C0)
     plt.plot(A, B, label='us', linewidth=1)
     plt.plot(A, C, color='black', linewidth=1)
-    x0 = secant(lambda us: optimise_us(0.075, us, C0), x, tol=0.5e-8,
+    x0 = secant(lambda us: optimise_us(Y, us, C0), x, tol=0.5e-8,
                 hybrid=True)
-    y0 = optimise_us(0.075, x0[1], C0)
+    y0 = optimise_us(Y, x0[1], C0)
     print(x0)
     plt.plot(x0[1], y0, 'xr')
