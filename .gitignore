@@ -167,3 +167,4 @@ cython_debug/
 
 # Documents
 Enonce_2024.pdf
+*.docx
