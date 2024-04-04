@@ -135,13 +135,40 @@
             $solve\_ivp$ est également beaucoup plus précis puisqu'elle utilise une méthode d'ordre suprérieur.
             Nous concluons que $solve\_ivp$ est beaucoup plus efficace, que ce soit pour le temps d'exécution que pour la précision.
     \mychapter{3}{Question 3}
+        Pour cette question 3, nous avons introduit les arguments optionnels $mode$ et $param$ à odefunction.
+        $mode$ nous permet de tester différentes conditions de notre réacteur.
+        Lorsque $mode$ est à $0$, le système fonctionne avec les paramètres de base,
+        lorsqu'il est à $1$, le modèle ne prend pas en compote la carbonatation,
+        lorsqu'il est à $2$, on remplace $us$ par la valeur de $param$
+        et lorsqu'il est à $3$, on remplace $ug$ par la valeur de $param$.
         \section{Modèle sans capture de $CO_2$}
+            Afin de comparer un modèle de réacteur avec et sans capture de $CO_2$,
+            nous avons mis le mode de odefunction à 3, soit un modèle sans capture de $CO_2$.
+            Pour simuler ceci, nous avons remplacé la conversion fractionnaire ($X$),
+            le taux de consommation de $CO_2$ par carbonatation ($rcbn$)
+            et la vitesse d'entré du $CaO$ dans le réacteur ($us$)
+            par $0$ car ils n'interviennent plus dans le modèle sans capture de $CO_2$.
+            \par
+            (((EXPLIQUER GRAPHIQUES)))
 
         \section{Effet du flux de CaO sur le modèle}
-
+            Pour analyser l'effet du flux d'entré de $CaO$,
+            nous avons fait varier la valeur de $us$ à l'aide du mode 2.
+            Nous l'avons fait varié de $0.001$ à $0.025\ m.s^{-1}$.
+            \par
+            (((EXPLIQUER GRAPHIQUES)))
+        
         \section{Effet du flux des gaz sur le modèles}
+            Pour analyser le flux des gaz, nous avons fait varier $ug$ à l'aide du mode 3
+            en changeant la valeur de $1$ à $3\ m.s^{-1}$ avec un pas de $0.5$.
+            \par
+            (((EXPLIQUER GRAPHIQUES)))
         
         \section{Effet de la composition du gaz d'entrer sur le modèle}
+            Dans le but de modifier les compositions initiales de gaz,
+            nous avons fait varier le rapport des concentrations initiales en $H_2O$ er $CH_4$.
+            \par
+            (((EXPLIQUER GRAPHIQUES)))
 
     \mychapter{4}{Question 4}
 
