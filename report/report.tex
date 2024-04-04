@@ -107,7 +107,33 @@
         et de flexibilité, ce qui nous a aidé pour la question 3.
 
         \section{Résolution d'équation différentielle}
-
+        Notre fonction $calculConcentrationEuler$ est une fonction qui suit la méthode d'Euler explicite au premier ordre
+        pour résoudre approximativement l'équation contenue dans odefunction.
+        Cette fonction prend cinq arguments en entrée :
+        \begin{itemize}
+            \item $fun$, la fonction à résoudre
+            \item $x$, un tableau contenant les bornes pour lesquels l'équation doit être résolue
+            \item $y0$, les valeurs initiales de la fonction
+            \item $step$, le pas qui est par défault à 5e-8
+            \item $mode$ et $param$, qui nous serviront plus tard.
+        \end{itemize}
+        La fonction renvoie une approximation de la résolution de la fonction.
+        \par
+        La fonction $solve\_ivp$ prend les mêmes arguments que $calculConcentrationEuler$. 
+        Nous avons aussi modifier les valeurs de la tolérance relative $rtol$ et de la taille maximum du pas $max\_step$
+        qui ont tous deux pour but d'augmenter la précision de notre approximation.
+        Nous avons choisi notre $rtol$ égale à $5\times10^{-7}$ et notre max-step égale à $1\times10^{-6}$,
+        ces valeurs sont les meilleurs compromis que nous avons trouvé entre une précision correcte
+        et une durée d'exécution minimale.
+        \par
+        (((Justification du pas dans $calculConcentrationEuler$)))
+        \par
+        Après plusieurs tests, nous pouvons conclure que $solve\_ivp$ est beaucoup plus efficace que notre fonction.
+        Notre fonction prend environs (((x minutes))) pour résoudre l'équation tandis que $solve\_ivp$ ne prend que (((x secondes))),
+        $solve\_ivp$ va donc (((x))) fois plus vite.
+        Ceci est probablement dû au fait que $solve\_ivp$ utilise un pas variable mais pas notre fonction.
+        $solve\_ivp$ est également beaucoup plus précis puisqu'elle utilise une méthode d'ordre suprérieur.
+        Nous concluons que $solve\_ivp$ est beaucoup plus efficace, que ce soit pour le temps d'exécution que pour la précision.
     \mychapter{3}{Question 3}
 
     \mychapter{4}{Question 4}
