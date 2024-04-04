@@ -13,6 +13,8 @@ Created on Fri Mar 8 10:53:03 2024
 # Third-party librairy imports.
 import numpy as np
 from scipy.integrate import solve_ivp
+from odefunction import odefunction as ode
+import constants as c
 
 
 # %% [1] Main Code
@@ -45,3 +47,8 @@ def calculConcentrationsEuler(fun, x_int, y0, mode=0, param=0, step=5e-8):
     # Returns the array of the x-axis (x) and the transposed of the y-axis (y).
     # See why above.
     return [x, y.T]
+
+
+if __name__ == "__main__":
+    C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
+    calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-10)
