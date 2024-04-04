@@ -360,7 +360,7 @@ def mu():
 
 
 def N(name):
-    """Values of the "M" parameters.
+    """Values of the "N" parameters.
 
     Parameters
     ----------

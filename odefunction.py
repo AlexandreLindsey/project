@@ -44,7 +44,7 @@ def odefunction(z, C, mode=0, param=0):
     +=======+================================================================+
     | ``0`` | Default mode of odefuncion. ``param`` is not used.             |
     +-------+----------------------------------------------------------------+
-    | ``1`` | Odefunction with no carbonation: ``rcbn`` = 0, ``dC[5`` = 0    |
+    | ``1`` | Odefunction with no carbonation: ``rcbn`` = 0, ``dC[5]`` = 0    |
     |       | and ``c.u('s')`` = 0. ``param`` is not used.                   |
     +-------+----------------------------------------------------------------+
     | ``2`` | Changes the value of ``c.u('s')`` to ``param``.                |
