@@ -206,7 +206,7 @@ def bisection(fun, x, tol=0.5e-03):
         x[0], x[1] = x[1], x[0]
 
     # Calculates the number of itirations needed to find an approximation good
-    # enough (to a tolerance). Formula from the cours.
+    # enough (to a tolerance). Formula from the course.
     k = np.log2(abs(x[1] - x[0])/(2*tol))
 
     # Loop ends at k + 1 because we need to do k itirations (it stops when
@@ -220,7 +220,7 @@ def bisection(fun, x, tol=0.5e-03):
         except ZeroDivisionError:
             print('f(' + str(xi) + ') n\'existe pas')
             return [-1]
-        # If yi is positif, then replace the previous positive value (x[1]).
+        # If yi is positive, then replace the previous positive value (x[1]).
         if yi > 0:
             x[1] = xi
         # Else, replace the previous negative value (x[0]).
