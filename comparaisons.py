@@ -72,6 +72,7 @@ if __name__ == '__main__':
     print(sol.y[2][-1])
     print(sol.y[3][-1])
     print(sol.y[4][-1])
+    print(sol.y[6][-1])
 
     print('Ode mode 1:', end=' ')
     sol = solve_ivp(lambda x, y: ode(x, y, 1), x_int, C0, rtol=0.5e-6)
@@ -102,6 +103,7 @@ if __name__ == '__main__':
     print(sol.y[2][-1])
     print(sol.y[3][-1])
     print(sol.y[4][-1])
+    print(sol.y[6][-1])
 
     for i in PARAM2:
         print('Ode mode 2, param ' + str(i) + ':', end=' ')
