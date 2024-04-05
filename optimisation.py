@@ -24,6 +24,9 @@ from root import secant
 def optimise_us(Y, us, C0):
     sol = solve_ivp(lambda z, C: ode(z, C, mode=2, param=us), [0, c.dim('l')],
                     C0)
+    # Returns the percentage of the concentration of CO_2 among the
+    # concentrations of dry gases minus Y.
+    # (Cf(CO_2)/Cf(CH_4) + Cf(H_2) + Cf(CO) + Cf(CO_2)) - Y
     return (sol.y[4][-1]/(sol.y[0][-1] + sol.y[2][-1] + sol.y[3][-1]
                           + sol.y[4][-1]) - Y)
 
