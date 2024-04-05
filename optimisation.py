@@ -43,6 +43,8 @@ if __name__ == '__main__':
         B[i] = optimise_us(Y, A[i], C0)
     plt.plot(A, B, label='us', linewidth=1)
     plt.plot(A, C, color='black', linewidth=1)
+    plt.ylabel('us - Y (m/s)')
+    plt.xlabel('% CO_2')
     x0 = secant(lambda us: optimise_us(Y, us, C0), x, tol=0.5e-8,
                 hybrid=True)
     y0 = optimise_us(Y, x0[1], C0)
