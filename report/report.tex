@@ -132,12 +132,12 @@
                     \hline
                     $tol$   & Temps             & Taux d'erreur\\
                     \hline
-                    $5e-1$  & $19.7\ \mu s$        & $61.41\%$\\
-                    $5e-2$  & $20.9\ \mu s$        & $61.41\%$\\
+                    $5e-1$  & $19.7\ \mu s$     & $61.41\%$\\
+                    $5e-2$  & $20.9\ \mu s$     & $61.41\%$\\
                     $5e-7$  & $9.32\ s$         & $64.52\%$\\
                     $5e-8$  & $1\ min\ 56\ s$   & $0.98\%$\\
                     $5e-9$  & $20\ min\ 21\ s$  & $0.01\%$\\
-                    $5e-10$ & $3\ h\ 3\ min$    & (((valeur)))\\
+                    $5e-10$ & $3\ h\ 3\ min$    & $0.0003\%$\\
                     \hline
                 \end{tabular}
                 \caption{Taux d'erreur par tolérance}
@@ -165,8 +165,27 @@
             et la vitesse d'entré du $CaO$ dans le réacteur ($us$)
             par $0$ car ils n'interviennent plus dans le modèle sans capture de $CO_2$.
             \par
-            (((EXPLIQUER GRAPHIQUES)))
-
+            \begin{figure}[h]
+                \centering
+                \begin{minipage}{0.45\textwidth}
+                    \centering
+                    \caption{Variation des\\ concentrations avec carbonatation}
+                    \label{graph:con:0}
+                \end{minipage}
+                \begin{minipage}{0.45\textwidth}
+                    \centering
+                    \caption{Variation des\\ concentrations sans carbonatation}
+                    \label{graph:con:1}
+                \end{minipage}
+            \end{figure}
+            Pour comparer un système avec et sans carbonatation,
+            il est difficile d'utiliser des graphiques car,
+            comme on peut le voir aux figures \ref{graph:con:0} et \ref{graph:con:1} ,
+            la tendance générale du graphique ne varie pas énormément avec ou sans carbonatation.
+            C'est pour cela que nous allons nous fier aux valeurs finales des concentrations (voir figure \ref{tab:carb}).
+            Donc quand on bloque la capture de $CO_2$ : le $CH_4$, le $CO_2$
+            et le $CO$  le  augmentent de $14.7\%$, $12.6\%$ et $6.5\%$ respectivement.
+            Le $H_2$ et la température diminuent seulement de $0.9\%$ et $0.5\%$ respectivement.
             \begin{figure}[h]
                 \centering
                 \begin{tabular}{|c|r|r|r|}
@@ -204,24 +223,31 @@
             (((EXPLIQUER GRAPHIQUES)))
 
     \mychapter{4}{Question 4}
-        \section{Fonction d'optimisation}
-            Notre fonction $optimise\_us$ est une fonction qui a pour but d'optimiser $us$
-            par rapport a un certain pourcentage de $CO_2$ en sortie,
-            cette fonction prend 5 arguments en entrée le pourcentage de $CO_2$ dans
-            le gaz de sortie $Y$, $us$, le tableau des conditions initiales $C0$ et
-            les deux paramètres optionnels $mode\_$ et $param1$ qui sont utilisés pour la sous question 3.
+        \section{Fonction du taux de $CO_2$ par rapport à $us$}
+            $optimise\_us$ crée la fonction du pourcentage de $CO_2$ en sortie par rapport à $us$,
+            ce qui nous permet de déterminer un $us$ optimal.
+            Cette fonction prend 5 arguments en entrée :
+            \begin{itemize}
+                \item $Y$, le pourcentage de $CO_2$ souhaité à la sortie du réacteur
+                \item $us$, la valeur de $us$
+                \item $C0$, le tableau des conditions initiales pour $odefunction$
+                \item $mode\_$ et $param1$, équivalents du $mode$ et $param$ de $odefunction$
+            \end{itemize}
             Cette fonction résout odefunction grâce à $solve\_ivp$ et retourne la concentration
             finale de $CO_2$ divisé par la somme des concentration finale de $CH_4$, $H_2$,
-            $CO$ et de $CO_2$ le tout soustrait par $Y$ pour corriger le décalage vertical.
-        \section{Recherche du us optimale}
-            Dans ce notre cas, nous devons trouvez la valeur optimale de $us$ pour une concentration
+            $CO$ et de $CO_2$. Le tout est ensuite soustrait par $Y$ pour corriger le décalage vertical.
+        \section{Recherche d'un $us$ optimal}
+            \begin{figure}[h]
+                \centering
+                \caption{(((Graph us)))}
+                \label{graph:us}
+            \end{figure}
+            Dans ce cas, nous devons trouvez la valeur optimale de $us$ pour une concentration
             en $CO_2$ de $7.5\%$.
-            En voici une illustration graphique où est représenté $us - Y$ en fonction
-            du pourcentage de $CO_2$ parmis les gaz secs. Notre fonction 'Hybrid'
-            nous renvoit une racine située en $x = 0.101$ soit $10.1\%$
-
-            (((Graphique manquant)))
-
+            On peut voir le résultat de $optimise\_us$ sur la figure \ref{graph:us}
+            qui représente $us - Y$ en fonction du pourcentage de $CO_2$ parmis les gaz secs.
+            Notre fonction 'Hybrid' nous renvoit une racine située en $x = 0.101$.
+            \par
             La méthode utilisée pour trouver la racine est une méthode hybride qui est simplement
             la méthode de la sécante légèrement modifiée : si la sécante ne converge pas dû aux
             valeurs de la fonction en $x0$ et $x1$ égales,

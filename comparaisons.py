@@ -68,11 +68,12 @@ if __name__ == '__main__':
     plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
     plt.show()
-    print(sol.y[0][-1])
-    print(sol.y[2][-1])
-    print(sol.y[3][-1])
-    print(sol.y[4][-1])
-    print(sol.y[6][-1])
+    print('Output values for:')
+    print('CH4: ' + str(sol.y[0][-1]))
+    print('H2: ' + str(sol.y[2][-1]))
+    print('CO: ' + str(sol.y[3][-1]))
+    print('CO2: ' + str(sol.y[4][-1]))
+    print('T: ' + str(sol.y[6][-1]))
 
     print('Ode mode 1:', end=' ')
     sol = solve_ivp(lambda x, y: ode(x, y, 1), x_int, C0, rtol=0.5e-6)
@@ -99,11 +100,12 @@ if __name__ == '__main__':
     plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
     plt.show()
-    print(sol.y[0][-1])
-    print(sol.y[2][-1])
-    print(sol.y[3][-1])
-    print(sol.y[4][-1])
-    print(sol.y[6][-1])
+    print('Output values for:')
+    print('CH4: ' + str(sol.y[0][-1]))
+    print('H2: ' + str(sol.y[2][-1]))
+    print('CO: ' + str(sol.y[3][-1]))
+    print('CO2: ' + str(sol.y[4][-1]))
+    print('T: ' + str(sol.y[6][-1]))
 
     for i in PARAM2:
         print('Ode mode 2, param ' + str(i) + ':', end=' ')
@@ -548,3 +550,44 @@ if __name__ == '__main__':
         ax.set_zticks(y6ticks, empty_labels_y6)
 
         plt.show()
+
+    PARAM2 = np.arange(PARAM2[0], PARAM2[-1]+(PARAM2[-1]-PARAM2[0])/50,
+                       (PARAM2[-1]-PARAM2[0])/50)
+    Y0 = np.zeros(PARAM2.size)
+    Y2 = np.zeros(PARAM2.size)
+    Y3 = np.zeros(PARAM2.size)
+    Y4 = np.zeros(PARAM2.size)
+    for i in range(PARAM2.size):
+        print('Out | Ode mode 2, param ' + str(PARAM2[i]) + ':', end=' ')
+        sol = solve_ivp(lambda x, y: ode(x, y, 2, PARAM2[i]), x_int, C0)
+        print('completed.')
+
+        Y0[i] = sol.y[0][-1]
+        Y2[i] = sol.y[2][-1]
+        Y3[i] = sol.y[3][-1]
+        Y4[i] = sol.y[4][-1]
+
+    arr = np.full(PARAM2.size, Y0[-1])
+    arr[:Y0.size] = Y0
+    Y0 = arr
+    arr = np.full(PARAM2.size, Y2[-1])
+    arr[:Y2.size] = Y2
+    Y2 = arr
+    arr = np.full(PARAM2.size, Y3[-1])
+    arr[:Y3.size] = Y3
+    Y3 = arr
+    arr = np.full(PARAM2.size, Y4[-1])
+    arr[:Y4.size] = Y4
+    Y4 = arr
+
+    plt.figure(37)
+    ax = plt.subplot(1, 1, 1)
+    plt.plot(PARAM2, Y0, label=': CH4', linewidth=1)
+    plt.plot(PARAM2, Y2, label=': H2', linewidth=1)
+    plt.plot(PARAM2, Y3, label=': CO', linewidth=1)
+    plt.plot(PARAM2, Y4, label=': CO2', linewidth=1)
+    plt.xlabel('us (m/s)')
+    plt.ylabel('Concentrations (mol/L)')
+    ax.spines[['right', 'top']].set_visible(False)
+    plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
+    # plt.axis([0, 0.025, 0, round_(max(C0[:5]), 0.5)])
