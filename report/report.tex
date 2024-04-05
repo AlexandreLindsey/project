@@ -126,7 +126,23 @@
             ces valeurs sont les meilleurs compromis que nous avons trouvé entre une précision correcte
             et une durée d'exécution minimale.
             \par
-            (((Justification du pas dans $calculConcentrationEuler$)))
+            \begin{figure}
+                \centering
+                \begin{tabular}{|r|r|r|}
+                    \hline
+                    $tol$   & Temps             & Taux d'erreur\\
+                    \hline
+                    $5e-1$  & $19.7\ \mu s$        & $61.41\%$\\
+                    $5e-2$  & $20.9\ \mu s$        & $61.41\%$\\
+                    $5e-7$  & $9.32\ s$         & $64.52\%$\\
+                    $5e-8$  & $1\ min\ 56\ s$   & $0.98\%$\\
+                    $5e-9$  & $20\ min\ 21\ s$  & $0.01\%$\\
+                    $5e-10$ & $3\ h\ 3\ min$    & (((valeur)))\\
+                    \hline
+                \end{tabular}
+                \caption{Taux d'erreur par tolérance}
+                \label{tab:tol}
+            \end{figure}
             \par
             Après plusieurs tests, nous pouvons conclure que $solve\_ivp$ est beaucoup plus efficace que notre fonction.
             Notre fonction prend environs (((x minutes))) pour résoudre l'équation tandis que $solve\_ivp$ ne prend que (((x secondes))),
@@ -151,17 +167,22 @@
             \par
             (((EXPLIQUER GRAPHIQUES)))
 
-            \begin{tabular}{|c|c|c|c|}
-                \hline
-                & Mode: 0 & Mode: 1 & \\
-                \hline
-                $CH_4$ & $0,004171257986848117$ & $0,0047827724582415440$ & $+14,7\%$\\
-                $H_2$ & $0,023219117414519253$ & $0,023017259067901242$ & $-0.9\%$\\
-                $CO$ & $0,0023526223024645148$ & $0,0025045082419897446$ & $+6.5\%$\\
-                $CO_2$ & $0,003438791257161197$ & $0,0038734335854830005$ & $+12.6\%$\\
-                $T$ & $920,2299924269918$ & $915,8524403270285$ & $-0.5\%$\\
-                \hline
-            \end{tabular}
+            \begin{figure}[h]
+                \centering
+                \begin{tabular}{|c|r|r|r|}
+                    \hline
+                    Nom             & $mode\ 0$ \hfill          & $mode\ 1$ \hfill   & Différence\\
+                    \hline
+                    $CH_4$          & $0,00417\ \frac{mol}{L}$  & $0,00478\ \frac{mol}{L}$  & $+14,7\%$\\
+                    $H_2$           & $0,02322\ \frac{mol}{L}$  & $0,02302\ \frac{mol}{L}$  & $-0.9\%$\\
+                    $CO$            & $0,00235\ \frac{mol}{L}$  & $0,00250\ \frac{mol}{L}$  & $+6.5\%$\\
+                    $CO_2$          & $0,00344\ \frac{mol}{L}$  & $0,00387\ \frac{mol}{L}$  & $+12.6\%$\\
+                    $T$\textdegree  & $920,23\ K$               & $915,85\ K$               & $-0.5\%$\\
+                    \hline
+                \end{tabular}
+                \caption{Effet de la carbonatation sur le modèle}
+                \label{tab:carb}
+            \end{figure}
 
         \section{Effet du flux de CaO sur le modèle}
             Pour analyser l'effet du flux d'entré de $CaO$,
