@@ -398,15 +398,15 @@ def P(name, C):
         Returns the pressure of ``name`` in the reactor, in bar.
     """
     if str(name) == 'CH4':
-        return 3 * C[0] / sum(C[:5])
+        return C[7] * C[0] / sum(C[:5])
     elif str(name) == 'H2O':
-        return 3 * C[1] / sum(C[:5])
+        return C[7] * C[1] / sum(C[:5])
     elif str(name) == 'H2':
-        return 3 * C[2] / sum(C[:5])
+        return C[7] * C[2] / sum(C[:5])
     elif str(name) == 'CO':
-        return 3 * C[3] / sum(C[:5])
+        return C[7] * C[3] / sum(C[:5])
     elif str(name) == 'CO2':
-        return 3 * C[4] / sum(C[:5])
+        return C[7] * C[4] / sum(C[:5])
     else:
         print("Error: value for '" + str(name) + "' not found in P().")
         print("The input values were '" + str(C) + "'.")
@@ -455,7 +455,7 @@ def rho(name):
         return None
 
 
-def TW():
+def TW(mode=0, param=0):
     """Value of TW.
 
     Returns
@@ -464,7 +464,10 @@ def TW():
         Returns the value of the gasses' temperature at the entrance,
         973.15 in K.
     """
-    return 973.15
+    if mode == 4:
+        return param[1]
+    else:
+        return 973.15
 
 
 def u(name, mode=0, param=0):
@@ -492,6 +495,8 @@ def u(name, mode=0, param=0):
             return 0
         elif mode == 2:
             return param
+        elif mode == 4:
+            return param[0]
         else:
             return 1e-3
     else:
