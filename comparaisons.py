@@ -68,11 +68,12 @@ if __name__ == '__main__':
     plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
     plt.show()
-    print(sol.y[0][-1])
-    print(sol.y[2][-1])
-    print(sol.y[3][-1])
-    print(sol.y[4][-1])
-    print(sol.y[6][-1])
+    print('Output values for:')
+    print('CH4: ' + str(sol.y[0][-1]))
+    print('H2: ' + str(sol.y[2][-1]))
+    print('CO: ' + str(sol.y[3][-1]))
+    print('CO2: ' + str(sol.y[4][-1]))
+    print('T: ' + str(sol.y[6][-1]))
 
     print('Ode mode 1:', end=' ')
     sol = solve_ivp(lambda x, y: ode(x, y, 1), x_int, C0, rtol=0.5e-6)
@@ -99,11 +100,12 @@ if __name__ == '__main__':
     plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
     plt.show()
-    print(sol.y[0][-1])
-    print(sol.y[2][-1])
-    print(sol.y[3][-1])
-    print(sol.y[4][-1])
-    print(sol.y[6][-1])
+    print('Output values for:')
+    print('CH4: ' + str(sol.y[0][-1]))
+    print('H2: ' + str(sol.y[2][-1]))
+    print('CO: ' + str(sol.y[3][-1]))
+    print('CO2: ' + str(sol.y[4][-1]))
+    print('T: ' + str(sol.y[6][-1]))
 
     for i in PARAM2:
         print('Ode mode 2, param ' + str(i) + ':', end=' ')
