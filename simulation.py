@@ -49,6 +49,35 @@ def calculConcentrationsEuler(fun, x_int, y0, mode=0, param=0, step=5e-8):
     return [x, y.T]
 
 
+def calculateError(sol, out):
+    err = 0
+    for i in range(8):
+        err += abs((out[i][-1]/sol[i][-1])-1)
+        print(err)
+    return err/8
+
+
 if __name__ == "__main__":
     C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
-    calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-10)
+    sol = calculConcentrationsIVP(ode, [0, 0.01], C0)
+    out1 = calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-1)
+    err1 = calculateError(sol[1], out1[1])
+    print("5e-1: " + str(err1))
+    out2 = calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-2)
+    err2 = calculateError(sol[1], out2[1])
+    print("5e-2: " + str(err2))
+    out3 = calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-3)
+    err3 = calculateError(sol[1], out3[1])
+    print("5e-3: " + str(err3))
+    out4 = calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-7)
+    err4 = calculateError(sol[1], out4[1])
+    print("5e-7: " + str(err4))
+    out5 = calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-8)
+    err5 = calculateError(sol[1], out5[1])
+    print("5e-8: " + str(err5))
+    out6 = calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-9)
+    err6 = calculateError(sol[1], out6[1])
+    print("5e-9: " + str(err6))
+    out7 = calculConcentrationsEuler(ode, [0, 0.01], C0, step=5e-10)
+    err7 = calculateError(sol[1], out7[1])
+    print("5e-10: " + str(err7))

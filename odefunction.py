@@ -51,6 +51,9 @@ def odefunction(z, C, mode=0, param=0):
     +-------+----------------------------------------------------------------+
     | ``3`` | Changes the value of ``c.u('g')`` to ``param``.                |
     +-------+----------------------------------------------------------------+
+    | ``4`` | Changes the value of ``c.u('s') and ``c.TW()`` to ``param[0]`` |
+    |       | and ``param[1]`` respectively.                                 |
+    +-------+----------------------------------------------------------------+
 
     Returns
     -------
@@ -76,9 +79,9 @@ def odefunction(z, C, mode=0, param=0):
     # Equation (19): dT/dz
     dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * sum(R_ * H_)
              - (1 - c.ep()) * c.rho('CaO') * rcbn(C, mode) * c.H('cbn')
-             + hW(C, mode, param) * (c.TW() - C[6]) * 4 / c.dim('r'))
-             / ((1 - c.ep()) * c.rho('s') * c.u('s', mode, param) * c.Cp('s')
-             + rhog(C) * c.u('g', mode, param) * c.Cp('g')))
+             + hW(C, mode, param) * (c.TW(mode, param) - C[6]) * 4
+             / c.dim('r')) / ((1 - c.ep()) * c.rho('s') * c.u('s', mode, param)
+             * c.Cp('s') + rhog(C) * c.u('g', mode, param) * c.Cp('g')))
     # Equation (20): dP/dz
     dC[7] = (-(rhog(C) * c.u('g', mode, param)**2 * (1 - c.ep())) / (c.dp()
              * c.ep()) * ((150 * (1 - c.ep()) * c.mu()) / (c.dp() * rhog(C)

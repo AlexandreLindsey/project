@@ -126,7 +126,23 @@
             ces valeurs sont les meilleurs compromis que nous avons trouvé entre une précision correcte
             et une durée d'exécution minimale.
             \par
-            (((Justification du pas dans $calculConcentrationEuler$)))
+            \begin{figure}
+                \centering
+                \begin{tabular}{|r|r|r|}
+                    \hline
+                    $tol$   & Temps             & Taux d'erreur\\
+                    \hline
+                    $5e-1$  & $19.7\ \mu s$        & $61.41\%$\\
+                    $5e-2$  & $20.9\ \mu s$        & $61.41\%$\\
+                    $5e-7$  & $9.32\ s$         & $64.52\%$\\
+                    $5e-8$  & $1\ min\ 56\ s$   & $0.98\%$\\
+                    $5e-9$  & $20\ min\ 21\ s$  & $0.01\%$\\
+                    $5e-10$ & $3\ h\ 3\ min$    & (((valeur)))\\
+                    \hline
+                \end{tabular}
+                \caption{Taux d'erreur par tolérance}
+                \label{tab:tol}
+            \end{figure}
             \par
             Après plusieurs tests, nous pouvons conclure que $solve\_ivp$ est beaucoup plus efficace que notre fonction.
             Notre fonction prend environs (((x minutes))) pour résoudre l'équation tandis que $solve\_ivp$ ne prend que (((x secondes))),
@@ -151,6 +167,23 @@
             \par
             (((EXPLIQUER GRAPHIQUES)))
 
+            \begin{figure}[h]
+                \centering
+                \begin{tabular}{|c|r|r|r|}
+                    \hline
+                    Nom             & $mode\ 0$ \hfill          & $mode\ 1$ \hfill   & Différence\\
+                    \hline
+                    $CH_4$          & $0,00417\ \frac{mol}{L}$  & $0,00478\ \frac{mol}{L}$  & $+14,7\%$\\
+                    $H_2$           & $0,02322\ \frac{mol}{L}$  & $0,02302\ \frac{mol}{L}$  & $-0.9\%$\\
+                    $CO$            & $0,00235\ \frac{mol}{L}$  & $0,00250\ \frac{mol}{L}$  & $+6.5\%$\\
+                    $CO_2$          & $0,00344\ \frac{mol}{L}$  & $0,00387\ \frac{mol}{L}$  & $+12.6\%$\\
+                    $T$\textdegree  & $920,23\ K$               & $915,85\ K$               & $-0.5\%$\\
+                    \hline
+                \end{tabular}
+                \caption{Effet de la carbonatation sur le modèle}
+                \label{tab:carb}
+            \end{figure}
+
         \section{Effet du flux de CaO sur le modèle}
             Pour analyser l'effet du flux d'entré de $CaO$,
             nous avons fait varier la valeur de $us$ à l'aide du mode 2.
@@ -171,5 +204,37 @@
             (((EXPLIQUER GRAPHIQUES)))
 
     \mychapter{4}{Question 4}
+        \section{Fonction d'optimisation}
+            Notre fonction $optimise\_us$ est une fonction qui a pour but d'optimiser $us$
+            par rapport a un certain pourcentage de $CO_2$ en sortie,
+            cette fonction prend 5 arguments en entrée le pourcentage de $CO_2$ dans
+            le gaz de sortie $Y$, $us$, le tableau des conditions initiales $C0$ et
+            les deux paramètres optionnels $mode\_$ et $param1$ qui sont utilisés pour la sous question 3.
+            Cette fonction résout odefunction grâce à $solve\_ivp$ et retourne la concentration
+            finale de $CO_2$ divisé par la somme des concentration finale de $CH_4$, $H_2$,
+            $CO$ et de $CO_2$ le tout soustrait par $Y$ pour corriger le décalage vertical.
+        \section{Recherche du us optimale}
+            Dans ce notre cas, nous devons trouvez la valeur optimale de $us$ pour une concentration
+            en $CO_2$ de $7.5\%$.
+            En voici une illustration graphique où est représenté $us - Y$ en fonction
+            du pourcentage de $CO_2$ parmis les gaz secs. Notre fonction 'Hybrid'
+            nous renvoit une racine située en $x = 0.101$ soit $10.1\%$
+
+            (((Graphique manquant)))
+
+            La méthode utilisée pour trouver la racine est une méthode hybride qui est simplement
+            la méthode de la sécante légèrement modifiée : si la sécante ne converge pas dû aux
+            valeurs de la fonction en $x0$ et $x1$ égales,
+            alors on s'inspire de la méthode de la bissection pour  débloquer la situation.
+            Ce faisant, on bénéficie de la précision accrue de la méthode de la sécante
+            ainsi que sa vitesse bien supérieure a la bissection mais si ladite erreur se produit,
+            on effectue la moyenne de ces deux points et on utilise ce nouveau point pour relancer
+            la fonction sécante.
+        \section{Effet de la température sur le us optimale}
+            Le graphique ci-dessous illustre la variation du us optimal en fonction de la température.
+            Il est clair que $us$ dépend de la température, nous le voyons décroitre très rapidement,
+            presque exponentiellement. Donc, plus la température est élevée, plus la vitesse d'entrée
+            optimale des gaz pour un pourcentage de $CO_2$ donné est petite.
+            (((Graphique manquant)))
 
 \end{document}
