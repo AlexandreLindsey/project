@@ -398,15 +398,15 @@ def P(name, C):
         Returns the pressure of ``name`` in the reactor, in bar.
     """
     if str(name) == 'CH4':
-        return C[7] * C[0] / sum(C[:5])
+        return 3 * C[0] / sum(C[:5])
     elif str(name) == 'H2O':
-        return C[7] * C[1] / sum(C[:5])
+        return 3 * C[1] / sum(C[:5])
     elif str(name) == 'H2':
-        return C[7] * C[2] / sum(C[:5])
+        return 3 * C[2] / sum(C[:5])
     elif str(name) == 'CO':
-        return C[7] * C[3] / sum(C[:5])
+        return 3 * C[3] / sum(C[:5])
     elif str(name) == 'CO2':
-        return C[7] * C[4] / sum(C[:5])
+        return 3 * C[4] / sum(C[:5])
     else:
         print("Error: value for '" + str(name) + "' not found in P().")
         print("The input values were '" + str(C) + "'.")

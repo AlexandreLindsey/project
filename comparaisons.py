@@ -155,7 +155,7 @@ if __name__ == '__main__':
     plt.xlabel('z (m)')
     plt.ylabel('Temperature (K)')
     ax.spines[['right', 'top']].set_visible(False)
-    plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
+    plt.legend(loc='lower right', bbox_to_anchor=(1, -0.025), frameon=False)
 
     plt.show()
 
