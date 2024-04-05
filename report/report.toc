@@ -11,3 +11,6 @@
 \contentsline {section}{\numberline {3.3}Effet du flux des gaz sur le modèles}{4}{}%
 \contentsline {section}{\numberline {3.4}Effet de la composition du gaz d'entrer sur le modèle}{4}{}%
 \contentsline {chapter}{Question 4}{5}{}%
+\contentsline {section}{\numberline {4.1}Fonction d'optimisation}{5}{}%
+\contentsline {section}{\numberline {4.2}Recherche du us optimale}{5}{}%
+\contentsline {section}{\numberline {4.3}Effet de la température sur le us optimale}{5}{}%
