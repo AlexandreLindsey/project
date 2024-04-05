@@ -8,9 +8,9 @@
 \contentsline {chapter}{Question 3}{5}{}%
 \contentsline {section}{\numberline {3.1}Modèle sans capture de $CO_2$}{5}{}%
 \contentsline {section}{\numberline {3.2}Effet du flux de CaO sur le modèle}{5}{}%
-\contentsline {section}{\numberline {3.3}Effet du flux des gaz sur le modèles}{5}{}%
-\contentsline {section}{\numberline {3.4}Effet de la composition du gaz d'entrer sur le modèle}{5}{}%
+\contentsline {section}{\numberline {3.3}Effet du flux des gaz sur le modèles}{6}{}%
+\contentsline {section}{\numberline {3.4}Effet de la composition du gaz d'entrer sur le modèle}{6}{}%
 \contentsline {chapter}{Question 4}{7}{}%
-\contentsline {section}{\numberline {4.1}Fonction d'optimisation}{7}{}%
-\contentsline {section}{\numberline {4.2}Recherche du us optimale}{7}{}%
+\contentsline {section}{\numberline {4.1}Fonction du taux de $CO_2$ par rapport à $us$}{7}{}%
+\contentsline {section}{\numberline {4.2}Recherche d'un $us$ optimal}{7}{}%
 \contentsline {section}{\numberline {4.3}Effet de la température sur le us optimale}{7}{}%
