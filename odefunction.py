@@ -124,9 +124,16 @@ def R(name, C):
         return (c.vit(3, C[6]) / c.P('H2', C) * (c.P('CO', C) * c.P('H2O', C)
                 - c.P('H2', C)*c.P('CO2', C)/c.eq(3, C[6])) / DEN(C)**2)
     else:
-        print("Error: value for '" + str(name) + "' not found in R().")
-        print("The input values were '" + str(C) + "'.")
-        return None
+        try:
+            raise NameError()
+        except NameError:
+            print('')
+            print('')
+            print('')
+            print("Error: value for '" + str(name) + "' not found in R().")
+            print("The input values were '" + str(C) + "'.")
+            print('')
+            raise
 
 
 # Equation (7)
@@ -187,9 +194,16 @@ def r(name, C):
         # Equation (12)
         return R(2, C) + R(3, C)
     else:
-        print("Error: value for '" + str(name) + "' not found in r().")
-        print("The input values were '" + str(C) + "'.")
-        return None
+        try:
+            raise NameError()
+        except NameError:
+            print('')
+            print('')
+            print('')
+            print("Error: value for '" + str(name) + "' not found in r().")
+            print("The input values were '" + str(C) + "'.")
+            print('')
+            raise
 
 
 # Equation (14)
@@ -326,6 +340,15 @@ def hW(C, mode, param):
                + 2/3*(c.k('g') / c.k('s')))))
         return 6.15 * (kz0 / c.dim('r'))
     else:
-        print("Error in hW().")
-        print("The input values were '" + str(C) + "'.")
-        return None
+        try:
+            raise NameError()
+        except NameError:
+            print('')
+            print('')
+            print('')
+            print("Error in hW().")
+            print("The input values were '" + str(C) + "'.")
+            print("Odefunction was in mode '" + str(mode) + "'.")
+            print("The value of param was '" + str(param) + "'.")
+            print('')
+            raise
