@@ -262,7 +262,8 @@
             Pour analyser l'effet du flux des solides,
             nous avons fait varier la valeur de \verb|us| à l'aide du \verb|mode| 2.
             Nous l'avons fait varier de \SI{0.001}{\meter\per\second} à \SI{0.025}{\meter\per\second}
-            et créer ces graphiques (figure \ref{graph:con:2}) pour chaque variable d'état indépendamment avec plusieurs valeurs de \verb|us|.
+            et créer ces graphiques (figure \ref{graph:con:2}) pour chaque variable d'état 
+            indépendamment avec plusieurs valeurs de \verb|us| (En faisant attention aux échelles respectives).
             \begin{figure}[ht]
                 \centering
                 \begin{subfigure}[t]{0.325\textwidth}
@@ -312,7 +313,6 @@
         \section{Effets de l'augmentation du flux des gaz sur le modèle}
             Pour analyser le flux des gaz, nous avons fait varier \verb|ug| à l'aide du \verb|mode| 3
             en changeant la valeur de \SI{1}{\meter\per\second} à \SI{3}{\meter\per\second} avec un pas de 0.5.
-            (((EXPLIQUER GRAPHIQUES)))
             \begin{figure}[ht]
                 \centering
                 \begin{subfigure}[t]{0.325\textwidth}
@@ -351,6 +351,12 @@
                 \caption{Concentrations et températures (\texttt{T}) des gaz}
                 \label{graph:con:3}
             \end{figure}
+            \par 
+            Comme illustré sur la figure \ref{graph:con:C0}, l'augmentation de \verb|ug| produit exactement l'effet 
+            inverse à l'augmentation de \verb|us|. Au début, les données sont très sensibles aux variation de \verb|ug| 
+            et très peu sensible a ces variation à la fin du réacteur. Nous pouvons aussi séparer les données 
+            de sorties en deux, mais cette fois-ci ce sont le \ce{H2}, le \ce{CO} et la température qui diminuent 
+            tandis que le \ce{CH4} et le \ce{CO2} augmentent quand la valeur de \verb|ug| augmente
         
         \section{Effet de la composition du gaz d'entrée sur le modèle}
             Dans le but de modifier les compositions initiales de gaz,
@@ -394,11 +400,10 @@
                 \label{graph:con:C0}
             \end{figure}
             \par
-            Comme illustré sur la figure \ref{graph:con:C0}, l'augmentation de \verb|ug| produit exactement l'effet 
-            inverse à l'augmentation de \verb|us|. Au début, les données sont très sensibles aux variation de \verb|ug| 
-            et très peu sensible a ces variation à la fin du réacteur. Nous pouvons aussi séparer les données 
-            de sorties en deux, mais cette fois-ci ce sont le \ce{H2}, le \ce{CO} et la température qui diminuent 
-            tandis que le \ce{CH4} et le \ce{CO2} augmentent quand la valeur de \verb|ug| augmente
+            La tendance des graphiques peut encore une fois être divisé en deux, les variables d'états
+            dont la valeur en sortie diminue comme le \ce{CH4} et le \ce{H2O} quand le rapport \ce{H2O}/\ce{CH4}
+            augmente et ceux dont la valeur en sortie augmente quand ce rapport augmente comme le \ce{H2},
+            le \ce{CO2} et la température
 
     \mychapter{4}{Question 4}
         \section{Taux de \ce{CO2} optimal par rapport à \texttt{ug}}
