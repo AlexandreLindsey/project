@@ -19,6 +19,7 @@ from scipy.integrate import solve_ivp
 # Local module imports
 import constants as c
 from odefunction import odefunction as ode
+from simulation import calculConcentrationsIVP
 
 
 # %% [1] Main Code
@@ -51,15 +52,15 @@ if __name__ == '__main__':
     arr_size = 2911
 
     print('Ode mode 0:', end=' ')
-    sol = solve_ivp(lambda x, y: ode(x, y, 0), x_int, C0, rtol=0.5e-6)
+    sol = calculConcentrationsIVP(ode, x_int, C0)
     print('completed.')
 
     plt.figure(1)
     ax = plt.subplot(1, 1, 1)
-    plt.plot(sol.t, sol.y[0], label=': CH4', linewidth=1)
-    plt.plot(sol.t, sol.y[2], label=': H2', linewidth=1)
-    plt.plot(sol.t, sol.y[3], label=': CO', linewidth=1)
-    plt.plot(sol.t, sol.y[4], label=': CO2', linewidth=1)
+    plt.plot(sol[0], sol[1][0], label=': CH4', linewidth=1)
+    plt.plot(sol[0], sol[1][2], label=': H2', linewidth=1)
+    plt.plot(sol[0], sol[1][3], label=': CO', linewidth=1)
+    plt.plot(sol[0], sol[1][4], label=': CO2', linewidth=1)
     plt.xlabel('z (m)')
     plt.ylabel('Concentrations (mol/L)')
     ax.spines[['right', 'top']].set_visible(False)
@@ -68,7 +69,7 @@ if __name__ == '__main__':
 
     plt.figure(2)
     ax = plt.subplot(1, 1, 1)
-    plt.plot(sol.t, sol.y[6], label=': T', linewidth=1)
+    plt.plot(sol[0], sol[1][6], label=': T', linewidth=1)
     plt.xlabel('z (m)')
     plt.ylabel('Temperature (K)')
     ax.spines[['right', 'top']].set_visible(False)
@@ -76,60 +77,60 @@ if __name__ == '__main__':
 
     plt.show()
     print('Output values for:')
-    print('CH4: ' + str(sol.y[0][-1]))
-    print('H2: ' + str(sol.y[2][-1]))
-    print('CO: ' + str(sol.y[3][-1]))
-    print('CO2: ' + str(sol.y[4][-1]))
-    print('T: ' + str(sol.y[6][-1]))
+    print('CH4: ' + str(sol[1][0][-1]))
+    print('H2: ' + str(sol[1][2][-1]))
+    print('CO: ' + str(sol[1][3][-1]))
+    print('CO2: ' + str(sol[1][4][-1]))
+    print('T: ' + str(sol[1][6][-1]))
 
-    print('Ode mode 1:', end=' ')
-    sol = solve_ivp(lambda x, y: ode(x, y, 1), x_int, C0, rtol=0.5e-6)
-    print('completed.')
+    # print('Ode mode 1:', end=' ')
+    # sol = calculConcentrationsIVP(ode, x_int, C0, mode=1)
+    # print('completed.')
 
-    plt.figure(3)
-    ax = plt.subplot(1, 1, 1)
-    plt.plot(sol.t, sol.y[0], label=': CH4', linewidth=1)
-    plt.plot(sol.t, sol.y[2], label=': H2', linewidth=1)
-    plt.plot(sol.t, sol.y[3], label=': CO', linewidth=1)
-    plt.plot(sol.t, sol.y[4], label=': CO2', linewidth=1)
-    plt.xlabel('z (m)')
-    plt.ylabel('Concentrations (mol/L)')
-    ax.spines[['right', 'top']].set_visible(False)
-    plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
-    plt.axis([0, round_(c.dim('l'), 0.5), 0, round_(max(C0[:5]), 0.5)])
+    # plt.figure(3)
+    # ax = plt.subplot(1, 1, 1)
+    # plt.plot(sol[0], sol[1][0], label=': CH4', linewidth=1)
+    # plt.plot(sol[0], sol[1][2], label=': H2', linewidth=1)
+    # plt.plot(sol[0], sol[1][3], label=': CO', linewidth=1)
+    # plt.plot(sol[0], sol[1][4], label=': CO2', linewidth=1)
+    # plt.xlabel('z (m)')
+    # plt.ylabel('Concentrations (mol/L)')
+    # ax.spines[['right', 'top']].set_visible(False)
+    # plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
+    # plt.axis([0, round_(c.dim('l'), 0.5), 0, round_(max(C0[:5]), 0.5)])
 
-    plt.figure(4)
-    ax = plt.subplot(1, 1, 1)
-    plt.plot(sol.t, sol.y[6], label=': T', linewidth=1)
-    plt.xlabel('z (m)')
-    plt.ylabel('Temperature (K)')
-    ax.spines[['right', 'top']].set_visible(False)
-    plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
+    # plt.figure(4)
+    # ax = plt.subplot(1, 1, 1)
+    # plt.plot(sol[0], sol[1][6], label=': T', linewidth=1)
+    # plt.xlabel('z (m)')
+    # plt.ylabel('Temperature (K)')
+    # ax.spines[['right', 'top']].set_visible(False)
+    # plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
-    plt.show()
-    print('Output values for:')
-    print('CH4: ' + str(sol.y[0][-1]))
-    print('H2: ' + str(sol.y[2][-1]))
-    print('CO: ' + str(sol.y[3][-1]))
-    print('CO2: ' + str(sol.y[4][-1]))
-    print('T: ' + str(sol.y[6][-1]))
+    # plt.show()
+    # print('Output values for:')
+    # print('CH4: ' + str(sol[1][0][-1]))
+    # print('H2: ' + str(sol[1][2][-1]))
+    # print('CO: ' + str(sol[1][3][-1]))
+    # print('CO2: ' + str(sol[1][4][-1]))
+    # print('T: ' + str(sol[1][6][-1]))
 
     for i in PARAM2:
         print('Ode mode 2, param ' + str(i) + ':', end=' ')
-        sol = solve_ivp(lambda x, y: ode(x, y, 2, i), x_int, C0, rtol=0.5e-6)
+        sol = calculConcentrationsIVP(ode, x_int, C0, mode=2, param=i)
         print('completed.')
 
         legend = 'us: ' + str(round_(i, 0.5))
         plt.figure(5)
-        plt.plot(sol.t, sol.y[0], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][0], label=legend, linewidth=1)
         plt.figure(6)
-        plt.plot(sol.t, sol.y[2], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][2], label=legend, linewidth=1)
         plt.figure(7)
-        plt.plot(sol.t, sol.y[3], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][3], label=legend, linewidth=1)
         plt.figure(8)
-        plt.plot(sol.t, sol.y[4], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][4], label=legend, linewidth=1)
         plt.figure(9)
-        plt.plot(sol.t, sol.y[6], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][6], label=legend, linewidth=1)
 
     plt.figure(5)
     ax = plt.subplot(1, 1, 1)
@@ -170,20 +171,20 @@ if __name__ == '__main__':
 
     for i in PARAM3:
         print('Ode mode 3, param ' + str(i) + ':', end=' ')
-        sol = solve_ivp(lambda x, y: ode(x, y, 3, i), x_int, C0, rtol=0.5e-6)
+        sol = calculConcentrationsIVP(ode, x_int, C0, mode=3, param=i)
         print('completed.')
 
         legend = 'ug: ' + str(round_(i, 0.5))
         plt.figure(10)
-        plt.plot(sol.t, sol.y[0], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][0], label=legend, linewidth=1)
         plt.figure(11)
-        plt.plot(sol.t, sol.y[2], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][2], label=legend, linewidth=1)
         plt.figure(12)
-        plt.plot(sol.t, sol.y[3], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][3], label=legend, linewidth=1)
         plt.figure(13)
-        plt.plot(sol.t, sol.y[4], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][4], label=legend, linewidth=1)
         plt.figure(14)
-        plt.plot(sol.t, sol.y[6], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][6], label=legend, linewidth=1)
 
     plt.figure(10)
     ax = plt.subplot(1, 1, 1)
@@ -225,20 +226,20 @@ if __name__ == '__main__':
     for C0_ in C_:
         print('Ode with H2O/CH4 = ' + str(round((C0_[1]/C0_[0])*10)/10)
               + ':', end=' ')
-        sol = solve_ivp(lambda x, y: ode(x, y, 0), x_int, C0_, rtol=0.5e-6)
+        sol = calculConcentrationsIVP(ode, x_int, C0_)
         print('completed.')
 
         legend = 'H20/CH4: ' + str(round((C0_[1]/C0_[0])*10)/10)
         plt.figure(15)
-        plt.plot(sol.t, sol.y[0], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][0], label=legend, linewidth=1)
         plt.figure(16)
-        plt.plot(sol.t, sol.y[2], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][2], label=legend, linewidth=1)
         plt.figure(17)
-        plt.plot(sol.t, sol.y[3], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][3], label=legend, linewidth=1)
         plt.figure(18)
-        plt.plot(sol.t, sol.y[4], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][4], label=legend, linewidth=1)
         plt.figure(19)
-        plt.plot(sol.t, sol.y[6], label=legend, linewidth=1)
+        plt.plot(sol[0], sol[1][6], label=legend, linewidth=1)
 
     plt.figure(15)
     ax = plt.subplot(1, 1, 1)
@@ -558,21 +559,21 @@ if __name__ == '__main__':
 
         plt.show()
 
-    PARAM2 = np.arange(PARAM2[0], PARAM2[-1]+(PARAM2[-1]-PARAM2[0])/50,
-                       (PARAM2[-1]-PARAM2[0])/50)
+    PARAM2 = np.arange(PARAM2[0], PARAM2[-1]+(PARAM2[-1]-PARAM2[0])/100,
+                       (PARAM2[-1]-PARAM2[0])/100)
     Y0 = np.zeros(PARAM2.size)
     Y2 = np.zeros(PARAM2.size)
     Y3 = np.zeros(PARAM2.size)
     Y4 = np.zeros(PARAM2.size)
     for i in range(PARAM2.size):
         print('Out | Ode mode 2, param ' + str(PARAM2[i]) + ':', end=' ')
-        sol = solve_ivp(lambda x, y: ode(x, y, 2, PARAM2[i]), x_int, C0)
+        sol = calculConcentrationsIVP(ode, x_int, C0, mode=2, param=PARAM2[i])
         print('completed.')
 
-        Y0[i] = sol.y[0][-1]
-        Y2[i] = sol.y[2][-1]
-        Y3[i] = sol.y[3][-1]
-        Y4[i] = sol.y[4][-1]
+        Y0[i] = sol[1][0][-1]
+        Y2[i] = sol[1][2][-1]
+        Y3[i] = sol[1][3][-1]
+        Y4[i] = sol[1][4][-1]
 
     arr = np.full(PARAM2.size, Y0[-1])
     arr[:Y0.size] = Y0
@@ -589,19 +590,30 @@ if __name__ == '__main__':
 
     plt.figure(37)
     ax = plt.subplot(1, 1, 1)
-    plt.plot(PARAM2, Y0, label=': CH4', linewidth=1)
-    plt.plot(PARAM2, Y3, label=': CO', linewidth=1)
-    plt.plot(PARAM2, Y4, label=': CO2', linewidth=1)
+    plt.plot(PARAM2, Y0, linewidth=1)
     plt.xlabel('us (m/s)')
-    plt.ylabel('Concentrations (mol/L)')
+    plt.ylabel('Concentrations de CH4 (mol/L)')
     ax.spines[['right', 'top']].set_visible(False)
-    plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
     plt.figure(38)
     ax = plt.subplot(1, 1, 1)
     plt.plot(PARAM2, Y2, linewidth=1)
     plt.xlabel('us (m/s)')
     plt.ylabel('Concentrations de H2 (mol/L)')
+    ax.spines[['right', 'top']].set_visible(False)
+
+    plt.figure(39)
+    ax = plt.subplot(1, 1, 1)
+    plt.plot(PARAM2, Y3, linewidth=1)
+    plt.xlabel('us (m/s)')
+    plt.ylabel('Concentrations de CO (mol/L)')
+    ax.spines[['right', 'top']].set_visible(False)
+
+    plt.figure(40)
+    ax = plt.subplot(1, 1, 1)
+    plt.plot(PARAM2, Y4, linewidth=1)
+    plt.xlabel('us (m/s)')
+    plt.ylabel('Concentrations de CO2 (mol/L)')
     ax.spines[['right', 'top']].set_visible(False)
 
     plt.show()
