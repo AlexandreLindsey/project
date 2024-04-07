@@ -32,7 +32,7 @@ def round_(x, n=0):
 if __name__ == '__main__':
     # Initial conditions for odefunction.
     C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
-    # Resolution interval of odefunction used in solve_IVP.
+    # Resolution interval of odefunction used in calculConcentrationsIVP.
     x_int = [0, c.dim('l')]
     # Values used in mode 2 of odefunction.
     PARAM2 = np.array([0.001, 0.005, 0.01, 0.015, 0.02, 0.025])
