@@ -212,18 +212,19 @@
             \end{figure}
             \par
             Pour comparer un système avec et sans carbonatation,
-            il est difficile d'utiliser des graphiques car,
+            il est difficile d'utiliser ces graphiques car,
             comme on peut le voir aux figures \ref{graph:con:0} et \ref{graph:con:1},
-            la tendance générale du graphique ne varie pas énormément avec ou sans carbonatation.
-            C'est pour cela que nous allons nous fier aux valeurs finales des concentrations (voir figure \ref{tab:carb}).
+            la tendance générale du graphique ne varie pas énormément avec ou sans carbonatation mais ils peuvent être utiles 
+            pour distinguer les différences se créer au fil de l'avancée dans le réacteur.
+            C'est pour cela que nous allons nous fier aux valeurs finales des concentrations (figure \ref{tab:carb}).
             Donc, dans un modèle sans carbonatation, on remarque que le \ce{CH4}, le \ce{CO2}
             et le \ce{CO} augmentent de \SI{14.7}{\percent}, \SI{12.6}{\percent} et \SI{6.5}{\percent} respectivement.
             Le \ce{H2} et la température (\verb|T|) diminuent de \SI{0.9}{\percent} et \SI{0.5}{\percent} respectivement.
         \section{Effet de l'augmentation du flux des solides sur le modèle}
             Pour analyser l'effet du flux des solides,
             nous avons fait varier la valeur de \verb|us| à l'aide du \verb|mode| 2.
-            Nous l'avons fait varier de \SI{0.001}{\meter\per\second} à \SI{0.025}{\meter\per\second}.
-            (((EXPLIQUER GRAPHIQUES)))
+            Nous l'avons fait varier de \SI{0.001}{\meter\per\second} à \SI{0.025}{\meter\per\second}
+             et créer ces graphiques pour chaque variable d'état indépendamment avec plusieurs valeurs de \verb|us|.
             \begin{figure}[ht]
                 \centering
                 \begin{subfigure}[t]{0.325\textwidth}
@@ -262,6 +263,19 @@
                 \caption{Concentrations et températures (\texttt{T}) des gaz}
                 \label{graph:con:2}
             \end{figure}
+            De manière générale, les variations de  vont impacter relativement beaucoup 
+            les concentrations et la température au début du réacteur mais à la sortie,
+            l'écart avec le us de base (\SI{0.001}{\meter\per\second}), est plus faible. C'est pour cela que 
+            nous n'avons pas pris une plage de valeur de us plus grande, nous voyons avec 
+            ces valeurs une bonne représentation de ce qui se passe avec des valeurs de 
+            \verb|us| > 0.001. Nous pouvons séparer toutes les variables d'états en deux comportements 
+            différents : celles qui diminuent au fur et à mesure que la valeur de us augmente
+            qui sont le \ce{CH4} et le \ce{CO2} et celle qui augmentent au fur et mesure que us augmente, 
+            à savoir le \ce{H2}, le \ce{CO}, et la température.
+            Afin de mieux comprendre quels sont les variations des gaz à la sortie du réacteur, 
+            pour mieux voir les quantités que l'on récupère,
+            voici un autre graphique des concentrations des gaz secs en fonction de \verb|us|.
+            (((GRAPHIQUEEE)))
         
         \section{Effets de l'augmentation du flux des gaz sur le modèle}
             Pour analyser le flux des gaz, nous avons fait varier \verb|ug| à l'aide du \verb|mode| 3
@@ -306,10 +320,15 @@
                 \label{graph:con:3}
             \end{figure}
         
-        \section{Effet de la composition du gaz d'entrer sur le modèle}
+        \section{Effet de la composition du gaz d'entrée sur le modèle}
             Dans le but de modifier les compositions initiales de gaz,
             nous avons fait varier le rapport des concentrations initiales en \ce{H2O} et \ce{CH4} de 3 à 0.3.
-            (((EXPLIQUER GRAPHIQUES)))
+
+            Comme illustré sur les 5 graphiques ci-dessous, l'augmentation de ug produit exactement l'effet 
+            inverse à l'augmentation de \verb|us|. Au début, les données sont très sensibles aux variation de \verb|ug| 
+            et très peu sensible a ces variation à la fin du réacteur. Nous pouvons aussi séparer les données 
+            de sorties en deux, mais cette fois-ci ce sont le \ce{H2}, le \ce{CO} et la température qui diminuent 
+            tandis que le \ce{CH4} et le \ce{CO2} augmentent quand la valeur de \verb|ug| augmente
             \begin{figure}[ht]
                 \centering
                 \begin{subfigure}[t]{0.325\textwidth}
