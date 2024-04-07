@@ -71,13 +71,13 @@ def secant(fun, x, tol=0.5e-03, **kwargs):
     # Checks that the inputs x[0] and x[1] have different values.
     # (Within a certain tolerance.)
     if abs(x[0] - x[1]) <= tol:
-        print('x[1] et x2 ont la même valeur.')
+        print('x[0] et x[1] ont la même valeur.')
         return [1]
     # Checks that fun(x[0]) exists.
     try:
         y0 = fun(x[0])
     except ZeroDivisionError:
-        print('fun(' + str(x[0]) + ') n\'existe pas')
+        print('fun(' + str(x[0]) + ') n\'existe pas.')
         return [1]
     # Checks that fun(x[1]) exists.
     try:
@@ -95,10 +95,11 @@ def secant(fun, x, tol=0.5e-03, **kwargs):
         hybrid = kwargs['hybrid']
     else:
         hybrid = False
-
+    i = 0
     # Loop until the approximation is almost equal to zero.
     # (Within a certain tolerance.)
     while abs(y1) >= tol:
+        i += 1
         # To find the next approximation, we use the function:
         # x[1] - (y1 * (x[1] - x[0])) / (y1 - y0)
         # Firstly, we compute the numerator (num).
@@ -108,7 +109,8 @@ def secant(fun, x, tol=0.5e-03, **kwargs):
         # y1 is not equal to zero as we already checked. (See below.) (If it
         # was 0, it would also be the solution.)
         if num == 0:
-            print('La fonction ne converge pas. num: ' + str(num))
+            print('La fonction ne converge pas après ' + str(i)
+                  + ' itérations. num: ' + str(num) + '')
             return [-1]
         # Then, we compute the denominator (den).
         den = y1 - y0

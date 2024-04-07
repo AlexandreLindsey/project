@@ -316,14 +316,14 @@ if __name__ == '__main__':
         y4ticks = np.arange(0, np.max(Y4)+0.0008, 0.0008)
         y6ticks = np.arange(850, np.max(Y6)+24, 24)
         zticks = np.arange(0, np.max(Z)+0.005, 0.005)
-        empty_labels_x = ["" for i in range(len(xticks))]
-        empty_labels_y0 = ["" for i in range(len(y0ticks))]
-        empty_labels_y1 = ["" for i in range(len(y1ticks))]
-        empty_labels_y2 = ["" for i in range(len(y2ticks))]
-        empty_labels_y3 = ["" for i in range(len(y3ticks))]
-        empty_labels_y4 = ["" for i in range(len(y4ticks))]
-        empty_labels_y6 = ["" for i in range(len(y6ticks))]
-        empty_labels_z = ["" for i in range(len(zticks))]
+        empty_labels_x = ['' for i in range(len(xticks))]
+        empty_labels_y0 = ['' for i in range(len(y0ticks))]
+        empty_labels_y1 = ['' for i in range(len(y1ticks))]
+        empty_labels_y2 = ['' for i in range(len(y2ticks))]
+        empty_labels_y3 = ['' for i in range(len(y3ticks))]
+        empty_labels_y4 = ['' for i in range(len(y4ticks))]
+        empty_labels_y6 = ['' for i in range(len(y6ticks))]
+        empty_labels_z = ['' for i in range(len(zticks))]
 
         fig = plt.figure(20)
         ax = fig.add_subplot(projection='3d')
@@ -409,14 +409,14 @@ if __name__ == '__main__':
         y4ticks = np.arange(0, np.max(Y4)+0.0008, 0.0008)
         y6ticks = np.arange(850, np.max(Y6)+24, 24)
         zticks = np.arange(0, np.max(Z)+0.005, 0.005)
-        empty_labels_x = ["" for i in range(len(xticks))]
-        empty_labels_y0 = ["" for i in range(len(y0ticks))]
-        empty_labels_y1 = ["" for i in range(len(y1ticks))]
-        empty_labels_y2 = ["" for i in range(len(y2ticks))]
-        empty_labels_y3 = ["" for i in range(len(y3ticks))]
-        empty_labels_y4 = ["" for i in range(len(y4ticks))]
-        empty_labels_y6 = ["" for i in range(len(y6ticks))]
-        empty_labels_z = ["" for i in range(len(zticks))]
+        empty_labels_x = ['' for i in range(len(xticks))]
+        empty_labels_y0 = ['' for i in range(len(y0ticks))]
+        empty_labels_y1 = ['' for i in range(len(y1ticks))]
+        empty_labels_y2 = ['' for i in range(len(y2ticks))]
+        empty_labels_y3 = ['' for i in range(len(y3ticks))]
+        empty_labels_y4 = ['' for i in range(len(y4ticks))]
+        empty_labels_y6 = ['' for i in range(len(y6ticks))]
+        empty_labels_z = ['' for i in range(len(zticks))]
 
         fig = plt.figure(26)
         ax = fig.add_subplot(projection='3d')
@@ -503,14 +503,14 @@ if __name__ == '__main__':
         y4ticks = np.arange(0, np.max(Y4)+0.0008, 0.0008)
         y6ticks = np.arange(840, np.max(Y6)+28, 28)
         zticks = np.arange(0, np.max(Z)+0.005, 0.005)
-        empty_labels_x = ["" for i in range(len(xticks))]
-        empty_labels_y0 = ["" for i in range(len(y0ticks))]
-        empty_labels_y1 = ["" for i in range(len(y1ticks))]
-        empty_labels_y2 = ["" for i in range(len(y2ticks))]
-        empty_labels_y3 = ["" for i in range(len(y3ticks))]
-        empty_labels_y4 = ["" for i in range(len(y4ticks))]
-        empty_labels_y6 = ["" for i in range(len(y6ticks))]
-        empty_labels_z = ["" for i in range(len(zticks))]
+        empty_labels_x = ['' for i in range(len(xticks))]
+        empty_labels_y0 = ['' for i in range(len(y0ticks))]
+        empty_labels_y1 = ['' for i in range(len(y1ticks))]
+        empty_labels_y2 = ['' for i in range(len(y2ticks))]
+        empty_labels_y3 = ['' for i in range(len(y3ticks))]
+        empty_labels_y4 = ['' for i in range(len(y4ticks))]
+        empty_labels_y6 = ['' for i in range(len(y6ticks))]
+        empty_labels_z = ['' for i in range(len(zticks))]
 
         fig = plt.figure(32)
         ax = fig.add_subplot(projection='3d')

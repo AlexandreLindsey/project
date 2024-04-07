@@ -49,7 +49,7 @@ the module (see table below).
 +-----------+------------+-----------------------------------------------+
 | ``mu()``  | *none*     | Returns the value of mu, 2.8e-3 in Pa*s.      |
 +-----------+------------+-----------------------------------------------+
-| ``N()``   | ``name``   | Returns the value of ``name``'s "M"           |
+| ``N()``   | ``name``   | Returns the value of ``name``'s "N"           |
 |           |            | parameter,-13146 for ``k`` and 5649 for       |
 |           |            | ``b``.                                        |
 +-----------+------------+-----------------------------------------------+
@@ -124,8 +124,8 @@ def ab(name, T):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in ab().")
-            print("The value for the temperature (T) was '" + str(T) + "'.")
+            print('Error: value for \'' + str(name) + '\' not found in ab().')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
             print('')
             raise
 
@@ -156,7 +156,7 @@ def Cp(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in Cp().")
+            print('Error: value for \'' + str(name) + '\' not found in Cp().')
             print('')
             raise
 
@@ -187,7 +187,7 @@ def dim(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in dim().")
+            print('Error: value for \'' + str(name) + '\' not found in dim().')
             print('')
             raise
 
@@ -244,8 +244,8 @@ def eq(name, T):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in eq().")
-            print("The value for the temperature (T) was '" + str(T) + "'.")
+            print('Error: value for \'' + str(name) + '\' not found in eq().')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
             print('')
             raise
 
@@ -297,7 +297,7 @@ def H(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in H().")
+            print('Error: value for \'' + str(name) + '\' not found in H().')
             print('')
             raise
 
@@ -328,7 +328,7 @@ def k(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in k().")
+            print('Error: value for \'' + str(name) + '\' not found in k().')
             print('')
             raise
 
@@ -359,7 +359,7 @@ def M(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in M().")
+            print('Error: value for \'' + str(name) + '\' not found in M().')
             print('')
             raise
 
@@ -399,7 +399,7 @@ def MM(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in MM().")
+            print('Error: value for \'' + str(name) + '\' not found in MM().')
             print('')
             raise
 
@@ -426,7 +426,7 @@ def N(name):
     Returns
     -------
     numeric
-        Returns the value of ``name``'s "M" parameter, -13146 for ``k``
+        Returns the value of ``name``'s "N" parameter, -13146 for ``k``
         and 5649 for ``b``.
         Returns ``None`` if an incorrect parameter is passed through.
     """
@@ -441,7 +441,7 @@ def N(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in N().")
+            print('Error: value for \'' + str(name) + '\' not found in N().')
             print('')
             raise
 
@@ -477,8 +477,8 @@ def P(name, C):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in P().")
-            print("The input values were '" + str(C) + "'.")
+            print('Error: value for \'' + str(name) + '\' not found in P().')
+            print('The input values were \'' + str(C) + '\'.')
             print('')
             raise
 
@@ -527,7 +527,7 @@ def rho(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in rho().")
+            print('Error: value for \'' + str(name) + '\' not found in rho().')
             print('')
             raise
 
@@ -583,9 +583,9 @@ def u(name, mode=0, param=0):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in u().")
-            print("Odefunction was in mode '" + str(mode) + "'.")
-            print("The value of param was '" + str(param) + "'.")
+            print('Error: value for \'' + str(name) + '\' not found in u().')
+            print('Odefunction was in mode \'' + str(mode) + '\'.')
+            print('The value of param was \'' + str(param) + '\'.')
             print('')
             raise
 
@@ -620,8 +620,8 @@ def vit(name, T):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in vit().")
-            print("The value for the temperature (T) was '" + str(T) + "'.")
+            print('Error: value for \'' + str(name) + '\' not found in vit().')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
             print('')
             raise
 
@@ -652,6 +652,6 @@ def W(name):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in W().")
+            print('Error: value for \'' + str(name) + '\' not found in W().')
             print('')
             raise

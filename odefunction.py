@@ -130,8 +130,8 @@ def R(name, C):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in R().")
-            print("The input values were '" + str(C) + "'.")
+            print('Error: value for \'' + str(name) + '\' not found in R().')
+            print('The input values were \'' + str(C) + '\'.')
             print('')
             raise
 
@@ -200,8 +200,8 @@ def r(name, C):
             print('')
             print('')
             print('')
-            print("Error: value for '" + str(name) + "' not found in r().")
-            print("The input values were '" + str(C) + "'.")
+            print('Error: value for \'' + str(name) + '\' not found in r().')
+            print('The input values were \'' + str(C) + '\'.')
             print('')
             raise
 
@@ -346,9 +346,9 @@ def hW(C, mode, param):
             print('')
             print('')
             print('')
-            print("Error in hW().")
-            print("The input values were '" + str(C) + "'.")
-            print("Odefunction was in mode '" + str(mode) + "'.")
-            print("The value of param was '" + str(param) + "'.")
+            print('Error in hW().')
+            print('The input values were \'' + str(C) + '\'.')
+            print('Odefunction was in mode \'' + str(mode) + '\'.')
+            print('The value of param was \'' + str(param) + '\'.')
             print('')
             raise
