@@ -76,12 +76,6 @@ if __name__ == '__main__':
     plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
     plt.show()
-    print('Output values for:')
-    print('CH4: ' + str(sol[1][0][-1]))
-    print('H2: ' + str(sol[1][2][-1]))
-    print('CO: ' + str(sol[1][3][-1]))
-    print('CO2: ' + str(sol[1][4][-1]))
-    print('T: ' + str(sol[1][6][-1]))
 
     print('Ode mode 1:', end=' ')
     sol = calc_ivp(ode, x_int, C0, mode=1)
@@ -108,12 +102,6 @@ if __name__ == '__main__':
     plt.legend(loc='upper right', bbox_to_anchor=(1, 1.1), frameon=False)
 
     plt.show()
-    print('Output values for:')
-    print('CH4: ' + str(sol[1][0][-1]))
-    print('H2: ' + str(sol[1][2][-1]))
-    print('CO: ' + str(sol[1][3][-1]))
-    print('CO2: ' + str(sol[1][4][-1]))
-    print('T: ' + str(sol[1][6][-1]))
 
     for i in PARAM2:
         print('Ode mode 2, param ' + str(i) + ':', end=' ')
