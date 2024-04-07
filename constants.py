@@ -87,6 +87,9 @@ Created on Thu Feb 22 15:04:20 2024
 """
 
 # %% [0] Imports
+# First-party librairy imports.
+import math
+
 # Third-party librairy imports.
 import numpy as np
 
@@ -110,13 +113,65 @@ def ab(name, T):
         Returns ``None`` if an incorrect parameter is passed through.
     """
     if str(name) == 'CH4':
-        return 0.179 * np.exp((38280 / R()) * (1/T - 1/823))
+        out = 0.179 * np.exp((38280 / R()) * (1/T - 1/823))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in ab() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'H2O':
-        return 0.4152 * np.exp((-88680 / R()) * (1/T - 1/823))
+        out = 0.4152 * np.exp((-88680 / R()) * (1/T - 1/823))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in ab() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'H2':
-        return 0.0296 * np.exp((82900 / R()) * (1/T - 1/648))
+        out = 0.0296 * np.exp((82900 / R()) * (1/T - 1/648))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in ab() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'CO':
-        return 40.91 * np.exp((70650 / R()) * (1/T - 1/648))
+        out = 40.91 * np.exp((70650 / R()) * (1/T - 1/648))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in ab() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise NameError()
@@ -232,11 +287,50 @@ def eq(name, T):
         Returns ``None`` if an incorrect parameter is passed through.
     """
     if str(name) == '1':
-        return 4.707e12 * np.exp(-224000 / (R() * T))
+        out = 4.707e12 * np.exp(-224000 / (R() * T))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in eq() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == '2':
-        return eq(1, T) * eq(3, T)
+        out = eq(1, T) * eq(3, T)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in eq() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == '3':
-        return 1.142e-2 * np.exp(37300 / (R() * T))
+        out = 1.142e-2 * np.exp(37300 / (R() * T))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in eq() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise NameError()
@@ -461,15 +555,80 @@ def P(name, C):
         Returns the pressure of ``name`` in the reactor, in bar.
     """
     if str(name) == 'CH4':
-        return C[7] * C[0] / sum(C[:5])
+        out = C[7] * C[0] / sum(C[:5])
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in P() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'H2O':
-        return C[7] * C[1] / sum(C[:5])
+        out = C[7] * C[1] / sum(C[:5])
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in P() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'H2':
-        return C[7] * C[2] / sum(C[:5])
+        out = C[7] * C[2] / sum(C[:5])
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in P() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'CO':
-        return C[7] * C[3] / sum(C[:5])
+        out = C[7] * C[3] / sum(C[:5])
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in P() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'CO2':
-        return C[7] * C[4] / sum(C[:5])
+        out = C[7] * C[4] / sum(C[:5])
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in P() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise NameError()
@@ -519,7 +678,19 @@ def rho(name):
         # Equation (19) bis
         num = W('cat') + W('CaO')
         den = W('cat')/rho('cat') + W('CaO')/rho('CaO')
-        return num / den
+        out = num / den
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in rho() was \''
+                  + str(out) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise NameError()
@@ -608,11 +779,50 @@ def vit(name, T):
         Returns ``None`` if an incorrect parameter is passed through.
     """
     if str(name) == '1':
-        return 1.842e-4 / 3600 * np.exp((-240100 / R()) * (1/T - 1/648))
+        out = 1.842e-4 / 3600 * np.exp((-240100 / R()) * (1/T - 1/648))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in vit() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == '2':
-        return 2.193e-5 / 3600 * np.exp((-243900 / R()) * (1/T - 1/648))
+        out = 2.193e-5 / 3600 * np.exp((-243900 / R()) * (1/T - 1/648))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in vit() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == '3':
-        return 7.558 / 3600 * np.exp((-67130 / R()) * (1/T - 1/648))
+        out = 7.558 / 3600 * np.exp((-67130 / R()) * (1/T - 1/648))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in vit() was \''
+                  + str(out) + '\'.')
+            print('The value for the temperature (T) was \'' + str(T) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise NameError()

@@ -14,6 +14,9 @@ Created on Fri Feb 16 15:55:14 2024
 """
 
 # %% [0] Imports
+# First-party librairy imports.
+import math
+
 # Third-party librairy imports.
 import numpy as np
 
@@ -111,18 +114,57 @@ def R(name, C):
     """
     if str(name) == '1':
         # Equation (4)
-        return (c.vit(1, C[6]) / c.P('H2', C)**2.5 * (c.P('CH4', C) *
-                c.P('H2O', C) - c.P('H2', C)**3 * c.P('CO', C) / c.eq(1, C[6]))
-                / DEN(C)**2)
+        out = (c.vit(1, C[6]) / c.P('H2', C)**2.5 * (c.P('CH4', C) *
+               c.P('H2O', C) - c.P('H2', C)**3 * c.P('CO', C) / c.eq(1, C[6]))
+               / DEN(C)**2)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in R() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == '2':
         # Equation (5)
-        return (c.vit(2, C[6]) / c.P('H2', C)**3.5 * (c.P('CH4', C) *
-                c.P('H2O', C)**2 - c.P('H2', C)**4 * c.P('CO2', C)
-                / c.eq(2, C[6])) / DEN(C)**2)
+        out = (c.vit(2, C[6]) / c.P('H2', C)**3.5 * (c.P('CH4', C) *
+               c.P('H2O', C)**2 - c.P('H2', C)**4 * c.P('CO2', C)
+               / c.eq(2, C[6])) / DEN(C)**2)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in R() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == '3':
         # Equation (6)
-        return (c.vit(3, C[6]) / c.P('H2', C) * (c.P('CO', C) * c.P('H2O', C)
-                - c.P('H2', C)*c.P('CO2', C)/c.eq(3, C[6])) / DEN(C)**2)
+        out = (c.vit(3, C[6]) / c.P('H2', C) * (c.P('CO', C) * c.P('H2O', C)
+               - c.P('H2', C)*c.P('CO2', C)/c.eq(3, C[6])) / DEN(C)**2)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in R() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise NameError()
@@ -153,9 +195,21 @@ def DEN(C):
     numeric
         Returns the value of the denominator used in the equations in R().
     """
-    return (1 + c.ab('CO', C[6])*c.P('CO', C) + c.ab('H2', C[6])*c.P('H2', C)
-            + c.ab('CH4', C[6])*c.P('CH4', C)
-            + c.ab('H2O', C[6])*c.P('H2O', C)/c.P('H2', C))
+    out = (1 + c.ab('CO', C[6])*c.P('CO', C) + c.ab('H2', C[6])*c.P('H2', C)
+           + c.ab('CH4', C[6])*c.P('CH4', C)
+           + c.ab('H2O', C[6])*c.P('H2O', C)/c.P('H2', C))
+    try:
+        if math.isnan(out):
+            raise ValueError
+    except ValueError:
+        print('')
+        print('')
+        print('')
+        print('Error: value in DEN() was \'' + str(out) + '\'.')
+        print('The input values were \'' + str(C) + '\'.')
+        print('')
+        raise
+    return out
 
 
 # Equations (8), (9), (10), (11) and (12)
@@ -180,19 +234,84 @@ def r(name, C):
     """
     if str(name) == 'CH4':
         # Equation (8)
-        return -R(1, C) - R(2, C)
+        out = -R(1, C) - R(2, C)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in r() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'H2O':
         # Equation (9)
-        return -R(1, C) - 2*R(2, C) - R(3, C)
+        out = -R(1, C) - 2*R(2, C) - R(3, C)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in r() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'H2':
         # Equation (10)
-        return 3*R(1, C) + 4*R(2, C) + R(3, C)
+        out = 3*R(1, C) + 4*R(2, C) + R(3, C)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in r() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'CO':
         # Equation (11)
-        return R(1, C) - R(3, C)
+        out = R(1, C) - R(3, C)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in r() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif str(name) == 'CO2':
         # Equation (12)
-        return R(2, C) + R(3, C)
+        out = R(2, C) + R(3, C)
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' in r() was \''
+                  + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise NameError()
@@ -223,7 +342,19 @@ def kc(C):
     numeric
         Returns the value of the apparent rate of carbonation.
     """
-    return c.M('k') * np.exp(c.N('k') / C[6])
+    out = c.M('k') * np.exp(c.N('k') / C[6])
+    try:
+        if math.isnan(out):
+            raise ValueError
+    except ValueError:
+        print('')
+        print('')
+        print('')
+        print('Error: value for in kc() was \'' + str(out) + '\'.')
+        print('The input values were \'' + str(C) + '\'.')
+        print('')
+        raise
+    return out
 
 
 # Equation (15)
@@ -244,7 +375,19 @@ def b(C):
         Returns the value of the time to get halfway to the ultimate
         fractional conversion of CaO, Xu.
     """
-    return c.M('b') * np.exp(c.N('b') / C[6])
+    out = c.M('b') * np.exp(c.N('b') / C[6])
+    try:
+        if math.isnan(out):
+            raise ValueError
+    except ValueError:
+        print('')
+        print('')
+        print('')
+        print('Error: value for in b() was \'' + str(out) + '\'.')
+        print('The input values were \'' + str(C) + '\'.')
+        print('')
+        raise
+    return out
 
 
 # Equation (18)
@@ -267,7 +410,19 @@ def rcbn(C, mode):
     if mode == 1:
         return 0
     else:
-        return (kc(C) / c.MM('CaO')) * (1 - C[5]/Xu(C))**2
+        out = (kc(C) / c.MM('CaO')) * (1 - C[5]/Xu(C))**2
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for in rcbn() was \'' + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
 
 
 # Equation (18) bis
@@ -287,7 +442,19 @@ def Xu(C):
     numeric
         Returns the value of the ultimate fractional conversion of CaO.
     """
-    return kc(C) * b(C)
+    out = kc(C) * b(C)
+    try:
+        if math.isnan(out):
+            raise ValueError
+    except ValueError:
+        print('')
+        print('')
+        print('')
+        print('Error: value for in Xu() was \'' + str(out) + '\'.')
+        print('The input values were \'' + str(C) + '\'.')
+        print('')
+        raise
+    return out
 
 
 # Equation (19) bis bis
@@ -311,7 +478,19 @@ def rhog(C):
                    c.MM('CO'), c.MM('CO2')])
     P = np.array([c.P('CH4', C), c.P('H2O', C), c.P('H2', C),
                   c.P('CO', C), c.P('CO2', C), ])
-    return 1 / (c.R() * C[6]) * sum(MM * P * 100000)
+    out = 1 / (c.R() * C[6]) * sum(MM * P * 100000)
+    try:
+        if math.isnan(out):
+            raise ValueError
+    except ValueError:
+        print('')
+        print('')
+        print('')
+        print('Error: value for in rhog() was \'' + str(out) + '\'.')
+        print('The input values were \'' + str(C) + '\'.')
+        print('')
+        raise
+    return out
 
 
 # Equation of the reactor's energy balance
@@ -333,12 +512,36 @@ def hW(C, mode, param):
     """
     Rep = c.u('g', mode, param) * c.ep() * rhog(C) * c.dp() / c.mu()
     if Rep > 20 and 0.05 < c.dp()/c.dim('r') < 0.3:
-        return (2.03 * c.k('g') / c.dim('r') * Rep**0.8 * np.exp(-6 * c.dp()
-                / c.dim('r')))
+        out = (2.03 * c.k('g') / c.dim('r') * Rep**0.8 * np.exp(-6 * c.dp()
+               / c.dim('r')))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for in hW() was \'' + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     elif Rep <= 20:
         kz0 = (c.k('g') * (c.ep() + (1 - c.ep())/(0.139*c.ep() - 0.0339
                + 2/3*(c.k('g') / c.k('s')))))
-        return 6.15 * (kz0 / c.dim('r'))
+        out = 6.15 * (kz0 / c.dim('r'))
+        try:
+            if math.isnan(out):
+                raise ValueError
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for in hW() was \'' + str(out) + '\'.')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
+        return out
     else:
         try:
             raise ValueError()
