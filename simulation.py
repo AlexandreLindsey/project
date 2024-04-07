@@ -16,13 +16,13 @@ from scipy.integrate import solve_ivp
 
 
 # %% [1] Main Code
-def calculConcentrationsIVP(fun, x_int, y0, mode=0, param=0):
+def calc_ivp(fun, x_int, y0, mode=0, param=0):
     sol = solve_ivp(lambda x, y: fun(x, y, mode, param), x_int, y0,
                     rtol=0.5e-6)
     return [sol.t, sol.y]
 
 
-def calculConcentrationsEuler(fun, x_int, y0, mode=0, param=0, step=5e-8):
+def calc_euler(fun, x_int, y0, mode=0, param=0, step=5e-8):
     # Generalisation to work with a system of equations:
     # Makes sure that y0 is a numpy array.
     if type(y0) is int:

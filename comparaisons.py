@@ -19,7 +19,7 @@ from scipy.integrate import solve_ivp
 # Local module imports
 import constants as c
 from odefunction import odefunction as ode
-from simulation import calculConcentrationsIVP
+from simulation import calc_ivp
 
 
 # %% [1] Main Code
@@ -32,7 +32,7 @@ def round_(x, n=0):
 if __name__ == '__main__':
     # Initial conditions for odefunction.
     C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
-    # Resolution interval of odefunction used in calculConcentrationsIVP.
+    # Resolution interval of odefunction used in calc_ivp.
     x_int = [0, c.dim('l')]
     # Values used in mode 2 of odefunction.
     PARAM2 = np.array([0.001, 0.005, 0.01, 0.015, 0.02, 0.025])
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     arr_size = 2911
 
     print('Ode mode 0:', end=' ')
-    sol = calculConcentrationsIVP(ode, x_int, C0)
+    sol = calc_ivp(ode, x_int, C0)
     print('completed.')
 
     plt.figure(1)
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     print('T: ' + str(sol[1][6][-1]))
 
     print('Ode mode 1:', end=' ')
-    sol = calculConcentrationsIVP(ode, x_int, C0, mode=1)
+    sol = calc_ivp(ode, x_int, C0, mode=1)
     print('completed.')
 
     plt.figure(3)
@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
     for i in PARAM2:
         print('Ode mode 2, param ' + str(i) + ':', end=' ')
-        sol = calculConcentrationsIVP(ode, x_int, C0, mode=2, param=i)
+        sol = calc_ivp(ode, x_int, C0, mode=2, param=i)
         print('completed.')
 
         legend = 'us: ' + str(round_(i, 0.5))
@@ -171,7 +171,7 @@ if __name__ == '__main__':
 
     for i in PARAM3:
         print('Ode mode 3, param ' + str(i) + ':', end=' ')
-        sol = calculConcentrationsIVP(ode, x_int, C0, mode=3, param=i)
+        sol = calc_ivp(ode, x_int, C0, mode=3, param=i)
         print('completed.')
 
         legend = 'ug: ' + str(round_(i, 0.5))
@@ -226,7 +226,7 @@ if __name__ == '__main__':
     for C0_ in C_:
         print('Ode with H2O/CH4 = ' + str(round((C0_[1]/C0_[0])*10)/10)
               + ':', end=' ')
-        sol = calculConcentrationsIVP(ode, x_int, C0_)
+        sol = calc_ivp(ode, x_int, C0_)
         print('completed.')
 
         legend = 'H20/CH4: ' + str(round((C0_[1]/C0_[0])*10)/10)
@@ -567,7 +567,7 @@ if __name__ == '__main__':
     Y4 = np.zeros(PARAM2.size)
     for i in range(PARAM2.size):
         print('Out | Ode mode 2, param ' + str(PARAM2[i]) + ':', end=' ')
-        sol = calculConcentrationsIVP(ode, x_int, C0, mode=2, param=PARAM2[i])
+        sol = calc_ivp(ode, x_int, C0, mode=2, param=PARAM2[i])
         print('completed.')
 
         Y0[i] = sol[1][0][-1]
