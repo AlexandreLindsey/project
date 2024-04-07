@@ -45,16 +45,31 @@ if __name__ == '__main__':
     C = np.zeros(A.size)
     for i in range(A.size):
         B[i] = optimise_us(Y, A[i], C0)
-    plt.figure(1)
-    plt.plot(A, B, label='us', linewidth=1)
-    plt.plot(A, C, color='black', linewidth=1)
-    plt.ylabel('us - Y (m/s)')
-    plt.xlabel('% CO_2')
+
     x0 = secant(lambda us: optimise_us(Y, us, C0), x, tol=0.5e-8,
                 hybrid=True)
     y0 = optimise_us(Y, x0[1], C0)
     print(x0)
-    plt.plot(x0[1], y0, 'xr')
+
+    plt.figure(1)
+    ax = plt.subplot(1, 1, 1)
+    plt.plot(A, B, linewidth=1)
+    plt.plot(A, C, color='black', linewidth=1)
+    plt.plot(x0[1], y0, 'xr', label=': us optimal')
+    plt.xlabel('us (m/s)')
+    plt.ylabel('Concentration de CO2 (%) - Y')
+    ax.spines[['right', 'top']].set_visible(False)
+    plt.legend(loc='upper right', bbox_to_anchor=(1, 1), frameon=False)
+
+    plt.figure(2)
+    ax = plt.subplot(1, 1, 1)
+    plt.plot(A, B+Y, linewidth=1)
+    plt.plot(A, C+Y, color='black', linewidth=1)
+    plt.plot(x0[1], y0+Y, 'xr', label=': us optimal')
+    plt.xlabel('us (m/s)')
+    plt.ylabel('Concentration de CO2 (%)')
+    ax.spines[['right', 'top']].set_visible(False)
+    plt.legend(loc='upper right', bbox_to_anchor=(1, 1), frameon=False)
     plt.show()
 
     PARAM4 = np.arange(960, 1036, 1)
@@ -65,6 +80,10 @@ if __name__ == '__main__':
         D[i] = secant(lambda us: optimise_us(Y, us, C0, mode_=4,
                       param1=PARAM4[i]), x, tol=0.5e-8, hybrid=True)[1]
         print(str(PARAM4[i]) + ": " + str(D[i]))
-    plt.figure(2)
+    plt.figure(3)
+    ax = plt.subplot(1, 1, 1)
     plt.plot(PARAM4, D, linewidth=1)
+    plt.xlabel('Temperature (K)')
+    plt.ylabel('us (m/s)')
+    ax.spines[['right', 'top']].set_visible(False)
     plt.show()
