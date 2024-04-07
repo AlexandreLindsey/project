@@ -18,7 +18,7 @@ from scipy.integrate import solve_ivp
 # %% [1] Main Code
 def calculConcentrationsIVP(fun, x_int, y0, mode=0, param=0):
     sol = solve_ivp(lambda x, y: fun(x, y, mode, param), x_int, y0,
-                    rtol=0.5e-6, max_step=10e-7)
+                    rtol=0.5e-6)
     return [sol.t, sol.y]
 
 
