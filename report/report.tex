@@ -55,24 +55,25 @@
             Notre fonction sécante requiert trois arguments nécessaires au bon fonctionnement de la méthode qui sont :
             \begin{itemize}
                 \item $fun$, la fonction dont on recherche les racines,
-                \item $x$, un tableau contenant les deux valeurs de $x$ de départ
-                \item $tol$, la tolérance qui permet de gérer la précision des résultats
-                    (la boucle s'arrète lorsque $abs(x0-x1)>= tol$)
+                \item $x$, un tableau contenant les deux valeurs de $x$ de départ,
+                \item $tol$, la tolérance qui permet de gérer la précision des résultats,
             \end{itemize}
             \par
-            Logiquement nous devons donc compromettrefonction la précision pour limiter les calculs
+            Logiquement nous devons donc compromettre la précision pour limiter les calculs
             et donc ne pas mettre une tolérance trop faible.
-            Nous avons opté, après une multitude d'essais, pour une valeur de $5\times10^{-4}$ qui nous permet de garder une bonne précision pour un temps d'exécution faible.
+            Nous avons opté, après une multitude d'essais, pour une tolérance de $5\times10^{-4}$ qui nous permet de garder 
+            une bonne précision pour un temps d'exécution faible. Par exemple pour vérifier si une valeur est "égale" à une autre,
+            nous implémentons \\$\vert x0-x1 \vert \leq  tol$, les méthodes numériques ne pouvant pas être infiniment précises.
             \par
             Nous avons implémenté la fonction en s'assurant tout d'abord que toutes les conditions initiales soient bonnes
             et, pour que la fonction n'itère pas à l'infini,
             nous avons introduit $max\_i$ en arguments $kwargs$ avec une valeur par défaut élevée qui restreint la fonction
             à ne pas faire plus d'itérations que ce nombre tout en laissant une marge afin de ne pas arrêter trop vite l'exécution.
-            Après avoir pris nos précautions, une boucle va itérer tant que l'évaluation de la fonction en $x1$ est plus petite ou égale à notre $tol$
-            (nous utilisons la tolérance car il est quasiment impossible que la valeur soit exactement égale à $0$ par les méthodes numériques).
+            Après avoir pris nos précautions, une boucle va itérer tant que $f(x1) \leq tol$
+            (nous utilisons de nouveau la tolérance car il est quasiment impossible que la valeur soit exactement égale à $0$ par les méthodes numériques).
             \par
-            Nous avons décidé de séparer le calcul du numérateur et du dénominateur :  si le numérateur $y1\times(x1 - x0)$ est égal à $0$,
-            $x0$ et $x1$ doivent avoir la même valeur du coup la fonction retourne $-1$ pour indiquer que la fonction ne converge pas.
+            Nous avons décidé de séparer le calcul du numérateur et du dénominateur afin de s'éviter certaines problématiques :  si le numérateur $y1\times(x1 - x0)$ 
+            est égal à $0$, $x0$ et $x1$ doivent avoir la même valeur du coup la fonction retourne $-1$ pour indiquer que la fonction ne converge pas.
             Si le dénominateur $y1 - y0$ est égal à $0$, la fonction ne converge pas vu la méthode de la sécante :
             la droite passe par deux points qui forment une droite parallèle à l'abscisse.
             La boucle se finira soit par le non-respect de sa condition ou bien si la boucle fait un nombre anormalement grand d'itérations.
@@ -90,7 +91,7 @@
 
     \mychapter{2}{Question 2}
         \section{Création d'odefunction}
-            Notre fonction $odefunction$ est une fonction qui reçois trois arguments :
+            Notre fonction $odefunction$ est une fonction qui reçoit trois arguments :
             \begin{itemize}
                 \item $z$, la distance axiale  du réacteur
                 \item $C0$, le tableau avec les valeurs initiales des huit variables d'état :
@@ -103,7 +104,7 @@
             La fonction odefunction calcule la dérivée du tableau $\frac{dC}{dz}$ et retourne ces valeurs.
             Pour plus de clarté et de flexibilité, les constantes ont été placées dans le fichier $constants.py$.
             Certaines constantes sont implémentées sous forme de fonction,
-            cela n'est pas optimisé pour le temps mais nous avons opté pour cette option par soucis de lisibilité
+            certes cela n'est pas optimisé pour le temps mais nous avons opté pour cette option par soucis de lisibilité
             et de flexibilité, ce qui nous a aidé pour la question 3.
 
         \section{Résolution d'équation différentielle}
@@ -114,23 +115,27 @@
                 \item $fun$, la fonction à résoudre
                 \item $x$, un tableau contenant les bornes pour lesquels l'équation doit être résolue
                 \item $y0$, les valeurs initiales de la fonction
-                \item $step$, le pas qui est par défault à 5e-8
+                \item $step$, le pas qui est défini à $5\times10^{-8}$
                 \item $mode$ et $param$, qui nous serviront plus tard.
             \end{itemize}
-            La fonction renvoie une approximation de la résolution de la fonction.
+            La fonction renvoie une approximation de la fonction inconnue.
             \par
-            La fonction $solve\_ivp$ prend les mêmes arguments que $calculConcentrationEuler$. 
-            Nous avons aussi modifier les valeurs de la tolérance relative $rtol$ et de la taille maximum du pas $max\_step$
-            qui ont tous deux pour but d'augmenter la précision de notre approximation.
-            Nous avons choisi notre $rtol$ égale à $5\times10^{-7}$ et notre max-step égale à $1\times10^{-6}$,
-            ces valeurs sont les meilleurs compromis que nous avons trouvé entre une précision correcte
-            et une durée d'exécution minimale.
+            Pour justifier notre choix de pas de $5\times10^{-8}$ nous allons nous servir de la figure 2.1
+            où, dans ce tableau crée expérimentalement, nous avons répertorié les taux d'erreur et temps d'exécution par pas.
+            Pour cela, nous avons effectué plusieurs simulations sur une distance radiale réduite de 0.01m (les calculs étants plus courts)
+            et comme comparaison pour l'erreur la résolution des équations par $solve\_ivp$ avec l'accent mis sur une grande précision. Les
+            valeurs de pas qui ont un taux d'erreur acceptable sont toutes les valeurs plus petites que $5\times10^{-8}$
+            car le taux d'erreur est en dessous de $1\%$ et les valeurs de pas qui prennent
+            un temps acceptable sont celle plus grandes que $5\times10^{-8}$ qui prend quasiment 2 minutes sur cet
+            intervalle réduit alors que le palier suivant a $5\times10^{-9}$ prend plus de dix fois plus de temps.
+            Donc grâce a toutes ces données nous avons conclu que la valeur la plus approprié pour la
+            tolérance est $5\times10^{-8}$.
             \par
             \begin{figure}[h]
                 \centering
                 \begin{tabular}{|c|c|c|}
                     \hline
-                    $tol$   & Temps             & Taux d'erreur\\
+                    $step$   & Temps             & Taux d'erreur\\
                     \hline
                     \hfill $5e-1$  & \hfill $19.7\ \mu s$     & \hfill $61.41\%$\\
                     \hfill $5e-2$  & \hfill $20.9\ \mu s$     & \hfill $61.41\%$\\
@@ -140,16 +145,21 @@
                     \hfill $5e-10$ & \hfill $3\ h\ 3\ min$    & \hfill $0.0003\%$\\
                     \hline
                 \end{tabular}
-                \caption{Taux d'erreur par tolérance}
+                \caption{Taux d'erreur et temps d'exécution par pas décroissants}
                 \label{tab:tol}
             \end{figure}
+            \newpage
             \par
-            Après plusieurs tests, nous pouvons conclure que $solve\_ivp$ est beaucoup plus efficace que notre fonction.
-            Notre fonction prend environs (((x minutes))) pour résoudre l'équation tandis que $solve\_ivp$ ne prend que 19.22 minutes,
-            $solve\_ivp$ va donc (((x))) fois plus vite.
+            La fonction $solve\_ivp$ prend les mêmes arguments que $calculConcentrationEuler$. 
+            Nous avons modifier la valeur de la tolérance relative $rtol$ qui a pour but d'augmenter la précision de notre approximation.
+            Nous avons choisi notre $rtol$ égal à $10^{-6}$, c'est une valeur qui apporte la précision requise en un temps d'execution imperceptible.
+            \par
+            Après plusieurs essais, nous pouvons conclure que $solve\_ivp$ est beaucoup plus efficace que notre fonction.
+            Notre fonction prend environs 48.67 minutes pour résoudre l'équation selon le profiler
+            tandis que $solve\_ivp$ ne prend que $90\ milisecondes$, soit environ 33000 fois plus vite.
             Ceci est probablement dû au fait que $solve\_ivp$ utilise un pas variable mais pas notre fonction.
-            $solve\_ivp$ est également beaucoup plus précis puisqu'elle utilise une méthode d'ordre suprérieur.
-            Nous concluons que $solve\_ivp$ est beaucoup plus efficace, que ce soit pour le temps d'exécution que pour la précision.
+            La fonction $solve\_ivp$ est également beaucoup plus précise puisqu'elle utilise une méthode d'ordre suprérieur.
+            Nous concluons que $solve\_ivp$ est beaucoup plus efficace, que ce soit pour le temps d'exécution ou pour la précision.
     \mychapter{3}{Question 3}
         Pour cette question 3, nous avons introduit les arguments optionnels $mode$ et $param$ à odefunction.
         $mode$ nous permet de tester différentes conditions de notre réacteur.
@@ -159,7 +169,7 @@
         et lorsqu'il est à $3$, on remplace $ug$ par la valeur de $param$.
         \section{Modèle sans capture de $CO_2$}
             Afin de comparer un modèle de réacteur avec et sans capture de $CO_2$,
-            nous avons mis le mode de odefunction à 3, soit un modèle sans capture de $CO_2$.
+            nous avons mis le mode de odefunction à 1, soit un modèle sans capture de $CO_2$.
             Pour simuler ceci, nous avons remplacé la conversion fractionnaire ($X$),
             le taux de consommation de $CO_2$ par carbonatation ($rcbn$)
             et la vitesse d'entré du $CaO$ dans le réacteur ($us$)
@@ -180,6 +190,7 @@
                     \label{graph:con:1}
                 \end{minipage}
             \end{figure}
+            \par
             Pour comparer un système avec et sans carbonatation,
             il est difficile d'utiliser des graphiques car,
             comme on peut le voir aux figures \ref{graph:con:0} et \ref{graph:con:1} ,
@@ -188,6 +199,7 @@
             Donc quand on bloque la capture de $CO_2$ : le $CH_4$, le $CO_2$
             et le $CO$  le  augmentent de $14.7\%$, $12.6\%$ et $6.5\%$ respectivement.
             Le $H_2$ et la température diminuent seulement de $0.9\%$ et $0.5\%$ respectivement.
+            \par
             \begin{figure}[ht]
                 \centering
                 \begin{tabular}{|c|c|c|c|}
@@ -204,30 +216,31 @@
                 \caption{Effet de la carbonatation sur le modèle}
                 \label{tab:carb}
             \end{figure}
+            \newpage
 
-        \section{Effet du flux de CaO sur le modèle}
-            Pour analyser l'effet du flux d'entré de $CaO$,
+        \section{Effet de l'augmentation du flux de CaO sur le modèle}
+            Pour analyser l'effet du flux d'entrée de $CaO$,
             nous avons fait varier la valeur de $us$ à l'aide du mode 2.
-            Nous l'avons fait varié de $0.001$ à $0.025\ m.s^{-1}$.
+            Nous l'avons fait varier de $0.001$ à $0.025\ m.s^{-1}$.
             \par
-            (((EXPLIQUER GRAPHIQUES)))
+            (((EXPLIQUER GRAPHIQUES ET METTRE GRAPHIQUES)))
         
-        \section{Effet du flux des gaz sur le modèles}
+        \section{Effets de l'augmentation du flux des gaz sur le modèle}
             Pour analyser le flux des gaz, nous avons fait varier $ug$ à l'aide du mode 3
             en changeant la valeur de $1$ à $3\ m.s^{-1}$ avec un pas de $0.5$.
             \par
-            (((EXPLIQUER GRAPHIQUES)))
+            (((EXPLIQUER GRAPHIQUES ET METTRE GRAPHIQUES)))
         
         \section{Effet de la composition du gaz d'entrer sur le modèle}
             Dans le but de modifier les compositions initiales de gaz,
             nous avons fait varier le rapport des concentrations initiales en $H_2O$ et $CH_4$ de $3$ à $0.3$.
             \par
-            (((EXPLIQUER GRAPHIQUES)))
+            (((EXPLIQUER GRAPHIQUES ET METTRE GRAPHIQUES)))
 
     \mychapter{4}{Question 4}
-        \section{Fonction du taux de $CO_2$ par rapport à $us$}
+        \section{Taux de $CO_2$ optimal par rapport à $ug$}
             $optimise\_us$ crée la fonction du pourcentage de $CO_2$ en sortie par rapport à $us$,
-            ce qui nous permet de déterminer un $us$ optimal.
+            ce qui nous permet de déterminer un $us$ optimal pour une concentration donnée.
             Cette fonction prend 5 arguments en entrée :
             \begin{itemize}
                 \item $Y$, le pourcentage de $CO_2$ souhaité à la sortie du réacteur
@@ -238,7 +251,7 @@
             Cette fonction résout odefunction grâce à $solve\_ivp$ et retourne la concentration
             finale de $CO_2$ divisé par la somme des concentration finale de $CH_4$, $H_2$,
             $CO$ et de $CO_2$. Le tout est ensuite soustrait par $Y$ pour corriger le décalage vertical.
-        \section{Recherche d'un $us$ optimal}
+        \section{Recherche d'un $us$ optimale}
             \begin{figure}[h]
                 \centering
                 \includesvg[width=0.5\textwidth]{"image/opt_us"}
@@ -249,7 +262,7 @@
             en $CO_2$ de $7.5\%$.
             On peut voir la fonction $optimise\_us$ ainsi que la valeur optimal sur la figure \ref{graph:us}
             qui représente $us$ en fonction du pourcentage de $CO_2$ parmis les gaz secs en sortie.
-            Notre fonction \textit{hybrid} nous renvoit une racine située en $x = 0.101$.
+            Notre fonction \textit{hybrid} sécante nous renvoit une racine située en $x = 0.101$.
             \par
             La méthode utilisée pour trouver la racine est une méthode hybride qui est simplement
             la méthode de la sécante légèrement modifiée : si la sécante ne converge pas dû à des
@@ -257,17 +270,19 @@
             alors on s'inspire de la méthode de la bissection pour  débloquer la situation.
             Pour ce faire, on effectue la moyenne des deux points et on utilise ce nouveau point pour relancer
             la fonction sécante. Ce faisant, on bénéficie de la précision accrue de la méthode de la sécante
-            ainsi que sa vitesse bien supérieure a la bissection
+            ainsi que sa vitesse bien supérieure a la bissection. De plus, la méthode de la sécante ne demande 
+            pas d'avoir $f(x0)$ et $f(x1)$ de signes contraires. C'est pour ces raisons que la sécante nous a 
+            paru être la bonne méthode a utiliser.
         \section{Effet de la température sur le us optimale}
             La figure \ref{graph:us/T} illustre la variation du $us$ optimal en fonction de la température.
             Il est clair que $us$ dépend de la température. 
-            Nous le voyons décroitre très rapidement, presque exponentiellement.
+            Nous le voyons décroitre très rapidement, presque exponentiellement à mesure que la température augmente.
             Donc, plus la température est élevée, plus la vitesse d'entrée
             optimale des gaz pour un pourcentage de $CO_2$ donné est petite.
             \begin{figure}[h]
                 \centering
                 \includesvg[width=0.5\textwidth]{"image/opt_us-T"}
-                \caption{(((Us en fonction de la température)))}
+                \caption{L'effet de la température T sur le us optimal}
                 \label{graph:us/T}
             \end{figure}
 
