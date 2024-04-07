@@ -7,10 +7,10 @@
 \contentsline {section}{\numberline {2.2}Résolution d'équation différentielle}{3}{}%
 \contentsline {chapter}{Question 3}{5}{}%
 \contentsline {section}{\numberline {3.1}Modèle sans capture de \ce {CO2}}{5}{}%
-\contentsline {section}{\numberline {3.2}Effet de l'augmentation du flux des solides sur le modèle}{5}{}%
-\contentsline {section}{\numberline {3.3}Effets de l'augmentation du flux des gaz sur le modèle}{6}{}%
-\contentsline {section}{\numberline {3.4}Effet de la composition du gaz d'entrée sur le modèle}{6}{}%
-\contentsline {chapter}{Question 4}{8}{}%
-\contentsline {section}{\numberline {4.1}Taux de \ce {CO2} optimal par rapport à \texttt {ug}}{8}{}%
-\contentsline {section}{\numberline {4.2}Recherche d'un \texttt {us} optimal}{8}{}%
-\contentsline {section}{\numberline {4.3}Effet de la température sur le \texttt {us} optimal}{8}{}%
+\contentsline {section}{\numberline {3.2}Effet de l'augmentation du flux des solides sur le modèle}{6}{}%
+\contentsline {section}{\numberline {3.3}Effets de l'augmentation du flux des gaz sur le modèle}{7}{}%
+\contentsline {section}{\numberline {3.4}Effet de la composition du gaz d'entrée sur le modèle}{7}{}%
+\contentsline {chapter}{Question 4}{9}{}%
+\contentsline {section}{\numberline {4.1}Taux de \ce {CO2} optimal par rapport à \texttt {ug}}{9}{}%
+\contentsline {section}{\numberline {4.2}Recherche d'un \texttt {us} optimal}{9}{}%
+\contentsline {section}{\numberline {4.3}Effet de la température sur le \texttt {us} optimal}{10}{}%

@@ -27,7 +27,7 @@
         \begin{center}
             \textbf{\Huge Production d'\ce{H2} par reformage catalytique\\ de \ce{CH4} et captage de \ce{CO2}\\ dans un réacteur.}
         \end{center}
-        \includesvg[width=0.75\textwidth]{"image/3d_CO"}
+        \includesvg[width=0.75\textwidth]{"image/3d_CO_mode2"}
         \parbox{\textwidth}{
             \includesvg[height=0.025\textheight]{"image/fsa_text"}
             \hspace{-0.4em}
@@ -221,10 +221,6 @@
             et le \ce{CO} augmentent de \SI{14.7}{\percent}, \SI{12.6}{\percent} et \SI{6.5}{\percent} respectivement.
             Le \ce{H2} et la température (\verb|T|) diminuent de \SI{0.9}{\percent} et \SI{0.5}{\percent} respectivement.
         \section{Effet de l'augmentation du flux des solides sur le modèle}
-            Pour analyser l'effet du flux des solides,
-            nous avons fait varier la valeur de \verb|us| à l'aide du \verb|mode| 2.
-            Nous l'avons fait varier de \SI{0.001}{\meter\per\second} à \SI{0.025}{\meter\per\second}
-             et créer ces graphiques pour chaque variable d'état indépendamment avec plusieurs valeurs de \verb|us|.
             \begin{figure}[ht]
                 \centering
                 \begin{subfigure}[t]{0.325\textwidth}
@@ -263,19 +259,55 @@
                 \caption{Concentrations et températures (\texttt{T}) des gaz}
                 \label{graph:con:2}
             \end{figure}
-            De manière générale, les variations de  vont impacter relativement beaucoup 
-            les concentrations et la température au début du réacteur mais à la sortie,
-            l'écart avec le us de base (\SI{0.001}{\meter\per\second}), est plus faible. C'est pour cela que 
+            Pour analyser l'effet du flux des solides,
+            nous avons fait varier la valeur de \verb|us| à l'aide du \verb|mode| 2.
+            Nous l'avons fait varier de \SI{0.001}{\meter\per\second} à \SI{0.025}{\meter\per\second}
+            et créer ces graphiques (figure \ref{graph:con:2}) pour chaque variable d'état indépendamment avec plusieurs valeurs de \verb|us|.
+            \begin{figure}[ht]
+                \centering
+                \begin{subfigure}[t]{0.325\textwidth}
+                    \centering
+                    \includesvg[width=0.95\textwidth]{"image/CH4_mode2_us"}
+                    \caption{\ce{CH4}}
+                    \label{graph:con:2:us:CH4}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}[t]{0.325\textwidth}
+                    \centering
+                    \includesvg[width=0.95\textwidth]{"image/H2_mode2_us"}
+                    \caption{\ce{H2}}
+                    \label{graph:con:2:us:H2}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}[t]{0.325\textwidth}
+                    \centering
+                    \includesvg[width=0.95\textwidth]{"image/CO_mode2_us"}
+                    \caption{\ce{CO}}
+                    \label{graph:con:2:us:CO}
+                \end{subfigure}
+                \hfill
+                \begin{subfigure}[t]{0.325\textwidth}
+                    \centering
+                    \includesvg[width=0.95\textwidth]{"image/CO2_mode2_us"}
+                    \caption{\ce{CO2}}
+                    \label{graph:con:2:us:CO2}
+                \end{subfigure}
+                \caption{Concentrations et températures (\texttt{T}) des gaz}
+                \label{graph:con:2:us}
+            \end{figure}
+            \par
+            De manière générale, les variations de \verb|us| vont impacter relativement beaucoup 
+            les concentrations et la température (\verb|T|) au début du réacteur mais à la sortie,
+            l'écart avec le \verb|us| de base (\SI{0.001}{\meter\per\second}), est plus faible. C'est pour cela que 
             nous n'avons pas pris une plage de valeur de us plus grande, nous voyons avec 
             ces valeurs une bonne représentation de ce qui se passe avec des valeurs de 
-            \verb|us| > 0.001. Nous pouvons séparer toutes les variables d'états en deux comportements 
-            différents : celles qui diminuent au fur et à mesure que la valeur de us augmente
-            qui sont le \ce{CH4} et le \ce{CO2} et celle qui augmentent au fur et mesure que us augmente, 
+            \verb|us| $>$ 0.001. Nous pouvons séparer toutes les variables d'états en deux comportements 
+            différents : celles qui diminuent au fur et à mesure que la valeur de \verb|us| augmente
+            qui sont le \ce{CH4} et le \ce{CO2} et celle qui augmentent au fur et mesure que \verb|us| augmente, 
             à savoir le \ce{H2}, le \ce{CO}, et la température.
             Afin de mieux comprendre quels sont les variations des gaz à la sortie du réacteur, 
             pour mieux voir les quantités que l'on récupère,
-            voici un autre graphique des concentrations des gaz secs en fonction de \verb|us|.
-            (((GRAPHIQUEEE)))
+            voici d'autres graphiques (figure \ref{graph:con:2:us}) des concentrations des gaz secs en fonction de \verb|us|.
         
         \section{Effets de l'augmentation du flux des gaz sur le modèle}
             Pour analyser le flux des gaz, nous avons fait varier \verb|ug| à l'aide du \verb|mode| 3
@@ -323,12 +355,6 @@
         \section{Effet de la composition du gaz d'entrée sur le modèle}
             Dans le but de modifier les compositions initiales de gaz,
             nous avons fait varier le rapport des concentrations initiales en \ce{H2O} et \ce{CH4} de 3 à 0.3.
-
-            Comme illustré sur les 5 graphiques ci-dessous, l'augmentation de ug produit exactement l'effet 
-            inverse à l'augmentation de \verb|us|. Au début, les données sont très sensibles aux variation de \verb|ug| 
-            et très peu sensible a ces variation à la fin du réacteur. Nous pouvons aussi séparer les données 
-            de sorties en deux, mais cette fois-ci ce sont le \ce{H2}, le \ce{CO} et la température qui diminuent 
-            tandis que le \ce{CH4} et le \ce{CO2} augmentent quand la valeur de \verb|ug| augmente
             \begin{figure}[ht]
                 \centering
                 \begin{subfigure}[t]{0.325\textwidth}
@@ -367,6 +393,12 @@
                 \caption{Concentrations et températures (\texttt{T}) des gaz}
                 \label{graph:con:C0}
             \end{figure}
+            \par
+            Comme illustré sur la figure \ref{graph:con:C0}, l'augmentation de \verb|ug| produit exactement l'effet 
+            inverse à l'augmentation de \verb|us|. Au début, les données sont très sensibles aux variation de \verb|ug| 
+            et très peu sensible a ces variation à la fin du réacteur. Nous pouvons aussi séparer les données 
+            de sorties en deux, mais cette fois-ci ce sont le \ce{H2}, le \ce{CO} et la température qui diminuent 
+            tandis que le \ce{CH4} et le \ce{CO2} augmentent quand la valeur de \verb|ug| augmente
 
     \mychapter{4}{Question 4}
         \section{Taux de \ce{CO2} optimal par rapport à \texttt{ug}}
@@ -381,7 +413,7 @@
             \end{itemize}
             Cette fonction résout odefunction grâce à \verb|solve_ivp| et retourne la concentration
             finale de \ce{CO2} divisé par la somme des concentration finale de \ce{CH4}, \ce{H2},
-            \ce{CO} et de \ce{CO2}. Le tout est ensuite soustrait par $Y$ pour corriger le décalage vertical.
+            \ce{CO} et de \ce{CO2}. Le tout est ensuite soustrait par \verb|Y| pour corriger le décalage vertical.
         \section{Recherche d'un \texttt{us} optimal}
             \begin{figure}[ht]
                 \centering
