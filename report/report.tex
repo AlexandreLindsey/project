@@ -10,448 +10,448 @@
 \usepackage{subcaption}
 
 \newcommand{\mychapter}[2]{
-    \setcounter{chapter}{#1}
-    \setcounter{section}{0}
-    \chapter*{#2}
-    \addcontentsline{toc}{chapter}{#2}
+  \setcounter{chapter}{#1}
+  \setcounter{section}{0}
+  \chapter*{#2}
+  \addcontentsline{toc}{chapter}{#2}
 }
 
 \title{
-    {
-        \parbox{\textwidth}{
-            \textbf{\textsc{\Large Introduction aux méthodes numériques et projet}}
-            \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
-            \hfill \textbf{\textsc{\normalsize Année académique 2023-2024}}\\
-        }
-        \vfill \leavevmode
-        \begin{center}
-            \textbf{\Huge Production d'\ce{H2} par reformage catalytique\\ de \ce{CH4} et captage de \ce{CO2}\\ dans un réacteur.}
-        \end{center}
-        \includesvg[width=0.75\textwidth]{"image/3d_CO_mode2"}
-        \parbox{\textwidth}{
-            \includesvg[height=0.025\textheight]{"image/fsa_text"}
-            \hspace{-0.4em}
-            \textbf{\normalsize \hfill \today}
-            \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
-            \textbf{
-                \normalsize
-                \begin{tabular}{p{0.295\textwidth}p{0.295\textwidth}p{0.295\textwidth}}
-                    \hfil \textsc{Moreci} Raffaele & \hfil \textsc{Odding} Luca & \hfil \textsc{Lindsey} Alexandre\\
-                    \hfil S2304531                 & \hfil S2303933             & \hfil S2302371
-                \end{tabular}
-            }
-        }
+  {
+    \parbox{\textwidth}{
+      \textbf{\textsc{\Large Introduction aux méthodes numériques et projet}}
+      \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
+      \hfill \textbf{\textsc{\normalsize Année académique 2023-2024}}\\
     }
+    \vfill \leavevmode
+    \begin{center}
+      \textbf{\Huge Production d'\ce{H2} par reformage catalytique\\ de \ce{CH4} et captage de \ce{CO2}\\ dans un réacteur.}
+    \end{center}
+    \includesvg[width=0.75\textwidth]{"image/3d_CO_mode2"}
+    \parbox{\textwidth}{
+      \includesvg[height=0.025\textheight]{"image/fsa_text"}
+      \hspace{-0.4em}
+      \textbf{\normalsize \hfill \today}
+      \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
+      \textbf{
+        \normalsize
+        \begin{tabular}{p{0.295\textwidth}p{0.295\textwidth}p{0.295\textwidth}}
+          \hfil \textsc{Moreci} Raffaele & \hfil \textsc{Odding} Luca & \hfil \textsc{Lindsey} Alexandre\\
+          \hfil S2304531         & \hfil S2303933       & \hfil S2302371
+        \end{tabular}
+      }
+    }
+  }
 }
 \author{}
 \date{}
 
-\begin{document}    
-    \maketitle
+\begin{document}  
+  \maketitle
 
-    \newgeometry{margin=2.5cm, top=2.5cm, bottom=2.5cm}
+  \newgeometry{margin=2.5cm, top=2.5cm, bottom=2.5cm}
+  
+  \tableofcontents
+
+  \mychapter{1}{Question 1}
+    \section{Méthode de la sécante}
+      Notre fonction \verb|secant| requiert trois arguments nécessaires au bon fonctionnement de la méthode qui sont :
+      \begin{itemize}
+        \item \verb|fun|, la fonction dont on recherche les racines
+        \item \verb|x|, un tableau contenant les deux valeurs de \verb|x| de départ
+        \item \verb|tol|, la tolérance qui permet de gérer la précision des résultats
+      \end{itemize}
+      \par
+      Logiquement nous devons donc compromettre la précision pour limiter les calculs
+      et donc ne pas mettre une tolérance trop faible.
+      Nous avons opté, après une multitude d'essais, pour une tolérance de \num{5e-4} qui nous permet de garder 
+      une bonne précision pour un temps d'exécution faible. Par exemple pour vérifier si une valeur est égale à 0,
+      nous implémentons \verb|abs(y1) < tol|, les méthodes numériques ne pouvant pas être infiniment précises.
+      \par
+      Nous avons implémenté la fonction en s'assurant tout d'abord que toutes les conditions initiales soient bonnes
+      et, pour que la fonction n'itère pas à l'infini,
+      nous avons introduit \verb|max_i| en arguments \verb|kwargs| avec une valeur par défaut élevée qui restreint la fonction
+      à ne pas faire plus d'itérations que ce nombre tout en laissant une marge afin de ne pas arrêter trop vite l'exécution.
+      Après avoir pris nos précautions, une boucle va itérer tant que \verb|fun(x1) < tol|
+      (nous utilisons de nouveau la tolérance car il est quasiment impossible que la valeur soit exactement égale à 0 par les méthodes numériques).
+      \par
+      Nous avons décidé de séparer le calcul du numérateur et du dénominateur afin de s'éviter certaines problématiques. Si le numérateur, \verb|y1*(x1 - x0)|,
+      est égal à 0, \verb|x0| et \verb|x1| doivent avoir la même valeur. Du coup la fonction retourne \num{-1} pour indiquer que la fonction ne converge pas.
+      Si le dénominateur, \verb|y1 - y0|, est égal à 0, la fonction ne converge pas vu la méthode de la sécante :
+      la droite passe par deux points qui forment une droite parallèle à l'abscisse.
+      La boucle se finira si il y a un non-respect de sa condition ou si la boucle fait un nombre anormalement grand d'itérations.
+      
+    \section{Méthode de la bissection}
+      Les arguments sont les mêmes que dans la méthode de la sécante avec la même tolérance de \num{5e-4} mais sans introduire \verb|max_i|
+      car si les conditions initiales sont respectées, la fonction convergera toujours.
+      Nous nous assurons donc que les conditions initiales sont respectées en posant l'hypothèse que la fonctions traitée est continue.
+      \par
+      Pour se rapprocher de la racine nous allons itérer pendant \verb|k| itérations égal à
+      $log_2(\frac{x1-x0}{2\times tol})$ comme vu dans le cours.
+      Dans cette boucle, on calcule la moyenne des abscisses des deux points qui sera celle de notre nouveau point.
+      Si la valeur de la fonction en ce point est positive, on remplace \verb|x1| (à image positive) par cette moyenne et inversement.
+      Après toutes les itérations, la valeur de \verb|xi| sera la valeur de notre racine.
+
+  \mychapter{2}{Question 2}
+    \section{Création d'odefunction}
+      Notre fonction \verb|odefunction| est une fonction qui doit recevoir trois arguments :
+      \begin{itemize}
+        \item \verb|z|, la distance axiale du réacteur
+        \item \verb|C0|, le tableau avec les valeurs initiales des huit variables d'état :
+          les concentrations initiales en \ce{CH4}, \ce{H2O}, \ce{H2}, \ce{CO}, \ce{CO2}
+          la conversion fractionnaire \verb|X|,
+          la température \verb|T|
+          et la pression \verb|P|
+        \item \verb|mode| et \verb|param|, qui nous serviront plus tard
+      \end{itemize}
+      La fonction \verb|odefunction| calcule la dérivée du tableau $\frac{dC}{dz}$ et retourne ces valeurs.
+      Pour plus de clarté et de flexibilité, les constantes ont été placées dans le module \verb|constants|.
+      Certaines constantes sont implémentées sous forme de fonction.
+      Cela n'est pas optimisé pour le temps mais nous avons opté pour cette option par soucis de lisibilité
+      et de flexibilité, ce qui nous a aidé pour la question 3.
+
+    \section{Résolution d'équation différentielle}
+      Notre fonction \verb|calc_euler| est une fonction qui suit la méthode d'Euler explicite au premier ordre
+      pour résoudre approximativement l'équation contenue dans odefunction.
+      Cette fonction prend cinq arguments en entrée :
+      \begin{itemize}
+        \item \verb|fun|, la fonction à résoudre
+        \item \verb|x|, un tableau contenant les bornes pour lesquels l'équation doit être résolue
+        \item \verb|y0|, les valeurs initiales de la fonction
+        \item \verb|step|, le pas qui est défini par défault à \num{5e-8}
+        \item \verb|mode| et \verb|param|, qui nous serviront plus tard.
+      \end{itemize}
+      La fonction renvoie une approximation de la fonction inconnue.
+      \par
+      Pour trouver le meilleur \verb|step|, nous nous sommes référés aux données de la figure \ref{tab:step}.
+      Dans ce tableau crée expérimentalement, nous avons répertorié les taux d'erreur et temps d'exécution par \verb|step|.
+      Pour cela, nous avons effectué plusieurs simulations sur une distance radiale réduite de \SI{0.01}{\meter} (les calculs étants plus courts).
+      Pour déterminer l'erreur, nous avons fait résoudre les équations à \verb|solve_ivp| avec l'accent mis sur une grande précision. Les
+      valeurs de pas qui ont un taux d'erreur acceptable sont toutes les valeurs plus petites que \num{5e-7}
+      car leur taux d'erreur est en-dessous de \SI{1}{\percent} et les valeurs de pas qui prennent
+      un temps acceptable sont celle plus grandes que \num{5e-9} (en prennant en compte
+      que toutes ces valeurs sont sur un intervalle réduit). Du coup, nous avons choissi \num{5e-8} qui prend quasiment 2 minutes
+      sur cet intervalle réduit puisque le palier suivant, \num{5e-9}, prend plus de dix fois le temps.
+      Donc, grâce a toutes ces données, nous avons conclu que la valeur la plus approprié pour la
+      tolérance est \num{5e-8}.
+      \par
+      \begin{figure}[ht]
+        \centering
+        \begin{tabular}{|c|c|c|}
+          \hline
+          \verb|step|    & Temps                  & Taux d'erreur        \\
+          \hline
+          \hfill \num{5e-1} & \hfill \SI{19.7}{\micro\second}     & \hfill \SI{61.41}{\percent} \\
+          \hfill \num{5e-2} & \hfill \SI{20.9}{\micro\second}     & \hfill \SI{61.41}{\percent} \\
+          \hfill \num{5e-7} & \hfill \SI{9.32}{\second}        & \hfill \SI{64.52}{\percent} \\
+          \hfill \num{5e-8} & \hfill \SI{1}{\minute} \SI{56}{\second} & \hfill \SI{0.98}{\percent}  \\
+          \hfill \num{5e-9} & \hfill \SI{20}{\minute} \SI{21}{\second} & \hfill \SI{0.01}{\percent}  \\
+          \hfill \num{5e-10} & \hfill \SI{3}{\hour} \SI{3}{\minute}   & \hfill \SI{0.0003}{\percent} \\
+          \hline
+        \end{tabular}
+        \caption{Taux d'erreur et temps d'exécution par pas décroissants}
+        \label{tab:step}
+      \end{figure}
+      \par
+      La fonction \verb|calc_ivp| prend tous les mêmes arguments que notre fonction \verb|calc_euler|. 
+      Elle utilise la fonction préexistente de \verb|scipy|, \verb|solve_IVP|.
+      Nous avons modifier la valeur de la tolérance relative \verb|rtol| qui a pour but d'augmenter la précision de notre approximation.
+      Nous avons choisi notre \verb|rtol| égal à \num{5e-7} puisque c'est une valeur qui apporte la précision requise en un temps d'execution imperceptible.
+      \par
+      Après plusieurs essais, nous pouvons conclure que \verb|solve_ivp| est beaucoup plus efficace que notre fonction
+      qui prend environs 48,67 minutes pour résoudre l'équation selon le profiler intégré de spyder
+      tandis que \verb|calc_ivp| ne prend que 88,69 milisecondes, soit environ 33000 fois plus rapide.
+      Ceci est probablement dû au fait que \verb|solve_ivp| utilise un pas variable contrairement à notre fonction.
+      La fonction \verb|solve_ivp| est également beaucoup plus précise puisqu'elle utilise une méthode d'ordre suprérieur.
+      Nous concluons que \verb|calc_ivp| est beaucoup plus efficace, que ce soit pour le temps d'exécution ou pour la précision.
+  \mychapter{3}{Question 3}
+    Pour la question 3, nous avons introduit à \verb|odefunction| les arguments optionnels \verb|mode| et \verb|param|.
+    \verb|mode| nous permet de tester différentes conditions de notre réacteur.
+    Lorsque \verb|mode| est à 0, le système fonctionne avec les paramètres de base,
+    lorsqu'il est à 1, le modèle ne prend pas en compote la carbonatation,
+    lorsqu'il est à 2, on remplace \verb|us| par la valeur de \verb|param|,
+    lorsqu'il est à 3, on remplace \verb|ug| par la valeur de \verb|param|
+    et lorsqu'il est a 4, on remplace \verb|us| par \verb|param[0]| et \verb|TW| par \verb|param[1]|.
+    \section{Modèle sans capture de \ce{CO2}}
+      \begin{figure}[ht]
+        \centering
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includesvg[width=0.95\textwidth]{"image/con_mode0"}
+          \caption{Variation des\\ concentrations avec carbonatation}
+          \label{graph:con:0}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includesvg[width=0.95\textwidth]{"image/con_mode1"}
+          \caption{Variation des\\ concentrations sans carbonatation}
+          \label{graph:con:1}
+        \end{minipage}
+      \end{figure}
+      Afin de comparer un modèle de réacteur avec et sans capture de \ce{CO2},
+      nous avons mis le mode de odefunction à 1, soit un modèle sans capture de \ce{CO2}.
+      Pour simuler ceci, nous avons remplacé la conversion fractionnaire (\verb|X|),
+      le taux de consommation de \ce{CO2} par carbonatation (\verb|rcbn|)
+      et la vitesse d'entré du \ce{CaO} dans le réacteur (\verb|us|)
+      par 0 car ils n'interviennent plus dans le modèle sans capture de \ce{CO2}.
+      \begin{figure}[ht]
+        \centering
+        \begin{tabular}{|c|c|c|c|}
+          \hline
+          Nom         & \verb|mode| 0            & \verb|mode| 1            & Différence         \\
+          \hline
+          \ce{CH4}       & \hfill \SI{0.00417}{\mol\per\liter} & \hfill \SI{0.00478}{\mol\per\liter} & \hfill \SI{+14.7}{\percent} \\
+          \ce{H2}       & \hfill \SI{0.02322}{\mol\per\liter} & \hfill \SI{0.02302}{\mol\per\liter} & \hfill \SI{-0.9}{\percent} \\
+          \ce{CO}       & \hfill \SI{0.00235}{\mol\per\liter} & \hfill \SI{0.00250}{\mol\per\liter} & \hfill \SI{+6.5}{\percent} \\
+          \ce{CO2}       & \hfill \SI{0.00344}{\mol\per\liter} & \hfill \SI{0.00387}{\mol\per\liter} & \hfill \SI{+12.6}{\percent} \\
+          \verb|T|\textdegree & \hfill \SI{920.23}{\kelvin}     & \SI{915.85}{\kelvin}        & \hfill \SI{-0.5}{\percent} \\
+          \hline
+        \end{tabular}
+        \caption{Effet de la carbonatation sur le modèle}
+        \label{tab:carb}
+      \end{figure}
+      \par
+      Pour comparer un système avec et sans carbonatation,
+      il est difficile d'utiliser ces graphiques car,
+      comme on peut le voir aux figures \ref{graph:con:0} et \ref{graph:con:1},
+      la tendance générale du graphique ne varie pas énormément avec ou sans carbonatation mais ils peuvent être utiles 
+      pour distinguer les différences se créer au fil de l'avancée dans le réacteur.
+      C'est pour cela que nous allons nous fier aux valeurs finales des concentrations (figure \ref{tab:carb}).
+      Donc, dans un modèle sans carbonatation, on remarque que le \ce{CH4}, le \ce{CO2}
+      et le \ce{CO} augmentent de \SI{14.7}{\percent}, \SI{12.6}{\percent} et \SI{6.5}{\percent} respectivement.
+      Le \ce{H2} et la température (\verb|T|) diminuent de \SI{0.9}{\percent} et \SI{0.5}{\percent} respectivement.
+    \section{Effet de l'augmentation du flux des solides sur le modèle}
+      \begin{figure}[ht]
+        \centering
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CH4_mode2"}
+          \caption{\ce{CH4}}
+          \label{graph:con:2:CH4}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/H2_mode2"}
+          \caption{\ce{H2}}
+          \label{graph:con:2:H2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO_mode2"}
+          \caption{\ce{CO}}
+          \label{graph:con:2:CO}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO2_mode2"}
+          \caption{\ce{CO2}}
+          \label{graph:con:2:CO2}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/T_mode2"}
+          \caption{Temperature (\texttt{T})}
+          \label{graph:con:2:T}
+        \end{subfigure}
+        \caption{Concentrations et températures (\texttt{T}) des gaz}
+        \label{graph:con:2}
+      \end{figure}
+      Pour analyser l'effet du flux des solides,
+      nous avons fait varier la valeur de \verb|us| à l'aide du \verb|mode| 2.
+      Nous l'avons fait varier de \SI{0.001}{\meter\per\second} à \SI{0.025}{\meter\per\second}
+      et créer ces graphiques (figure \ref{graph:con:2}) pour chaque variable d'état 
+      indépendamment avec plusieurs valeurs de \verb|us| (En faisant attention aux échelles respectives).
+      \begin{figure}[ht]
+        \centering
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CH4_mode2_us"}
+          \caption{\ce{CH4}}
+          \label{graph:con:2:us:CH4}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/H2_mode2_us"}
+          \caption{\ce{H2}}
+          \label{graph:con:2:us:H2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO_mode2_us"}
+          \caption{\ce{CO}}
+          \label{graph:con:2:us:CO}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO2_mode2_us"}
+          \caption{\ce{CO2}}
+          \label{graph:con:2:us:CO2}
+        \end{subfigure}
+        \caption{Concentrations et températures (\texttt{T}) des gaz en fonction de \texttt{us}}
+        \label{graph:con:2:us}
+      \end{figure}
+      \par
+      De manière générale, les variations de \verb|us| vont impacter relativement beaucoup 
+      les concentrations et la température (\verb|T|) au début du réacteur mais à la sortie,
+      l'écart avec le \verb|us| de base (\SI{0.001}{\meter\per\second}), est plus faible. C'est pour cela que 
+      nous n'avons pas pris une plage de valeur de \verb|us| plus grande, nous voyons avec 
+      ces valeurs une bonne représentation de ce qui se passe avec des valeurs de 
+      \verb|us| $>$ 0.001. Nous pouvons séparer toutes les variables d'états en deux comportements 
+      différents : celles qui diminuent au fur et à mesure que la valeur de \verb|us| augmente
+      qui sont le \ce{CH4} et le \ce{CO2} et celle qui augmentent au fur et mesure que \verb|us| augmente, 
+      à savoir le \ce{H2}, le \ce{CO}, et la température.
+      Afin de mieux comprendre quels sont les variations des gaz à la sortie du réacteur, 
+      pour mieux voir les quantités que l'on récupère,
+      voici d'autres graphiques (figure \ref{graph:con:2:us}) des concentrations des gaz secs en fonction de \verb|us|.
     
-    \tableofcontents
+    \section{Effets de l'augmentation du flux des gaz sur le modèle}
+      Pour analyser le flux des gaz, nous avons fait varier \verb|ug| à l'aide du \verb|mode| 3
+      en changeant la valeur de \SI{1}{\meter\per\second} à \SI{3}{\meter\per\second} avec un pas de 0.5.
+      \begin{figure}[ht]
+        \centering
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CH4_mode3"}
+          \caption{\ce{CH4}}
+          \label{graph:con:3:CH4}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/H2_mode3"}
+          \caption{\ce{H2}}
+          \label{graph:con:3:H2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO_mode3"}
+          \caption{\ce{CO}}
+          \label{graph:con:3:CO}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO2_mode3"}
+          \caption{\ce{CO2}}
+          \label{graph:con:3:CO2}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/T_mode3"}
+          \caption{Temperature (\texttt{T})}
+          \label{graph:con:3:T}
+        \end{subfigure}
+        \caption{Concentrations et températures (\texttt{T}) des gaz}
+        \label{graph:con:3}
+      \end{figure}
+      \par 
+      Comme illustré sur la figure \ref{graph:con:3}, l'augmentation de \verb|ug| produit exactement l'effet 
+      inverse à l'augmentation de \verb|us|. Au début, les données sont très sensibles aux variation de \verb|ug| 
+      et très peu sensible a ces variation à la fin du réacteur. Nous pouvons aussi séparer les données 
+      de sorties en deux, mais cette fois-ci ce sont le \ce{H2}, le \ce{CO} et la température qui diminuent 
+      tandis que le \ce{CH4} et le \ce{CO2} augmentent quand la valeur de \verb|ug| augmente
+    
+    \section{Effet de la composition du gaz d'entrée sur le modèle}
+      Dans le but de modifier les compositions initiales de gaz,
+      nous avons fait varier le rapport des concentrations initiales en \ce{H2O} et \ce{CH4} de 3 à 0.3.
+      \begin{figure}[ht]
+        \centering
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CH4_C0"}
+          \caption{\ce{CH4}}
+          \label{graph:con:C0:CH4}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/H2_C0"}
+          \caption{\ce{H2}}
+          \label{graph:con:C0:H2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO_C0"}
+          \caption{\ce{CO}}
+          \label{graph:con:C0:CO}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/CO2_C0"}
+          \caption{\ce{CO2}}
+          \label{graph:con:C0:CO2}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.325\textwidth}
+          \centering
+          \includesvg[width=\textwidth]{"image/T_C0"}
+          \caption{Temperature (\texttt{T})}
+          \label{graph:con:C0:T}
+        \end{subfigure}
+        \caption{Concentrations et températures (\texttt{T}) des gaz}
+        \label{graph:con:C0}
+      \end{figure}
+      \par
+      La tendance des figures \ref{graph:con:C0} peut encore une fois être divisé en deux, les variables d'états
+      dont la valeur en sortie diminue comme le \ce{CH4} et le \ce{H2O} quand le rapport \ce{H2O}/\ce{CH4}
+      augmente et ceux dont la valeur en sortie augmente quand ce rapport augmente comme le \ce{H2},
+      le \ce{CO2} et la température
 
-    \mychapter{1}{Question 1}
-        \section{Méthode de la sécante}
-            Notre fonction \verb|secant| requiert trois arguments nécessaires au bon fonctionnement de la méthode qui sont :
-            \begin{itemize}
-                \item \verb|fun|, la fonction dont on recherche les racines
-                \item \verb|x|, un tableau contenant les deux valeurs de \verb|x| de départ
-                \item \verb|tol|, la tolérance qui permet de gérer la précision des résultats
-            \end{itemize}
-            \par
-            Logiquement nous devons donc compromettre la précision pour limiter les calculs
-            et donc ne pas mettre une tolérance trop faible.
-            Nous avons opté, après une multitude d'essais, pour une tolérance de \num{5e-4} qui nous permet de garder 
-            une bonne précision pour un temps d'exécution faible. Par exemple pour vérifier si une valeur est égale à 0,
-            nous implémentons \verb|abs(y1) < tol|, les méthodes numériques ne pouvant pas être infiniment précises.
-            \par
-            Nous avons implémenté la fonction en s'assurant tout d'abord que toutes les conditions initiales soient bonnes
-            et, pour que la fonction n'itère pas à l'infini,
-            nous avons introduit \verb|max_i| en arguments \verb|kwargs| avec une valeur par défaut élevée qui restreint la fonction
-            à ne pas faire plus d'itérations que ce nombre tout en laissant une marge afin de ne pas arrêter trop vite l'exécution.
-            Après avoir pris nos précautions, une boucle va itérer tant que \verb|fun(x1) < tol|
-            (nous utilisons de nouveau la tolérance car il est quasiment impossible que la valeur soit exactement égale à 0 par les méthodes numériques).
-            \par
-            Nous avons décidé de séparer le calcul du numérateur et du dénominateur afin de s'éviter certaines problématiques. Si le numérateur, \verb|y1*(x1 - x0)|,
-            est égal à 0, \verb|x0| et \verb|x1| doivent avoir la même valeur. Du coup la fonction retourne \num{-1} pour indiquer que la fonction ne converge pas.
-            Si le dénominateur, \verb|y1 - y0|, est égal à 0, la fonction ne converge pas vu la méthode de la sécante :
-            la droite passe par deux points qui forment une droite parallèle à l'abscisse.
-            La boucle se finira si il y a un non-respect de sa condition ou si la boucle fait un nombre anormalement grand d'itérations.
-            
-        \section{Méthode de la bissection}
-            Les arguments sont les mêmes que dans la méthode de la sécante avec la même tolérance de \num{5e-4} mais sans introduire \verb|max_i|
-            car si les conditions initiales sont respectées, la fonction convergera toujours.
-            Nous nous assurons donc que les conditions initiales sont respectées en posant l'hypothèse que la fonctions traitée est continue.
-            \par
-            Pour se rapprocher de la racine nous allons itérer pendant \verb|k| itérations égal à
-            $log_2(\frac{x1-x0}{2\times tol})$ comme vu dans le cours.
-            Dans cette boucle, on calcule la moyenne des abscisses des deux points qui sera celle de notre nouveau point.
-            Si la valeur de la fonction en ce point est positive, on remplace \verb|x1| (à image positive) par cette moyenne et inversement.
-            Après toutes les itérations, la valeur de \verb|xi| sera la valeur de notre racine.
-
-    \mychapter{2}{Question 2}
-        \section{Création d'odefunction}
-            Notre fonction \verb|odefunction| est une fonction qui doit recevoir trois arguments :
-            \begin{itemize}
-                \item \verb|z|, la distance axiale  du réacteur
-                \item \verb|C0|, le tableau avec les valeurs initiales des huit variables d'état :
-                    les concentrations initiales en \ce{CH4}, \ce{H2O}, \ce{H2}, \ce{CO}, \ce{CO2}
-                    la conversion fractionnaire \verb|X|,
-                    la température \verb|T|
-                    et la pression \verb|P|
-                \item \verb|mode| et \verb|param|, qui nous serviront plus tard
-            \end{itemize}
-            La fonction \verb|odefunction| calcule la dérivée du tableau $\frac{dC}{dz}$ et retourne ces valeurs.
-            Pour plus de clarté et de flexibilité, les constantes ont été placées dans le module \verb|constants|.
-            Certaines constantes sont implémentées sous forme de fonction.
-            Cela n'est pas optimisé pour le temps mais nous avons opté pour cette option par soucis de lisibilité
-            et de flexibilité, ce qui nous a aidé pour la question 3.
-
-        \section{Résolution d'équation différentielle}
-            Notre fonction \verb|calculConcentrationEuler| est une fonction qui suit la méthode d'Euler explicite au premier ordre
-            pour résoudre approximativement l'équation contenue dans odefunction.
-            Cette fonction prend cinq arguments en entrée :
-            \begin{itemize}
-                \item \verb|fun|, la fonction à résoudre
-                \item \verb|x|, un tableau contenant les bornes pour lesquels l'équation doit être résolue
-                \item \verb|y0|, les valeurs initiales de la fonction
-                \item \verb|step|, le pas qui est défini par défault à \num{5e-8}
-                \item \verb|mode| et \verb|param|, qui nous serviront plus tard.
-            \end{itemize}
-            La fonction renvoie une approximation de la fonction inconnue.
-            \par
-            Pour trouver le meilleur \verb|step|, nous nous sommes référés aux données de la figure \ref{tab:step}.
-            Dans ce tableau crée expérimentalement, nous avons répertorié les taux d'erreur et temps d'exécution par \verb|step|.
-            Pour cela, nous avons effectué plusieurs simulations sur une distance radiale réduite de \SI{0.01}{\meter} (les calculs étants plus courts).
-            Pour déterminer l'erreur, nous avons fait résoudre les équations à \verb|solve_ivp| avec l'accent mis sur une grande précision. Les
-            valeurs de pas qui ont un taux d'erreur acceptable sont toutes les valeurs plus petites que \num{5e-7}
-            car leur taux d'erreur est en-dessous de \SI{1}{\percent} et les valeurs de pas qui prennent
-            un temps acceptable sont celle plus grandes que \num{5e-9} (en prennant en compte
-            que toutes ces valeurs sont sur un intervalle réduit). Du coup, nous avons choissi \num{5e-8} qui prend quasiment 2 minutes
-            sur cet intervalle réduit puisque le palier suivant, \num{5e-9}, prend plus de dix fois le temps.
-            Donc, grâce a toutes ces données, nous avons conclu que la valeur la plus approprié pour la
-            tolérance est \num{5e-8}.
-            \par
-            \begin{figure}[ht]
-                \centering
-                \begin{tabular}{|c|c|c|}
-                    \hline
-                    \verb|step|        & Temps                                    & Taux d'erreur                \\
-                    \hline
-                    \hfill \num{5e-1}  & \hfill \SI{19.7}{\micro\second}          & \hfill \SI{61.41}{\percent}  \\
-                    \hfill \num{5e-2}  & \hfill \SI{20.9}{\micro\second}          & \hfill \SI{61.41}{\percent}  \\
-                    \hfill \num{5e-7}  & \hfill \SI{9.32}{\second}                & \hfill \SI{64.52}{\percent}  \\
-                    \hfill \num{5e-8}  & \hfill \SI{1}{\minute} \SI{56}{\second}  & \hfill \SI{0.98}{\percent}   \\
-                    \hfill \num{5e-9}  & \hfill \SI{20}{\minute} \SI{21}{\second} & \hfill \SI{0.01}{\percent}   \\
-                    \hfill \num{5e-10} & \hfill \SI{3}{\hour} \SI{3}{\minute}     & \hfill \SI{0.0003}{\percent} \\
-                    \hline
-                \end{tabular}
-                \caption{Taux d'erreur et temps d'exécution par pas décroissants}
-                \label{tab:step}
-            \end{figure}
-            \par
-            La fonction \verb|calculConcentrationIVP| prend tous les mêmes arguments que notre fonction \verb|calculConcentrationEuler|. 
-            Elle utilise la fonction préexistente de \verb|scipy|, \verb|solve_IVP|.
-            Nous avons modifier la valeur de la tolérance relative \verb|rtol| qui a pour but d'augmenter la précision de notre approximation.
-            Nous avons choisi notre \verb|rtol| égal à \num{5e-7} puisque c'est une valeur qui apporte la précision requise en un temps d'execution imperceptible.
-            \par
-            Après plusieurs essais, nous pouvons conclure que \verb|solve_ivp| est beaucoup plus efficace que notre fonction
-            qui prend environs 48,67 minutes pour résoudre l'équation selon le profiler intégré de spyder
-            tandis que \verb|calculConcentrationIVP| ne prend que 88,69 milisecondes, soit environ 33000 fois plus rapide.
-            Ceci est probablement dû au fait que \verb|solve_ivp| utilise un pas variable contrairement à notre fonction.
-            La fonction \verb|solve_ivp| est également beaucoup plus précise puisqu'elle utilise une méthode d'ordre suprérieur.
-            Nous concluons que \verb|calculConcentrationIVP| est beaucoup plus efficace, que ce soit pour le temps d'exécution ou pour la précision.
-    \mychapter{3}{Question 3}
-        Pour la question 3, nous avons introduit à \verb|odefunction| les arguments optionnels \verb|mode| et \verb|param|.
-        \verb|mode| nous permet de tester différentes conditions de notre réacteur.
-        Lorsque \verb|mode| est à 0, le système fonctionne avec les paramètres de base,
-        lorsqu'il est à 1, le modèle ne prend pas en compote la carbonatation,
-        lorsqu'il est à 2, on remplace \verb|us| par la valeur de \verb|param|,
-        lorsqu'il est à 3, on remplace \verb|ug| par la valeur de \verb|param|
-        et lorsqu'il est a 4, on remplace \verb|us| par \verb|param[0]| et \verb|TW| par \verb|param[1]|.
-        \section{Modèle sans capture de \ce{CO2}}
-            \begin{figure}[ht]
-                \centering
-                \begin{minipage}{0.45\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/con_mode0"}
-                    \caption{Variation des\\ concentrations avec carbonatation}
-                    \label{graph:con:0}
-                \end{minipage}
-                \begin{minipage}{0.45\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/con_mode1"}
-                    \caption{Variation des\\ concentrations sans carbonatation}
-                    \label{graph:con:1}
-                \end{minipage}
-            \end{figure}
-            Afin de comparer un modèle de réacteur avec et sans capture de \ce{CO2},
-            nous avons mis le mode de odefunction à 1, soit un modèle sans capture de \ce{CO2}.
-            Pour simuler ceci, nous avons remplacé la conversion fractionnaire (\verb|X|),
-            le taux de consommation de \ce{CO2} par carbonatation (\verb|rcbn|)
-            et la vitesse d'entré du \ce{CaO} dans le réacteur (\verb|us|)
-            par 0 car ils n'interviennent plus dans le modèle sans capture de \ce{CO2}.
-            \begin{figure}[ht]
-                \centering
-                \begin{tabular}{|c|c|c|c|}
-                    \hline
-                    Nom                  & \verb|mode| 0                       & \verb|mode| 1                       & Différence                  \\
-                    \hline
-                    \ce{CH4}             & \hfill \SI{0.00417}{\mol\per\liter} & \hfill \SI{0.00478}{\mol\per\liter} & \hfill \SI{+14.7}{\percent} \\
-                    \ce{H2}              & \hfill \SI{0.02322}{\mol\per\liter} & \hfill \SI{0.02302}{\mol\per\liter} & \hfill \SI{-0.9}{\percent}  \\
-                    \ce{CO}              & \hfill \SI{0.00235}{\mol\per\liter} & \hfill \SI{0.00250}{\mol\per\liter} & \hfill \SI{+6.5}{\percent}  \\
-                    \ce{CO2}             & \hfill \SI{0.00344}{\mol\per\liter} & \hfill \SI{0.00387}{\mol\per\liter} & \hfill \SI{+12.6}{\percent} \\
-                    \verb|T|\textdegree  & \hfill \SI{920.23}{\kelvin}         & \SI{915.85}{\kelvin}                & \hfill \SI{-0.5}{\percent}  \\
-                    \hline
-                \end{tabular}
-                \caption{Effet de la carbonatation sur le modèle}
-                \label{tab:carb}
-            \end{figure}
-            \par
-            Pour comparer un système avec et sans carbonatation,
-            il est difficile d'utiliser ces graphiques car,
-            comme on peut le voir aux figures \ref{graph:con:0} et \ref{graph:con:1},
-            la tendance générale du graphique ne varie pas énormément avec ou sans carbonatation mais ils peuvent être utiles 
-            pour distinguer les différences se créer au fil de l'avancée dans le réacteur.
-            C'est pour cela que nous allons nous fier aux valeurs finales des concentrations (figure \ref{tab:carb}).
-            Donc, dans un modèle sans carbonatation, on remarque que le \ce{CH4}, le \ce{CO2}
-            et le \ce{CO} augmentent de \SI{14.7}{\percent}, \SI{12.6}{\percent} et \SI{6.5}{\percent} respectivement.
-            Le \ce{H2} et la température (\verb|T|) diminuent de \SI{0.9}{\percent} et \SI{0.5}{\percent} respectivement.
-        \section{Effet de l'augmentation du flux des solides sur le modèle}
-            \begin{figure}[ht]
-                \centering
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CH4_mode2"}
-                    \caption{\ce{CH4}}
-                    \label{graph:con:2:CH4}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/H2_mode2"}
-                    \caption{\ce{H2}}
-                    \label{graph:con:2:H2}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO_mode2"}
-                    \caption{\ce{CO}}
-                    \label{graph:con:2:CO}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO2_mode2"}
-                    \caption{\ce{CO2}}
-                    \label{graph:con:2:CO2}
-                \end{subfigure}
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/T_mode2"}
-                    \caption{Temperature (\texttt{T})}
-                    \label{graph:con:2:T}
-                \end{subfigure}
-                \caption{Concentrations et températures (\texttt{T}) des gaz}
-                \label{graph:con:2}
-            \end{figure}
-            Pour analyser l'effet du flux des solides,
-            nous avons fait varier la valeur de \verb|us| à l'aide du \verb|mode| 2.
-            Nous l'avons fait varier de \SI{0.001}{\meter\per\second} à \SI{0.025}{\meter\per\second}
-            et créer ces graphiques (figure \ref{graph:con:2}) pour chaque variable d'état 
-            indépendamment avec plusieurs valeurs de \verb|us| (En faisant attention aux échelles respectives).
-            \begin{figure}[ht]
-                \centering
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CH4_mode2_us"}
-                    \caption{\ce{CH4}}
-                    \label{graph:con:2:us:CH4}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/H2_mode2_us"}
-                    \caption{\ce{H2}}
-                    \label{graph:con:2:us:H2}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO_mode2_us"}
-                    \caption{\ce{CO}}
-                    \label{graph:con:2:us:CO}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO2_mode2_us"}
-                    \caption{\ce{CO2}}
-                    \label{graph:con:2:us:CO2}
-                \end{subfigure}
-                \caption{Concentrations et températures (\texttt{T}) des gaz}
-                \label{graph:con:2:us}
-            \end{figure}
-            \par
-            De manière générale, les variations de \verb|us| vont impacter relativement beaucoup 
-            les concentrations et la température (\verb|T|) au début du réacteur mais à la sortie,
-            l'écart avec le \verb|us| de base (\SI{0.001}{\meter\per\second}), est plus faible. C'est pour cela que 
-            nous n'avons pas pris une plage de valeur de us plus grande, nous voyons avec 
-            ces valeurs une bonne représentation de ce qui se passe avec des valeurs de 
-            \verb|us| $>$ 0.001. Nous pouvons séparer toutes les variables d'états en deux comportements 
-            différents : celles qui diminuent au fur et à mesure que la valeur de \verb|us| augmente
-            qui sont le \ce{CH4} et le \ce{CO2} et celle qui augmentent au fur et mesure que \verb|us| augmente, 
-            à savoir le \ce{H2}, le \ce{CO}, et la température.
-            Afin de mieux comprendre quels sont les variations des gaz à la sortie du réacteur, 
-            pour mieux voir les quantités que l'on récupère,
-            voici d'autres graphiques (figure \ref{graph:con:2:us}) des concentrations des gaz secs en fonction de \verb|us|.
-        
-        \section{Effets de l'augmentation du flux des gaz sur le modèle}
-            Pour analyser le flux des gaz, nous avons fait varier \verb|ug| à l'aide du \verb|mode| 3
-            en changeant la valeur de \SI{1}{\meter\per\second} à \SI{3}{\meter\per\second} avec un pas de 0.5.
-            \begin{figure}[ht]
-                \centering
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CH4_mode3"}
-                    \caption{\ce{CH4}}
-                    \label{graph:con:3:CH4}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/H2_mode3"}
-                    \caption{\ce{H2}}
-                    \label{graph:con:3:H2}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO_mode3"}
-                    \caption{\ce{CO}}
-                    \label{graph:con:3:CO}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO2_mode3"}
-                    \caption{\ce{CO2}}
-                    \label{graph:con:3:CO2}
-                \end{subfigure}
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/T_mode3"}
-                    \caption{Temperature (\texttt{T})}
-                    \label{graph:con:3:T}
-                \end{subfigure}
-                \caption{Concentrations et températures (\texttt{T}) des gaz}
-                \label{graph:con:3}
-            \end{figure}
-            \par 
-            Comme illustré sur la figure \ref{graph:con:C0}, l'augmentation de \verb|ug| produit exactement l'effet 
-            inverse à l'augmentation de \verb|us|. Au début, les données sont très sensibles aux variation de \verb|ug| 
-            et très peu sensible a ces variation à la fin du réacteur. Nous pouvons aussi séparer les données 
-            de sorties en deux, mais cette fois-ci ce sont le \ce{H2}, le \ce{CO} et la température qui diminuent 
-            tandis que le \ce{CH4} et le \ce{CO2} augmentent quand la valeur de \verb|ug| augmente
-        
-        \section{Effet de la composition du gaz d'entrée sur le modèle}
-            Dans le but de modifier les compositions initiales de gaz,
-            nous avons fait varier le rapport des concentrations initiales en \ce{H2O} et \ce{CH4} de 3 à 0.3.
-            \begin{figure}[ht]
-                \centering
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CH4_C0"}
-                    \caption{\ce{CH4}}
-                    \label{graph:con:C0:CH4}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/H2_C0"}
-                    \caption{\ce{H2}}
-                    \label{graph:con:C0:H2}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO_C0"}
-                    \caption{\ce{CO}}
-                    \label{graph:con:C0:CO}
-                \end{subfigure}
-                \hfill
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/CO2_C0"}
-                    \caption{\ce{CO2}}
-                    \label{graph:con:C0:CO2}
-                \end{subfigure}
-                \begin{subfigure}[t]{0.325\textwidth}
-                    \centering
-                    \includesvg[width=0.95\textwidth]{"image/T_C0"}
-                    \caption{Temperature (\texttt{T})}
-                    \label{graph:con:C0:T}
-                \end{subfigure}
-                \caption{Concentrations et températures (\texttt{T}) des gaz}
-                \label{graph:con:C0}
-            \end{figure}
-            \par
-            La tendance des graphiques peut encore une fois être divisé en deux, les variables d'états
-            dont la valeur en sortie diminue comme le \ce{CH4} et le \ce{H2O} quand le rapport \ce{H2O}/\ce{CH4}
-            augmente et ceux dont la valeur en sortie augmente quand ce rapport augmente comme le \ce{H2},
-            le \ce{CO2} et la température
-
-    \mychapter{4}{Question 4}
-        \section{Taux de \ce{CO2} optimal par rapport à \texttt{ug}}
-            \verb|optimise_us| crée la fonction du pourcentage de \ce{CO2} en sortie par rapport à \verb|us|,
-            ce qui nous permet de déterminer un \verb|us| optimal pour une concentration donnée.
-            Cette fonction prend 5 arguments en entrée :
-            \begin{itemize}
-                \item \verb|Y|, le pourcentage de \ce{CO2} souhaité à la sortie du réacteur
-                \item \verb|us|, la valeur de \verb|us|
-                \item \verb|C0|, le tableau des conditions initiales pour \verb|odefunction|
-                \item \verb|mode_| et \verb|param1|, équivalents du \verb|mode| et \verb|param| de \verb|odefunction|
-            \end{itemize}
-            Cette fonction résout odefunction grâce à \verb|solve_ivp| et retourne la concentration
-            finale de \ce{CO2} divisé par la somme des concentration finale de \ce{CH4}, \ce{H2},
-            \ce{CO} et de \ce{CO2}. Le tout est ensuite soustrait par \verb|Y| pour corriger le décalage vertical.
-        \section{Recherche d'un \texttt{us} optimal}
-            \begin{figure}[ht]
-                \centering
-                \includesvg[width=0.5\textwidth]{"image/opt_us"}
-                \caption{Valeur optimale de \texttt{us}}
-                \label{graph:us}
-            \end{figure}
-            Dans ce cas, nous devons trouvez la valeur optimale de \verb|us| pour une concentration
-            en \ce{CO2} de \SI{7.5}{\percent}.
-            On peut voir la fonction \verb|optimise_us| ainsi que la valeur optimale sur la figure \ref{graph:us}
-            qui représente \verb|us| en fonction du pourcentage de \ce{CO2} parmis les gaz secs en sortie.
-            Notre fonction \verb|secant| en mode \verb|hybrid| nous renvoit une racine située en 0.103.
-            \par
-            La méthode utilisée pour trouver la racine est une méthode hybride qui est simplement
-            la méthode de la sécante légèrement modifiée : si la sécante ne converge pas dû à des
-            images de \verb|x0| et \verb|x1| égales,
-            alors on s'inspire de la méthode de la bissection pour  débloquer la situation.
-            Pour ce faire, on effectue la moyenne des deux points et on utilise ce nouveau point pour relancer
-            la fonction \verb|secant|. Ce faisant, on bénéficie de la précision accrue de la méthode de la sécante
-            ainsi que sa vitesse bien supérieure a la bissection. De plus, la méthode de la sécante ne demande 
-            pas d'avoir \verb|fun(x0)| et \verb|fun(x1)| de signes contraires. C'est pour ces raisons que \verb|secant| nous a 
-            paru être la bonne fonction a utiliser.
-        \section{Effet de la température sur le \texttt{us} optimal}
-            La figure \ref{graph:us/T} illustre la variation du \verb|us| optimal en fonction de la température (\verb|T|).
-            Il est clair que \verb|us| dépend de la température. 
-            Nous le voyons décroitre très rapidement, presque exponentiellement à mesure que la température augmente.
-            Donc, plus la température est élevée, plus la vitesse d'entrée
-            optimale des gaz pour un pourcentage de \ce{CO2} donné est petite.
-            \begin{figure}[ht]
-                \centering
-                \includesvg[width=0.5\textwidth]{"image/opt_us-T"}
-                \caption{L'effet de la température (\texttt{T}) sur le \texttt{us} optimal}
-                \label{graph:us/T}
-            \end{figure}
+  \mychapter{4}{Question 4}
+    \section{Taux de \ce{CO2} optimal par rapport à \texttt{ug}}
+      \verb|optimise_us| crée la fonction du pourcentage de \ce{CO2} en sortie par rapport à \verb|us|,
+      ce qui nous permet de déterminer un \verb|us| optimal pour une concentration donnée.
+      Cette fonction prend 5 arguments en entrée :
+      \begin{itemize}
+        \item \verb|Y|, le pourcentage de \ce{CO2} souhaité à la sortie du réacteur
+        \item \verb|us|, la valeur de \verb|us|
+        \item \verb|C0|, le tableau des conditions initiales pour \verb|odefunction|
+        \item \verb|mode_| et \verb|param1|, équivalents du \verb|mode| et \verb|param| de \verb|odefunction|
+      \end{itemize}
+      Cette fonction résout odefunction grâce à \verb|solve_ivp| et retourne la concentration
+      finale de \ce{CO2} divisé par la somme des concentration finale de \ce{CH4}, \ce{H2},
+      \ce{CO} et de \ce{CO2}. Le tout est ensuite soustrait par \verb|Y| pour corriger le décalage vertical.
+    \section{Recherche d'un \texttt{us} optimal}
+      \begin{figure}[ht]
+        \centering
+        \includesvg[width=0.5\textwidth]{"image/opt_us"}
+        \caption{Valeur optimale de \texttt{us}}
+        \label{graph:us}
+      \end{figure}
+      Dans ce cas, nous devons trouvez la valeur optimale de \verb|us| pour une concentration
+      en \ce{CO2} de \SI{7.5}{\percent}.
+      On peut voir la fonction \verb|optimise_us| ainsi que la valeur optimale sur la figure \ref{graph:us}
+      qui représente \verb|us| en fonction du pourcentage de \ce{CO2} parmis les gaz secs en sortie.
+      Notre fonction \verb|secant| en mode \verb|hybrid| nous renvoit une racine située en 0.103.
+      \par
+      La méthode utilisée pour trouver la racine est une méthode hybride qui est simplement
+      la méthode de la sécante légèrement modifiée : si la sécante ne converge pas dû à des
+      images de \verb|x0| et \verb|x1| égales,
+      alors on s'inspire de la méthode de la bissection pour débloquer la situation.
+      Pour ce faire, on effectue la moyenne des deux points et on utilise ce nouveau point pour relancer
+      la fonction \verb|secant|. Ce faisant, on bénéficie de la précision accrue de la méthode de la sécante
+      ainsi que sa vitesse bien supérieure a la bissection. De plus, la méthode de la sécante ne demande 
+      pas d'avoir \verb|fun(x0)| et \verb|fun(x1)| de signes contraires. C'est pour ces raisons que \verb|secant| nous a 
+      paru être la bonne fonction a utiliser.
+    \section{Effet de la température sur le \texttt{us} optimal}
+      La figure \ref{graph:us/T} illustre la variation du \verb|us| optimal en fonction de la température (\verb|T|).
+      Il est clair que \verb|us| dépend de la température. 
+      Nous le voyons décroitre très rapidement, presque exponentiellement à mesure que la température augmente.
+      Donc, plus la température est élevée, plus la vitesse d'entrée
+      optimale des gaz pour un pourcentage de \ce{CO2} donné est petite.
+      \begin{figure}[ht]
+        \centering
+        \includesvg[width=0.5\textwidth]{"image/opt_us-T"}
+        \caption{L'effet de la température (\texttt{T}) sur le \texttt{us} optimal}
+        \label{graph:us/T}
+      \end{figure}
 
 \end{document}
