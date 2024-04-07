@@ -4,6 +4,7 @@
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[a4paper, margin=1cm, top=-1cm, bottom=-1cm]{geometry}
+\usepackage[justification=centering]{caption}
 
 \newcommand{\mychapter}[2]{
     \setcounter{chapter}{#1}
@@ -18,12 +19,11 @@
             \textbf{\textsc{\Large Introduction aux méthodes numériques et projet}}
             \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
             \hfill \textbf{\textsc{\normalsize Année académique 2023-2024}}\\
-            \vspace{0.1\textheight} \leavevmode
-            \begin{center}
-                \textbf{\Huge Production d'$H_2$ par reformage catalytique\\ de $CH_4$ et captage de $CO_2$\\ dans un réacteur.}
-            \end{center}
         }
         \vfill \leavevmode
+        \begin{center}
+            \textbf{\Huge Production d'$H_2$ par reformage catalytique\\ de $CH_4$ et captage de $CO_2$\\ dans un réacteur.}
+        \end{center}
         \includesvg[width=0.75\textwidth]{"image/3d_CO"}
         \parbox{\textwidth}{
             \includesvg[height=0.025\textheight]{"image/fsa_text"}
@@ -46,7 +46,7 @@
 \begin{document}    
     \maketitle
 
-    \newgeometry{margin=1in}
+    \newgeometry{margin=2.5cm, top=2.5cm, bottom=2.5cm}
     
     \tableofcontents
 
@@ -126,18 +126,18 @@
             ces valeurs sont les meilleurs compromis que nous avons trouvé entre une précision correcte
             et une durée d'exécution minimale.
             \par
-            \begin{figure}
+            \begin{figure}[h]
                 \centering
-                \begin{tabular}{|r|r|r|}
+                \begin{tabular}{|c|c|c|}
                     \hline
                     $tol$   & Temps             & Taux d'erreur\\
                     \hline
-                    $5e-1$  & $19.7\ \mu s$     & $61.41\%$\\
-                    $5e-2$  & $20.9\ \mu s$     & $61.41\%$\\
-                    $5e-7$  & $9.32\ s$         & $64.52\%$\\
-                    $5e-8$  & $1\ min\ 56\ s$   & $0.98\%$\\
-                    $5e-9$  & $20\ min\ 21\ s$  & $0.01\%$\\
-                    $5e-10$ & $3\ h\ 3\ min$    & $0.0003\%$\\
+                    \hfill $5e-1$  & \hfill $19.7\ \mu s$     & \hfill $61.41\%$\\
+                    \hfill $5e-2$  & \hfill $20.9\ \mu s$     & \hfill $61.41\%$\\
+                    \hfill $5e-7$  & \hfill $9.32\ s$         & \hfill $64.52\%$\\
+                    \hfill $5e-8$  & \hfill $1\ min\ 56\ s$   & \hfill $0.98\%$\\
+                    \hfill $5e-9$  & \hfill $20\ min\ 21\ s$  & \hfill $0.01\%$\\
+                    \hfill $5e-10$ & \hfill $3\ h\ 3\ min$    & \hfill $0.0003\%$\\
                     \hline
                 \end{tabular}
                 \caption{Taux d'erreur par tolérance}
@@ -145,7 +145,7 @@
             \end{figure}
             \par
             Après plusieurs tests, nous pouvons conclure que $solve\_ivp$ est beaucoup plus efficace que notre fonction.
-            Notre fonction prend environs (((x minutes))) pour résoudre l'équation tandis que $solve\_ivp$ ne prend que (((x secondes))),
+            Notre fonction prend environs (((x minutes))) pour résoudre l'équation tandis que $solve\_ivp$ ne prend que 19.22 minutes,
             $solve\_ivp$ va donc (((x))) fois plus vite.
             Ceci est probablement dû au fait que $solve\_ivp$ utilise un pas variable mais pas notre fonction.
             $solve\_ivp$ est également beaucoup plus précis puisqu'elle utilise une méthode d'ordre suprérieur.
@@ -169,11 +169,13 @@
                 \centering
                 \begin{minipage}{0.45\textwidth}
                     \centering
+                    \includesvg[width=0.95\textwidth]{"image/con_mode0"}
                     \caption{Variation des\\ concentrations avec carbonatation}
                     \label{graph:con:0}
                 \end{minipage}
                 \begin{minipage}{0.45\textwidth}
                     \centering
+                    \includesvg[width=0.95\textwidth]{"image/con_mode1"}
                     \caption{Variation des\\ concentrations sans carbonatation}
                     \label{graph:con:1}
                 \end{minipage}
@@ -186,17 +188,17 @@
             Donc quand on bloque la capture de $CO_2$ : le $CH_4$, le $CO_2$
             et le $CO$  le  augmentent de $14.7\%$, $12.6\%$ et $6.5\%$ respectivement.
             Le $H_2$ et la température diminuent seulement de $0.9\%$ et $0.5\%$ respectivement.
-            \begin{figure}[h]
+            \begin{figure}[ht]
                 \centering
-                \begin{tabular}{|c|r|r|r|}
+                \begin{tabular}{|c|c|c|c|}
                     \hline
                     Nom             & $mode\ 0$ \hfill          & $mode\ 1$ \hfill   & Différence\\
                     \hline
-                    $CH_4$          & $0,00417\ \frac{mol}{L}$  & $0,00478\ \frac{mol}{L}$  & $+14,7\%$\\
-                    $H_2$           & $0,02322\ \frac{mol}{L}$  & $0,02302\ \frac{mol}{L}$  & $-0.9\%$\\
-                    $CO$            & $0,00235\ \frac{mol}{L}$  & $0,00250\ \frac{mol}{L}$  & $+6.5\%$\\
-                    $CO_2$          & $0,00344\ \frac{mol}{L}$  & $0,00387\ \frac{mol}{L}$  & $+12.6\%$\\
-                    $T$\textdegree  & $920,23\ K$               & $915,85\ K$               & $-0.5\%$\\
+                    $CH_4$          & \hfill $0,00417\ \frac{mol}{L}$  & \hfill $0,00478\ \frac{mol}{L}$  & \hfill $+14,7\%$\\
+                    $H_2$           & \hfill $0,02322\ \frac{mol}{L}$  & \hfill $0,02302\ \frac{mol}{L}$  & \hfill $-0.9\%$\\
+                    $CO$            & \hfill $0,00235\ \frac{mol}{L}$  & \hfill $0,00250\ \frac{mol}{L}$  & \hfill $+6.5\%$\\
+                    $CO_2$          & \hfill $0,00344\ \frac{mol}{L}$  & \hfill $0,00387\ \frac{mol}{L}$  & \hfill $+12.6\%$\\
+                    $T$\textdegree  & \hfill $920,23\ K$               & \hfill $915,85\ K$               & \hfill $-0.5\%$\\
                     \hline
                 \end{tabular}
                 \caption{Effet de la carbonatation sur le modèle}
@@ -239,28 +241,34 @@
         \section{Recherche d'un $us$ optimal}
             \begin{figure}[h]
                 \centering
-                \caption{(((Graph us)))}
+                \includesvg[width=0.5\textwidth]{"image/opt_us"}
+                \caption{Valeur optimal de $us$}
                 \label{graph:us}
             \end{figure}
             Dans ce cas, nous devons trouvez la valeur optimale de $us$ pour une concentration
             en $CO_2$ de $7.5\%$.
-            On peut voir le résultat de $optimise\_us$ sur la figure \ref{graph:us}
-            qui représente $us - Y$ en fonction du pourcentage de $CO_2$ parmis les gaz secs.
-            Notre fonction 'Hybrid' nous renvoit une racine située en $x = 0.101$.
+            On peut voir la fonction $optimise\_us$ ainsi que la valeur optimal sur la figure \ref{graph:us}
+            qui représente $us$ en fonction du pourcentage de $CO_2$ parmis les gaz secs en sortie.
+            Notre fonction \textit{hybrid} nous renvoit une racine située en $x = 0.101$.
             \par
             La méthode utilisée pour trouver la racine est une méthode hybride qui est simplement
-            la méthode de la sécante légèrement modifiée : si la sécante ne converge pas dû aux
-            valeurs de la fonction en $x0$ et $x1$ égales,
+            la méthode de la sécante légèrement modifiée : si la sécante ne converge pas dû à des
+            images de $x0$ et $x1$ égales,
             alors on s'inspire de la méthode de la bissection pour  débloquer la situation.
-            Ce faisant, on bénéficie de la précision accrue de la méthode de la sécante
-            ainsi que sa vitesse bien supérieure a la bissection mais si ladite erreur se produit,
-            on effectue la moyenne de ces deux points et on utilise ce nouveau point pour relancer
-            la fonction sécante.
+            Pour ce faire, on effectue la moyenne des deux points et on utilise ce nouveau point pour relancer
+            la fonction sécante. Ce faisant, on bénéficie de la précision accrue de la méthode de la sécante
+            ainsi que sa vitesse bien supérieure a la bissection
         \section{Effet de la température sur le us optimale}
-            Le graphique ci-dessous illustre la variation du us optimal en fonction de la température.
-            Il est clair que $us$ dépend de la température, nous le voyons décroitre très rapidement,
-            presque exponentiellement. Donc, plus la température est élevée, plus la vitesse d'entrée
+            La figure \ref{graph:us/T} illustre la variation du $us$ optimal en fonction de la température.
+            Il est clair que $us$ dépend de la température. 
+            Nous le voyons décroitre très rapidement, presque exponentiellement.
+            Donc, plus la température est élevée, plus la vitesse d'entrée
             optimale des gaz pour un pourcentage de $CO_2$ donné est petite.
-            (((Graphique manquant)))
+            \begin{figure}[h]
+                \centering
+                \includesvg[width=0.5\textwidth]{"image/opt_us-T"}
+                \caption{(((Us en fonction de la température)))}
+                \label{graph:us/T}
+            \end{figure}
 
 \end{document}
