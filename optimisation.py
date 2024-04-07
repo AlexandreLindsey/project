@@ -53,9 +53,12 @@ if __name__ == '__main__':
     C = np.zeros(A.size)
     # Calculates and stores all of the values of optimise_us.
     for i in range(A.size):
-        # If us is close to zero, 
+        # If us is close to zero, solve odefunction without carbonation.
+        # Otherwise, we might divide by values very close to zero creating inf.
         if A[i] > 1e-8:
             B[i] = optimise_us(Y, A[i], C0)
+        else:
+            B[i] = optimise_us(Y, A[i], C0, mode_=1)
 
     # Calculates the optimal us
     x0 = secant(lambda us: optimise_us(Y, us, C0), x, tol=0.5e-8,
