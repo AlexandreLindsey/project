@@ -22,7 +22,7 @@ import constants as c
 
 
 # %% [1] Main Code
-def odefunction(z, C):
+def odefunction(z, C, mode=0, param=0):
     """Values of the differential equation.
 
     Parameters
@@ -30,8 +30,30 @@ def odefunction(z, C):
     z : numeric
         Value of the axial distance.
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
+    mode : numeric, *default* 0
+        Different modes for odefuncion (see table below).
+    param : numeric, *default* 0
+        Parameter value used in certain modes (see table below).
+
+    +-------+----------------------------------------------------------------+
+    | mode  |  Description                                                   |
+    +=======+================================================================+
+    | ``0`` | Default mode of odefuncion. ``param`` is not used.             |
+    +-------+----------------------------------------------------------------+
+    | ``1`` | Odefunction with no carbonation: ``rcbn`` = 0, ``dC[5]`` = 0    |
+    |       | and ``c.u('s')`` = 0. ``param`` is not used.                   |
+    +-------+----------------------------------------------------------------+
+    | ``2`` | Changes the value of ``c.u('s')`` to ``param``.                |
+    +-------+----------------------------------------------------------------+
+    | ``3`` | Changes the value of ``c.u('g')`` to ``param``.                |
+    +-------+----------------------------------------------------------------+
+    | ``4`` | Changes the value of ``c.u('s') and ``c.TW()`` to ``param[0]`` |
+    |       | and ``param[1]`` respectively.                                 |
+    +-------+----------------------------------------------------------------+
 
     Returns
     -------
@@ -48,18 +70,22 @@ def odefunction(z, C):
 
     # Equation (16): dC/dz of the different elements (CH4, H2O, H2, CO and CO2)
     dC[:5] = ((c.eta() * (1 - c.ep()) * c.rho('cat') * r_ - (1 - c.ep())
-               * c.rho('CaO') * rcbn(C)) / c.u('g'))
+               * c.rho('CaO') * rcbn(C, mode)) / c.u('g', mode, param))
     # Equation (17): dX/dz
-    dC[5] = c.MM('CaO') / c.u('s') * rcbn(C)
+    if mode == 1:
+        dC[5] = 0
+    else:
+        dC[5] = c.MM('CaO') / c.u('s', mode, param) * rcbn(C, mode)
     # Equation (19): dT/dz
     dC[6] = ((-(1 - c.ep()) * c.rho('cat') * c.eta() * sum(R_ * H_)
-             - (1 - c.ep()) * c.rho('CaO') * rcbn(C) * c.H('cbn') + hW(C)
-             * (c.TW() - C[6]) * 4 / c.dim('r')) / ((1 - c.ep()) * c.rho('s')
-             * c.u('s') * c.Cp('s') + rhog(C) * c.u('g') * c.Cp('g')))
+             - (1 - c.ep()) * c.rho('CaO') * rcbn(C, mode) * c.H('cbn')
+             + hW(C, mode, param) * (c.TW(mode, param) - C[6]) * 4
+             / c.dim('r')) / ((1 - c.ep()) * c.rho('s') * c.u('s', mode, param)
+             * c.Cp('s') + rhog(C) * c.u('g', mode, param) * c.Cp('g')))
     # Equation (20): dP/dz
-    dC[7] = (-(rhog(C) * c.u('g')**2 * (1 - c.ep())) / (c.dp() * c.ep())
-             * ((150 * (1 - c.ep()) * c.mu()) / (c.dp() * rhog(C) * c.u('g'))
-             + 1.75) * 1e-5)
+    dC[7] = (-(rhog(C) * c.u('g', mode, param)**2 * (1 - c.ep())) / (c.dp()
+             * c.ep()) * ((150 * (1 - c.ep()) * c.mu()) / (c.dp() * rhog(C)
+             * c.u('g', mode, param)) + 1.75) * 1e-5)
     return dC
 
 
@@ -72,8 +98,10 @@ def R(name, C):
     name : string
         ``1``, ``2`` or ``3``.
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -96,9 +124,16 @@ def R(name, C):
         return (c.vit(3, C[6]) / c.P('H2', C) * (c.P('CO', C) * c.P('H2O', C)
                 - c.P('H2', C)*c.P('CO2', C)/c.eq(3, C[6])) / DEN(C)**2)
     else:
-        print("Error: value for '" + str(name) + "' not found in R().")
-        print("The input values were '" + str(C) + "'.")
-        return None
+        try:
+            raise NameError()
+        except NameError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' not found in R().')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
 
 
 # Equation (7)
@@ -108,8 +143,10 @@ def DEN(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -130,8 +167,10 @@ def r(name, C):
     name : string
         ``CH4``, ``H2O``, ``H2``, ``CO`` or ``CO2``
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -155,9 +194,16 @@ def r(name, C):
         # Equation (12)
         return R(2, C) + R(3, C)
     else:
-        print("Error: value for '" + str(name) + "' not found in r().")
-        print("The input values were '" + str(C) + "'.")
-        return None
+        try:
+            raise NameError()
+        except NameError:
+            print('')
+            print('')
+            print('')
+            print('Error: value for \'' + str(name) + '\' not found in r().')
+            print('The input values were \'' + str(C) + '\'.')
+            print('')
+            raise
 
 
 # Equation (14)
@@ -167,8 +213,10 @@ def kc(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -185,8 +233,10 @@ def b(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -198,21 +248,26 @@ def b(C):
 
 
 # Equation (18)
-def rcbn(C):
+def rcbn(C, mode):
     """Value of the rate of consomation of CO2 by carbonation.
 
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
     numeric
         Returns the value of the rate of consomation of CO2 by carbonation.
     """
-    return (kc(C) / c.MM('CaO')) * (1 - C[5]/Xu(C))**2
+    if mode == 1:
+        return 0
+    else:
+        return (kc(C) / c.MM('CaO')) * (1 - C[5]/Xu(C))**2
 
 
 # Equation (18) bis
@@ -222,8 +277,10 @@ def Xu(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -240,8 +297,10 @@ def rhog(C):
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
@@ -256,21 +315,23 @@ def rhog(C):
 
 
 # Equation of the reactor's energy balance
-def hW(C):
+def hW(C, mode, param):
     """Value of the reactor's wall heat transfer coefficient.
 
     Parameters
     ----------
     C : array, shape(8)
-        Array of the concentrations of CH4, H2O, H2, CO and CO2, the conversion
-        fraction, the temperature and the pressure: [C, C, C, C, C, X, T, P].
+        Array of the concentrations of ``CH4``, ``H2O``, ``H2``, ``CO``
+        and ``CO2``, the conversion fraction (``X``), the temperature (``T``)
+        and the pressure (``P``): [``C``:sub:`CH4`, ``C``:sub:`H2O`,
+        ``C``:sub:`H2`, ``C``:sub:`CO`, ``C``:sub:`CO2`, ``X``, ``T``, ``P``].
 
     Returns
     -------
     numeric
         Returns the value of the reactor's wall heat transfer coefficient.
     """
-    Rep = c.u('g') * c.ep() * rhog(C) * c.dp() / c.mu()
+    Rep = c.u('g', mode, param) * c.ep() * rhog(C) * c.dp() / c.mu()
     if Rep > 20 and 0.05 < c.dp()/c.dim('r') < 0.3:
         return (2.03 * c.k('g') / c.dim('r') * Rep**0.8 * np.exp(-6 * c.dp()
                 / c.dim('r')))
@@ -279,6 +340,15 @@ def hW(C):
                + 2/3*(c.k('g') / c.k('s')))))
         return 6.15 * (kz0 / c.dim('r'))
     else:
-        print("Error in hW().")
-        print("The input values were '" + str(C) + "'.")
-        return None
+        try:
+            raise ValueError()
+        except ValueError:
+            print('')
+            print('')
+            print('')
+            print('Error in hW().')
+            print('The input values were \'' + str(C) + '\'.')
+            print('Odefunction was in mode \'' + str(mode) + '\'.')
+            print('The value of param was \'' + str(param) + '\'.')
+            print('')
+            raise
