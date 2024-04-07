@@ -44,7 +44,8 @@ if __name__ == '__main__':
     B = np.zeros(A.size)
     C = np.zeros(A.size)
     for i in range(A.size):
-        B[i] = optimise_us(Y, A[i], C0)
+        if A[i] > 1e-8:
+            B[i] = optimise_us(Y, A[i], C0)
 
     x0 = secant(lambda us: optimise_us(Y, us, C0), x, tol=0.5e-8,
                 hybrid=True)
@@ -79,7 +80,7 @@ if __name__ == '__main__':
         C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, PARAM4[i], 3]
         D[i] = secant(lambda us: optimise_us(Y, us, C0, mode_=4,
                       param1=PARAM4[i]), x, tol=0.5e-8, hybrid=True)[1]
-        print(str(PARAM4[i]) + ": " + str(D[i]))
+        print(str(PARAM4[i]) + ': ' + str(D[i]))
     plt.figure(3)
     ax = plt.subplot(1, 1, 1)
     plt.plot(PARAM4, D, linewidth=1)
