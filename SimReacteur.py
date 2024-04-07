@@ -1,11 +1,10 @@
-"""Module containing two methods to solve by approximation a system of
-differential equations.
+"""FILE_DESCRIPTION
 
 Credits
 -------
 Created on Fri Mar 8 10:53:03 2024
 
-@author: Odding Luca s2303933, Raffaele Moreci S2304531
+@author: Odding Luca S2303933, Raffaele Moreci S2304531
 @credits: Lindsey Alexandre S2302371
 """
 
@@ -14,15 +13,17 @@ Created on Fri Mar 8 10:53:03 2024
 import numpy as np
 from scipy.integrate import solve_ivp
 
+# Local module imports
+from odefunction import odefunction
+
 
 # %% [1] Main Code
-def calculConcentrationsIVP(fun, x_int, y0, mode=0, param=0):
-    sol = solve_ivp(lambda x, y: fun(x, y, mode, param), x_int, y0,
-                    rtol=0.5e-6)
+def calculConcentrationsIVP(x_int, y0):
+    sol = solve_ivp(odefunction, x_int, y0, dense_output=True, rtol=0.5e-6)
     return [sol.t, sol.y]
 
 
-def calculConcentrationsEuler(fun, x_int, y0, mode=0, param=0, step=5e-8):
+def calculConcentrationsEuler(x_int, y0, step=5e-8):
     # Generalisation to work with a system of equations:
     # Makes sure that y0 is a numpy array.
     if type(y0) is int:
@@ -41,7 +42,7 @@ def calculConcentrationsEuler(fun, x_int, y0, mode=0, param=0, step=5e-8):
     for i in range(n - 1):
         # Equation from the course for an approximation of the solution:
         # x_i+1 = x_i + h * f(x_i, t_i)
-        y[i + 1] = y[i] + step*fun(x[i], y[i], mode, param)
+        y[i + 1] = y[i] + step*odefunction(x[i], y[i])
     # Returns the array of the x-axis (x) and the transposed of the y-axis (y).
     # See why above.
     return [x, y.T]

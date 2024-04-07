@@ -49,7 +49,7 @@ the module (see table below).
 +-----------+------------+-----------------------------------------------+
 | ``mu()``  | *none*     | Returns the value of mu, 2.8e-3 in Pa*s.      |
 +-----------+------------+-----------------------------------------------+
-| ``N()``   | ``name``   | Returns the value of ``name``'s "N"           |
+| ``N()``   | ``name``   | Returns the value of ``name``'s "M"           |
 |           |            | parameter,-13146 for ``k`` and 5649 for       |
 |           |            | ``b``.                                        |
 +-----------+------------+-----------------------------------------------+
@@ -118,16 +118,9 @@ def ab(name, T):
     elif str(name) == 'CO':
         return 40.91 * np.exp((70650 / R()) * (1/T - 1/648))
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in ab().')
-            print('The value for the temperature (T) was \'' + str(T) + '\'.')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in ab().")
+        print("The value for the temperature (T) was '" + str(T) + "'.")
+        return None
 
 
 def Cp(name):
@@ -150,15 +143,8 @@ def Cp(name):
     elif str(name) == 's':
         return 0.98
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in Cp().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in Cp().")
+        return None
 
 
 def dim(name):
@@ -181,15 +167,8 @@ def dim(name):
     elif 'length'.startswith(str(name).lower()):
         return 0.29
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in dim().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in dim().")
+        return None
 
 
 def dp():
@@ -238,16 +217,9 @@ def eq(name, T):
     elif str(name) == '3':
         return 1.142e-2 * np.exp(37300 / (R() * T))
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in eq().')
-            print('The value for the temperature (T) was \'' + str(T) + '\'.')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in eq().")
+        print("The value for the temperature (T) was '" + str(T) + "'.")
+        return None
 
 
 def eta():
@@ -291,15 +263,8 @@ def H(name):
         # Equation (13)
         return -178.8e3
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in H().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in H().")
+        return None
 
 
 def k(name):
@@ -322,15 +287,8 @@ def k(name):
     elif str(name) == 's':
         return 1e-3
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in k().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in k().")
+        return None
 
 
 def M(name):
@@ -353,15 +311,8 @@ def M(name):
     elif str(name) == 'b':
         return 1.6
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in M().')
-            print('')
-            raise
+        print("Error: value for '" + str(str(name)) + "' not found in M().")
+        return None
 
 
 def MM(name):
@@ -393,15 +344,8 @@ def MM(name):
     elif str(name) == 'CO2':
         return 44e-3
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in MM().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in MM().")
+        return None
 
 
 def mu():
@@ -416,7 +360,7 @@ def mu():
 
 
 def N(name):
-    """Values of the "N" parameters.
+    """Values of the "M" parameters.
 
     Parameters
     ----------
@@ -426,7 +370,7 @@ def N(name):
     Returns
     -------
     numeric
-        Returns the value of ``name``'s "N" parameter, -13146 for ``k``
+        Returns the value of ``name``'s "M" parameter, -13146 for ``k``
         and 5649 for ``b``.
         Returns ``None`` if an incorrect parameter is passed through.
     """
@@ -435,15 +379,8 @@ def N(name):
     elif str(name) == 'b':
         return 5649
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in N().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in N().")
+        return None
 
 
 def P(name, C):
@@ -471,16 +408,9 @@ def P(name, C):
     elif str(name) == 'CO2':
         return C[7] * C[4] / sum(C[:5])
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in P().')
-            print('The input values were \'' + str(C) + '\'.')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in P().")
+        print("The input values were '" + str(C) + "'.")
+        return None
 
 
 def R():
@@ -521,18 +451,11 @@ def rho(name):
         den = W('cat')/rho('cat') + W('CaO')/rho('CaO')
         return num / den
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in rho().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in rho().")
+        return None
 
 
-def TW(mode=0, param=0):
+def TW():
     """Value of TW.
 
     Returns
@@ -541,13 +464,10 @@ def TW(mode=0, param=0):
         Returns the value of the gasses' temperature at the entrance,
         973.15 in K.
     """
-    if mode == 4:
-        return param[1]
-    else:
-        return 973.15
+    return 973.15
 
 
-def u(name, mode=0, param=0):
+def u(name):
     """Values of the speeds.
 
     Parameters
@@ -563,31 +483,12 @@ def u(name, mode=0, param=0):
         Returns ``None`` if an incorrect parameter is passed through.
     """
     if str(name) == 'g':
-        if mode == 3:
-            return param
-        else:
-            return 1
+        return 1
     elif str(name) == 's':
-        if mode == 1:
-            return 0
-        elif mode == 2:
-            return param
-        elif mode == 4:
-            return param[0]
-        else:
-            return 1e-3
+        return 1e-3
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in u().')
-            print('Odefunction was in mode \'' + str(mode) + '\'.')
-            print('The value of param was \'' + str(param) + '\'.')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in u().")
+        return None
 
 
 def vit(name, T):
@@ -614,16 +515,9 @@ def vit(name, T):
     elif str(name) == '3':
         return 7.558 / 3600 * np.exp((-67130 / R()) * (1/T - 1/648))
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in vit().')
-            print('The value for the temperature (T) was \'' + str(T) + '\'.')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in vit().")
+        print("The value for the temperature (T) was '" + str(T) + "'.")
+        return None
 
 
 def W(name):
@@ -646,12 +540,5 @@ def W(name):
     elif 'catalyst'.startswith(str(name).lower()):
         return 16.4e-3
     else:
-        try:
-            raise NameError()
-        except NameError:
-            print('')
-            print('')
-            print('')
-            print('Error: value for \'' + str(name) + '\' not found in W().')
-            print('')
-            raise
+        print("Error: value for '" + str(name) + "' not found in W().")
+        return None
