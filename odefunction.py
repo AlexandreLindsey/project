@@ -341,8 +341,8 @@ def hW(C, mode, param):
         return 6.15 * (kz0 / c.dim('r'))
     else:
         try:
-            raise NameError()
-        except NameError:
+            raise ValueError()
+        except ValueError:
             print('')
             print('')
             print('')
