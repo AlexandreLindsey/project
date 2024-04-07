@@ -30,7 +30,7 @@ def optimise_us(Y, us, C0, mode_=2, param1=0):
 
     # Solves the differential equation for a given us
     sol = solve_ivp(lambda z, C: ode(z, C, mode=mode_, param=param_),
-                    [0, c.dim('l')], C0)
+                    [0, c.dim('l')], C0, rtol=0.5e-4)
     # Returns the CO2 precentage in the output's dry gases for a given us
     # minus Y, the desired target of CO2 precentage in the output's dry gases.
     return (sol.y[4][-1]/(sol.y[0][-1] + sol.y[2][-1] + sol.y[3][-1]
