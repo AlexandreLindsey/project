@@ -35,6 +35,12 @@ def calculConcentrationsEuler(fun, x_int, y0, mode=0, param=0, step=5e-8):
     n = x.size
     # Initiates the y-axis array (the solution).
     # The matrix is created in it's transposed state to optimise for speed.
+    # Visual exemple:
+    #   We need, for every iteration, to change the ith values in the
+    #   next array:
+    #   [[1, 2, 3], [1, 2, 3]]
+    #   It is thous easier to change the values using the transposed:
+    #   [[1, 1], [2, 2], [3, 3]]
     y = np.zeros((n, y0.shape[0]))
     y[0] = y0
     # Loop ends at n - 1 beacause y[0] is already initialised.
