@@ -23,25 +23,32 @@ from odefunction import odefunction as ode
 
 # %% [1] Main Code
 def round_(x, n=0):
+    # Rounds the first significant number of x to the closest n.
     return round(x/n, -int(math.floor(math.log10(abs(x)))))*n
 
 
 # %% [2] Testing Code
 if __name__ == '__main__':
+    # Initial conditions for odefunction.
     C0 = [1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]
+    # Resolution interval of odefunction used in solve_IVP.
     x_int = [0, c.dim('l')]
+    # Values used in mode 2 of odefunction.
     PARAM2 = np.array([0.001, 0.005, 0.01, 0.015, 0.02, 0.025])
+    # Values used in mode 3 of odefunction.
     PARAM3 = np.array([1, 1.5, 2, 2.5, 3])
+    # Values used in the input gas comparaison.
     C_ = np.array([[1/4/22.4, 3/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3],
                    [1/3/22.4, 2/3/22.4, 1e-5, 0, 0, 0, c.TW(), 3],
                    [1/2/22.4, 1/2/22.4, 1e-5, 0, 0, 0, c.TW(), 3],
                    [2/3/22.4, 1/3/22.4, 1e-5, 0, 0, 0, c.TW(), 3],
                    [3/4/22.4, 1/4/22.4, 1e-5, 0, 0, 0, c.TW(), 3]])
+    # Whether or not to plot the 3D graphs
     graph_3D = False
+    # Step size of solve_IVP for the 3D and Out graphs.
     step = 1e-4
+    # Number of outputs of solve_IVP for the step size.
     arr_size = 2911
-    # step = 1e-5
-    # arr_size = 29011
 
     print('Ode mode 0:', end=' ')
     sol = solve_ivp(lambda x, y: ode(x, y, 0), x_int, C0, rtol=0.5e-6)
