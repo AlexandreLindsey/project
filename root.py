@@ -67,7 +67,6 @@ def secant(fun, x, tol=0.5e-03, **kwargs):
         >>> secant(fun, [1, 3])
         [1.9999525931544515, 0]
     """
-    i = 0
     # Checks that the inputs x[0] and x[1] have different values.
     # (Within a certain tolerance.)
     if abs(x[0] - x[1]) <= tol:
@@ -99,7 +98,6 @@ def secant(fun, x, tol=0.5e-03, **kwargs):
     # Loop until the approximation is almost equal to zero.
     # (Within a certain tolerance.)
     while abs(y1) >= tol:
-        i += 1
         # To find the next approximation, we use the function:
         # x[1] - (y1 * (x[1] - x[0])) / (y1 - y0)
         # Firstly, we compute the numerator (num).

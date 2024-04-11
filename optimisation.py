@@ -91,7 +91,7 @@ if __name__ == '__main__':
     plt.show()
 
     # Array of the temperture range to find an optimal us in.
-    PARAM4 = np.arange(960, 1036, 1)
+    PARAM4 = np.arange(960, 1034, 1)
     # Array to stock the optimal us values in.
     D = np.zeros(PARAM4.size)
     # Initial values for the secant methode.
