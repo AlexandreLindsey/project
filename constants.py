@@ -555,7 +555,7 @@ def P(name, C):
         Returns the pressure of ``name`` in the reactor, in bar.
     """
     if str(name) == 'CH4':
-        out = C[7] * C[0] / sum(C[:5])
+        out = 3 * C[0] / sum(C[:5])
         try:
             if math.isnan(out):
                 raise ValueError
@@ -570,7 +570,7 @@ def P(name, C):
             raise
         return out
     elif str(name) == 'H2O':
-        out = C[7] * C[1] / sum(C[:5])
+        out = 3 * C[1] / sum(C[:5])
         try:
             if math.isnan(out):
                 raise ValueError
@@ -585,7 +585,7 @@ def P(name, C):
             raise
         return out
     elif str(name) == 'H2':
-        out = C[7] * C[2] / sum(C[:5])
+        out = 3 * C[2] / sum(C[:5])
         try:
             if math.isnan(out):
                 raise ValueError
@@ -600,7 +600,7 @@ def P(name, C):
             raise
         return out
     elif str(name) == 'CO':
-        out = C[7] * C[3] / sum(C[:5])
+        out = 3 * C[3] / sum(C[:5])
         try:
             if math.isnan(out):
                 raise ValueError
@@ -615,7 +615,7 @@ def P(name, C):
             raise
         return out
     elif str(name) == 'CO2':
-        out = C[7] * C[4] / sum(C[:5])
+        out = 3 * C[4] / sum(C[:5])
         try:
             if math.isnan(out):
                 raise ValueError
